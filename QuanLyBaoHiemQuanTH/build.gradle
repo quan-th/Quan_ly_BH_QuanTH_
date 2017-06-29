@@ -27,7 +27,13 @@ configurations {
 }
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-web')
-	providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+ compile('org.springframework.boot:spring-boot-starter-web')
+ compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.2.10.Final'
+ compile group: 'javax.servlet', name: 'jstl', version:'1.2'
+ compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-jasper', version: '8.0.36'
+ compile group: 'org.eclipse.jdt.core.compiler', name: 'ecj', version: '4.4.2'
+ compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '1.5.3.RELEASE'
+ providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
+ testCompile('org.springframework.boot:spring-boot-starter-test')
+
 }
