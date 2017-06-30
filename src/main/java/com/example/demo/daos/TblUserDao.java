@@ -18,7 +18,7 @@ import com.example.demo.entities.TblUser;
  *         TblUserDao
  */
 @Repository
-public interface TblUserDao extends JpaRepository<TblUser,Integer>{
+public interface TblUserDao extends JpaRepository<TblUser,Integer>,TblUserDaoCustom{
 	/**
 	 * Kiem tra login co thanh cong khong
 	 * 
@@ -30,16 +30,17 @@ public interface TblUserDao extends JpaRepository<TblUser,Integer>{
 	 */
 	public List<TblUser> findByUserNameAndUserPassword(String Username, String Password);
 
+	public TblUser findByUserInternalId(Integer integer);
 	/**
-	 * lấy danh sách ngư�?i dùng theo đi�?u kiện
+	 * lấy danh sách ngư�?i dùng theo đi�?u kiện
 	 * 
 	 * @param info
-	 *            đi�?u kiện tìm kiếm
+	 *            đi�?u kiện tìm kiếm
 	 * @param currentPage
 	 *            trang hiện tại
 	 * @param maxResult
 	 *            số record/trang
-	 * @return danh sách ngư�?i dùng
+	 * @return danh sách ngư�?i dùng
 	 */
 //	public List<DisplayUser> getListUsers(SearchingInfo info, int currentPage, int maxResult);
 
@@ -47,7 +48,7 @@ public interface TblUserDao extends JpaRepository<TblUser,Integer>{
 	 * Lấy tổng số user
 	 * 
 	 * @param info
-	 *            đi�?u kiệm tìm kiếm
+	 *            đi�?u kiệm tìm kiếm
 	 * @return số user
 	 */
 //	public long getNumberOfUsers(SearchingInfo info);
