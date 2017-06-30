@@ -11,6 +11,11 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tranhongquan/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.4/b49dafc9cfef24c356827f322e773e7c26725dd2/commons-lang3-3.4-sources.jar" kind="lib" path="C:/Users/tranhongquan/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.4/5fe28b9518e58819180a43a850fbc0dd24b7c050/commons-lang3-3.4.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry sourcepath="C:/Users/tranhongquan/.gradle/caches/modules-2/files-2.1/org.hibernate/hibernate-entitymanager/5.2.10.Final/23b8bbd06d5fef15e05924e326913d115ad1e41f/hibernate-entitymanager-5.2.10.Final-sources.jar" kind="lib" path="C:/Users/tranhongquan/.gradle/caches/modules-2/files-2.1/org.hibernate/hibernate-entitymanager/5.2.10.Final/a435ebec067b792b641961fd3b3cf15d59e82dd3/hibernate-entitymanager-5.2.10.Final.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
