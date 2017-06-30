@@ -30,4 +30,7 @@ public interface TblUserDao extends JpaRepository<TblUser,Integer>,TblUserDaoCus
 	 */
 	public List<TblUser> findByUserNameAndUserPassword(String Username, String Password);
 	public TblUser findByUserInternalId(Integer integer);
+
+	
+
 }
