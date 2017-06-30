@@ -13,6 +13,7 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.daos.TblCompanyDao;
 import com.example.demo.daos.TblCompanyDaoCustom;
 import com.example.demo.entities.Company;
 import com.example.demo.entities.TblCompany;

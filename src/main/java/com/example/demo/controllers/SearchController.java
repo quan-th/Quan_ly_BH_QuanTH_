@@ -40,7 +40,7 @@ public class SearchController {
 	private TblCompanyLogic tblCompanyLogic;
 
 	/**
-	 * được g�?i đến khi ngư�?i dùng ch�?n tìm kiếm
+	 * được g�?i đến khi ngư�?i dùng ch�?n tìm kiếm
 	 * 
 	 * @param model
 	 *            model
@@ -51,60 +51,60 @@ public class SearchController {
 	@RequestMapping(value = "/Search.do", method = RequestMethod.GET)
 	private String searchUsers(ModelMap model, @ModelAttribute SearchingInfo searchingInfo,
 			HttpServletRequest request) {
-		String sessionId = "";
-		String action = request.getParameter("userAction");
-		HttpSession session = request.getSession();
-		int currentPage = 1;
-		int totalRecords = 0;
-		int maxResult = Integer.parseInt(ValueProperties.getValue(Constant.MAX_RESULT));
-		// back
-		if (Constant.ACTION_BACK_MH002.equals(action)) {
-			sessionId = request.getParameter("sessionId");
-			searchingInfo = (session.getAttribute(sessionId) != null) ? (SearchingInfo) session.getAttribute(sessionId)
-					: new SearchingInfo();
-			if ("0".equals(searchingInfo.getCompanyId())) {
-				List<Company> companies = tblCompanyLogic.getAllCompany();
-				searchingInfo.setCompanyId(companies.get(0).getCompanyID() + "");
-			}
-			searchingInfo.setOrderByName(Common.validOrder(searchingInfo.getOrderByName()));
-		} else if (Constant.ACTION_SEARCH_MH002.equals(action)) {
-			// search
-			sessionId = searchingInfo.getIdNumber();
-			// lần đầu tìm kiếm
-			if (sessionId.equals("0")) {
-				sessionId = new Date().getTime() + "";
-				searchingInfo.setIdNumber(sessionId);
-			} else {
-				// các lần tìm kiếm sau
-				session.removeAttribute(sessionId);
-			}
-			searchingInfo.setOrderByName(Common.validOrder(searchingInfo.getOrderByName()));
-			session.setAttribute(sessionId, searchingInfo);
-		} else {
-			searchingInfo = new SearchingInfo();
-			List<Company> companies = tblCompanyLogic.getAllCompany();
-			searchingInfo.setCompanyId(companies.get(0).getCompanyID() + "");
-		}
-		totalRecords = (int) tblUserLogic.getNumberOfUsers(searchingInfo);
-		try {
-			currentPage = Integer.parseInt(searchingInfo.getCurrentPage());
-			currentPage = currentPage < 1 ? 1 : currentPage;
-			ArrayList<Integer> pages = paging(currentPage, maxResult, totalRecords);
-			ArrayList<DisplayUser> allUsers = (ArrayList<DisplayUser>) tblUserLogic.getListUsers(searchingInfo,
-					currentPage, maxResult);
-			model.addAttribute("searchingInfo", searchingInfo);
-			model.addAttribute("allUsers", allUsers);
-			model.addAttribute("pages", pages);
-			model.addAttribute("currentPage", currentPage);
-			model.addAttribute("totalPages", getTotalOfPages(maxResult, totalRecords));
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		}
+//		String sessionId = "";
+//		String action = request.getParameter("userAction");
+//		HttpSession session = request.getSession();
+//		int currentPage = 1;
+//		int totalRecords = 0;
+//		int maxResult = Integer.parseInt(ValueProperties.getValue(Constant.MAX_RESULT));
+//		// back
+//		if (Constant.ACTION_BACK_MH002.equals(action)) {
+//			sessionId = request.getParameter("sessionId");
+//			searchingInfo = (session.getAttribute(sessionId) != null) ? (SearchingInfo) session.getAttribute(sessionId)
+//					: new SearchingInfo();
+//			if ("0".equals(searchingInfo.getCompanyId())) {
+//				List<Company> companies = tblCompanyLogic.getAllCompany();
+//				searchingInfo.setCompanyId(companies.get(0).getCompanyID() + "");
+//			}
+//			searchingInfo.setOrderByName(Common.validOrder(searchingInfo.getOrderByName()));
+//		} else if (Constant.ACTION_SEARCH_MH002.equals(action)) {
+//			// search
+//			sessionId = searchingInfo.getIdNumber();
+//			// lần đầu tìm kiếm
+//			if (sessionId.equals("0")) {
+//				sessionId = new Date().getTime() + "";
+//				searchingInfo.setIdNumber(sessionId);
+//			} else {
+//				// các lần tìm kiếm sau
+//				session.removeAttribute(sessionId);
+//			}
+//			searchingInfo.setOrderByName(Common.validOrder(searchingInfo.getOrderByName()));
+//			session.setAttribute(sessionId, searchingInfo);
+//		} else {
+//			searchingInfo = new SearchingInfo();
+//			List<Company> companies = tblCompanyLogic.getAllCompany();
+//			searchingInfo.setCompanyId(companies.get(0).getCompanyID() + "");
+//		}
+//		totalRecords = (int) tblUserLogic.getNumberOfUsers(searchingInfo);
+//		try {
+//			currentPage = Integer.parseInt(searchingInfo.getCurrentPage());
+//			currentPage = currentPage < 1 ? 1 : currentPage;
+//			ArrayList<Integer> pages = paging(currentPage, maxResult, totalRecords);
+//			ArrayList<DisplayUser> allUsers = (ArrayList<DisplayUser>) tblUserLogic.getListUsers(searchingInfo,
+//					currentPage, maxResult);
+//			model.addAttribute("searchingInfo", searchingInfo);
+//			model.addAttribute("allUsers", allUsers);
+//			model.addAttribute("pages", pages);
+//			model.addAttribute("currentPage", currentPage);
+//			model.addAttribute("totalPages", getTotalOfPages(maxResult, totalRecords));
+//		} catch (NumberFormatException e) {
+//			e.printStackTrace();
+//		}
 		return Constant.MH002;
 	}
 
 	/**
-	 * được g�?i đến sau khi login thành công
+	 * được g�?i đến sau khi login thành công
 	 *
 	 * @param model
 	 *            model
@@ -113,23 +113,23 @@ public class SearchController {
 	@RequestMapping(value = "/AllUsers.do", method = RequestMethod.GET)
 	private String listUsers(ModelMap model, HttpServletRequest request) {
 		SearchingInfo searchingInfo = new SearchingInfo();
-		List<Company> companies = tblCompanyLogic.getAllCompany();
-		searchingInfo.setCompanyId(companies.get(0).getCompanyID() + "");
-		int currentPage = 1;
-		int maxResult = Integer.parseInt(ValueProperties.getValue(Constant.MAX_RESULT));
-		int totalRecords = (int) tblUserLogic.getNumberOfUsers(searchingInfo);
-		ArrayList<Integer> pages = paging(currentPage, maxResult, totalRecords);
-		ArrayList<DisplayUser> allUsers = (ArrayList<DisplayUser>) tblUserLogic.getListUsers(searchingInfo, currentPage,
-				maxResult);
+//		List<Company> companies = tblCompanyLogic.getAllCompany();
+//		searchingInfo.setCompanyId(companies.get(0).getCompanyID() + "");
+//		int currentPage = 1;
+//		int maxResult = Integer.parseInt(ValueProperties.getValue(Constant.MAX_RESULT));
+//		int totalRecords = (int) tblUserLogic.getNumberOfUsers(searchingInfo);
+//		ArrayList<Integer> pages = paging(currentPage, maxResult, totalRecords);
+//		ArrayList<DisplayUser> allUsers = (ArrayList<DisplayUser>) tblUserLogic.getListUsers(searchingInfo, currentPage,
+//				maxResult);
 		model.addAttribute("searchingInfo", searchingInfo);
-		model.addAttribute("allUsers", allUsers);
-//		model.addAttribute("allUsers", new ArrayList<DisplayUser>());
-		model.addAttribute("pages", pages);
-//		model.addAttribute("pages", new ArrayList<Integer>());
-		model.addAttribute("currentPage", currentPage);
-//		model.addAttribute("currentPage", 1);
-		model.addAttribute("totalPages", getTotalOfPages(maxResult, totalRecords));
-//		model.addAttribute("totalPages", getTotalOfPages(1, 1));
+//		model.addAttribute("allUsers", allUsers);
+		model.addAttribute("allUsers", new ArrayList<DisplayUser>());
+//		model.addAttribute("pages", pages);
+		model.addAttribute("pages", new ArrayList<Integer>());
+//		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("currentPage", 1);
+//		model.addAttribute("totalPages", getTotalOfPages(maxResult, totalRecords));
+		model.addAttribute("totalPages", getTotalOfPages(1, 1));
 		return Constant.MH002;
 	}
 

@@ -16,7 +16,9 @@ import com.example.demo.entities.TblCompany;
  *
  *         TblCompanyDao
  */
-public interface TblCompanyDao extends JpaRepository<TblCompany, Integer>,TblCompanyDaoCustom {	
-	public List<TblCompany> findAll();	
-	public TblCompany findByCompanyInternalId(Integer integer);
+public interface TblCompanyDao extends JpaRepository<TblCompany, Integer>,TblCompanyDaoCustom {
+	
+	public List<TblCompany> findAll();
+
+	
 }

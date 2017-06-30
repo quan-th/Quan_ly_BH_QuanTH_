@@ -4,15 +4,13 @@
  */
 package com.example.demo.daos.impls;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.daos.TblInsuranceDao;
-import com.example.demo.daos.TblInsuranceDaoCustom;
 import com.example.demo.entities.InsuranceInfo;
 import com.example.demo.entities.TblCompany;
 import com.example.demo.entities.TblInsurance;
@@ -26,9 +24,23 @@ import com.example.demo.utils.Constant;
  */
 @Component
 @Transactional
-public class TblInsuranceDaoImpl implements TblInsuranceDaoCustom {
-	@PersistenceContext
-	private EntityManager entityManager;
+public class TblInsuranceDaoImpl implements TblInsuranceDao {
+	private SessionFactory sessionFactory;
+
+	/**
+	 * @return the sessionFactory
+	 */
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+
+	/**
+	 * @param sessionFactory
+	 *            the sessionFactory to set
+	 */
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -40,10 +52,10 @@ public class TblInsuranceDaoImpl implements TblInsuranceDaoCustom {
 		long count = 0;
 
 		try {
-			
+			Session session = this.sessionFactory.getCurrentSession();
 			StringBuilder command = new StringBuilder("Select count(*) from " + TblInsurance.class.getName() + " c "//
 					+ " where c.insuranceNumber= :insuranceNumber ");
-			Query query = entityManager.createQuery(command.toString());
+			Query query = session.createQuery(command.toString());
 			query.setParameter("insuranceNumber", number);
 			count = (long) query.getSingleResult();
 		} catch (Exception e) {
@@ -62,12 +74,12 @@ public class TblInsuranceDaoImpl implements TblInsuranceDaoCustom {
 	@Override
 	public boolean insertOrUpdateInsurance(InsuranceInfo insuranceInfo, TblCompany company, TblUser user,
 			TblInsurance insurance) throws Exception {
-		
+			Session session = sessionFactory.getCurrentSession();
 			if (Constant.ADD_NEW_COMPANY.equals(insuranceInfo.getChoseCompany())) {
-				entityManager.persist(company);
+				session.save(company);
 			}
-			entityManager.persist(insurance);
-			entityManager.persist(user);
+			session.saveOrUpdate(insurance);
+			session.saveOrUpdate(user);
 			return true;
 
 	}
@@ -81,7 +93,7 @@ public class TblInsuranceDaoImpl implements TblInsuranceDaoCustom {
 	public InsuranceInfo getInsuranceInfo(int userId) {
 		InsuranceInfo detailUser = null;
 		try {
-			
+			Session session = sessionFactory.getCurrentSession();
 			StringBuilder command = new StringBuilder();
 			command.append("select new " + InsuranceInfo.class.getName());
 			command.append("(u.userFullName,");
@@ -96,9 +108,9 @@ public class TblInsuranceDaoImpl implements TblInsuranceDaoCustom {
 			command.append("u.userPassword)");
 			command.append("from " + TblUser.class.getName());
 			command.append(" u inner join u.tblInsurance inner join u.tblCompany where u.userInternalId=:userId");
-			Query query = entityManager.createQuery(command.toString(), InsuranceInfo.class);
+			Query<InsuranceInfo> query = session.createQuery(command.toString(), InsuranceInfo.class);
 			query.setParameter("userId", userId);
-			detailUser = (InsuranceInfo) query.getSingleResult();
+			detailUser = query.getSingleResult();
 			detailUser.setUserId(userId);
 
 		} catch (Exception e) {
@@ -115,12 +127,12 @@ public class TblInsuranceDaoImpl implements TblInsuranceDaoCustom {
 	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public boolean deleteInsurance(int id) throws Exception {
-			
-			TblUser tblUser = (TblUser) entityManager
+			Session session = sessionFactory.getCurrentSession();
+			TblUser tblUser = (TblUser) session
 					.createQuery("select u from " + TblUser.class.getName() + " u where u.userInternalId=:userId")
 					.setParameter("userId", id).getSingleResult();
-			entityManager.remove(tblUser);
-			entityManager.remove(tblUser.getTblInsurance());
+			session.delete(tblUser);
+			session.delete(tblUser.getTblInsurance());
 			return true;
 	}
 
@@ -131,21 +143,16 @@ public class TblInsuranceDaoImpl implements TblInsuranceDaoCustom {
 	 */
 	@Override
 	public TblInsurance getTblInsuranceByUserId(int id) {
-		
-//		int insuranceId = (int) entityManager
-//				.createQuery("Select c.tblInsurance.insuranceInternalId from " + TblUser.class.getName()
-//						+ " c where c.userInternalId =:userInternalId")
-//				.setParameter("userInternalId", id).getSingleResult();
-//		TblInsurance tblInsurance = (TblInsurance) entityManager
-//				.createQuery("Select c from " + TblInsurance.class.getName()
-//						+ " c where c.insuranceInternalId =:insuranceInternalId")
-//				.setParameter("insuranceInternalId", insuranceId).getSingleResult();
-		TblUser tblUser =(TblUser) entityManager
-				.createQuery("Select c from " + TblUser.class.getName()
+		Session session = sessionFactory.getCurrentSession();
+		int insuranceId = (int) session
+				.createQuery("Select c.tblInsurance.insuranceInternalId from " + TblUser.class.getName()
 						+ " c where c.userInternalId =:userInternalId")
 				.setParameter("userInternalId", id).getSingleResult();
-//		return tblInsurance;
-		return tblUser.getTblInsurance();
+		TblInsurance tblInsurance = (TblInsurance) session
+				.createQuery("Select c from " + TblInsurance.class.getName()
+						+ " c where c.insuranceInternalId =:insuranceInternalId")
+				.setParameter("insuranceInternalId", insuranceId).getSingleResult();
+		return tblInsurance;
 	}
 
 }
