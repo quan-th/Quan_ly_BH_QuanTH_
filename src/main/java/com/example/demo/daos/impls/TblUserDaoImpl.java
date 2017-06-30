@@ -5,18 +5,9 @@
 package com.example.demo.daos.impls;
 
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.transaction.Transactional;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Component;
-
-import com.example.demo.daos.TblUserDao;
-import com.example.demo.entities.TblUser;
-import com.example.demo.utils.Common;
 
 /**
  * @author HP
