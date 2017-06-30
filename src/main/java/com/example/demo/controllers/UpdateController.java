@@ -48,7 +48,7 @@ public class UpdateController {
 	private ValidateInsurance insurance;
 
 	/**
-	 * G�?i khi ấn cập nhật từ MH003
+	 * G�?i khi ấn cập nhật từ MH003
 	 * 
 	 * @param model
 	 *            model
@@ -57,27 +57,27 @@ public class UpdateController {
 	 * @return màn hình 004
 	 */
 
-//	@RequestMapping(value = "/Update.do", method = RequestMethod.GET)
-//	public String updateInsurance(ModelMap model, HttpServletRequest request) {
-//		String sessionId = request.getParameter("SessionId");
-//		try {
-//			Integer userId = Integer.parseInt(request.getParameter("UserId"));
-//			model.addAttribute("SessionId", sessionId);
-//			if (!tblUserLogic.checkUserExist(userId)) {
-//				return Constant.ERROR;
-//			}
-//			InsuranceInfo insuranceInfo = tblInsuranceLogic.getInsuranceInfo(userId);
-//			model.addAttribute("insuranceInfo", insuranceInfo);
-//			model.addAttribute("action", Constant.ACTION_UPDATE);
-//			return Constant.MH004;
-//		} catch (NumberFormatException e) {
-//			e.printStackTrace();
-//			return Constant.ERROR;
-//		} catch (NullPointerException e) {
-//			e.printStackTrace();
-//			return Constant.ERROR;
-//		}
-//	}
+	@RequestMapping(value = "/Update.do", method = RequestMethod.GET)
+	public String updateInsurance(ModelMap model, HttpServletRequest request) {
+		String sessionId = request.getParameter("SessionId");
+		try {
+			Integer userId = Integer.parseInt(request.getParameter("UserId"));
+			model.addAttribute("SessionId", sessionId);
+			if (!tblUserLogic.checkUserExist(userId)) {
+				return Constant.ERROR;
+			}
+			InsuranceInfo insuranceInfo = tblInsuranceLogic.getInsuranceInfo(userId);
+			model.addAttribute("insuranceInfo", insuranceInfo);
+			model.addAttribute("action", Constant.ACTION_UPDATE);
+			return Constant.MH004;
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			return Constant.ERROR;
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			return Constant.ERROR;
+		}
+	}
 //
 //	@RequestMapping(value = "/Update.do", method = RequestMethod.POST)
 //	public String updateInsurance(ModelMap model, @ModelAttribute InsuranceInfo insuranceInfo,
@@ -110,12 +110,12 @@ public class UpdateController {
 //	}
 
 	/**
-	 * �?ược g�?i khi ngư�?i dùng ch�?n công ty
+	 * �?ược g�?i khi ngư�?i dùng ch�?n công ty
 	 * 
 	 * @param model
 	 *            model
 	 * @param companyId
-	 *            Id của công ty ch�?n
+	 *            Id của công ty ch�?n
 	 * @return detail công ty Json
 	 */
 	@RequestMapping(value = "/Update.do/loadCompany", method = RequestMethod.POST)
