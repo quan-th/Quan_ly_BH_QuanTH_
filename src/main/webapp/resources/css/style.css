@@ -1,0 +1,176 @@
+.login {
+	width: 28%;
+	margin: auto;
+	border: 1px solid black;
+}
+
+.header {
+	width: 90%;
+	margin: auto;
+}
+
+.companyInfo {
+	width: 60%;
+}
+
+.companyInfoLeft {
+	width: 40%;
+}
+
+.btnTableMH002 {
+	margin-top: 1%;
+	margin-bottom: 1%;
+}
+
+.DisplayItem002 {
+	font-weight: bold;
+	margin-left: 10px;
+}
+
+.DisplayItem0021 {
+	margin-left: 30px;
+}
+
+.div_002 {
+	width: 90%;
+	margin: auto;
+}
+
+.search {
+	width: 35%;
+	margin: 10px 30px 10px 10px;
+	border: 1px solid black;
+}
+
+.btnsubmit {
+	margin: 5px 0px 5px 0px;
+	padding: 3px 20px 3px 20px;
+	background-color: #ccc;
+	color: blue;
+	text-decoration: underline;
+}
+
+a, td, th, input, select, option, p {
+	font-size: 17px;
+}
+
+.tbl_input {
+	padding: 0px 15px 0px 15px;
+	border: none;
+}
+
+.tbl_input01 {
+	padding: 15px 0px 15px 0px;
+	border: none;
+}
+
+.tbl_input02 {
+	width: 43%;
+	margin-left: 15%;
+	padding: 15px 0px 15px 0px;
+	border: none;
+}
+
+.div_003 {
+	margin-top: 5%;
+	width: 50%;
+	margin-left: 5%;
+}
+
+.tbl_details {
+	border-spacing: 0;
+	border: 1px solid black;
+}
+
+.tbl_details td, .tbl_details th {
+	border: 1px solid black;
+}
+
+.errMsg {
+	height: 30px;
+	font-weight: bold;
+	color: #FF0000;
+}
+
+.algn-l {
+	text-align: left;
+}
+
+.algn-r {
+	text-align: right;
+}
+
+.algn-c {
+	text-align: center;
+}
+
+.lbl_left {
+	padding-left: 20px;
+	color: #000000;
+	font-size: 17px;
+	width: 60%;
+}
+
+.tbl_list {
+	font-size: 12px;
+	border: 1px solid #cccccc;
+	background-image: none;
+	border-collapse: collapse;
+}
+
+.lbl_paging {
+	color: #000000;
+	text-align: left;
+	font-size: 12px;
+}
+
+.lbl_left003 {
+	background-color: #FFF2CC;
+	text-align: left;
+	width: 40%;
+}
+
+.div_004 {
+	width: 90%;
+	margin-left: 5%;
+}
+
+.tbl_insurance004 {
+	width: 60%;
+	border-spacing: 0;
+}
+
+.tbl_company004 {
+	width: 60%;
+	display: none;
+}
+
+.tbl_insurance004 td, .tbl_insurance004 th {
+	padding: 5px 0px 5px 0px;
+}
+
+.company_td {
+	padding: 5px 0px 5px 0px;
+}
+
+.lbl_left004 {
+	width: 30%;
+}
+
+.tbl_004_2 {
+	width: 20%;
+}
+
+.tbl_error {
+	width: 54%;
+}
+
+.error {
+	font-weight: bold;
+	color: #FF0000;
+}
+
+.errorDB {
+	font-size: 30px;
+	color: #FF0000;
+}
