@@ -6,12 +6,17 @@ package com.example.demo.logics.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.daos.TblUserDao;
+import com.example.demo.entities.DetailUser;
+import com.example.demo.entities.DisplayUser;
+import com.example.demo.entities.SearchingInfo;
 import com.example.demo.entities.TblUser;
 import com.example.demo.logics.TblUserLogic;
+import com.example.demo.utils.Common;
 
 /**
  * @author HP
@@ -41,56 +46,56 @@ public class TblUserLogicImpl implements TblUserLogic {
 	 * @see com.luvina.logics.TblUserLogic#getListUser(com.luvina.entities.
 	 * SearchingInfo)
 	 */
-//	@Override
-//	public List<DisplayUser> getListUsers(SearchingInfo info, int currentPage, int maxResult) {
-//		List<DisplayUser> displayUsers =tblUserDao.getListUsers(info,currentPage,maxResult);
-//		if (displayUsers.size() != 0) {
-//			for (DisplayUser displayUser : displayUsers) {
-//				displayUser.setUsername(StringEscapeUtils.escapeHtml4(displayUser.getUsername()));
-//				displayUser.setGender(Common.convertGender(displayUser.getGender()));
-//				displayUser.setBirthdate(Common.convertDate(displayUser.getBirthdate()));
-//				displayUser.setInsuranceNumber(displayUser.getInsuranceNumber());
-//				displayUser.setStartDate(Common.convertDate(displayUser.getStartDate()));
-//				displayUser.setEndDate(Common.convertDate(displayUser.getEndDate()));
-//				displayUser.setPlaceOfRegister(StringEscapeUtils.escapeHtml4(displayUser.getPlaceOfRegister()));
-//			}
-//		}
-//		return displayUsers;
-//	}
+	@Override
+	public List<DisplayUser> getListUsers(SearchingInfo info, int currentPage, int maxResult) {
+		List<DisplayUser> displayUsers =tblUserDao.getListUsers(info,currentPage,maxResult);
+		if (displayUsers.size() != 0) {
+			for (DisplayUser displayUser : displayUsers) {
+				displayUser.setUsername(StringEscapeUtils.escapeHtml4(displayUser.getUsername()));
+				displayUser.setGender(Common.convertGender(displayUser.getGender()));
+				displayUser.setBirthdate(Common.convertDate(displayUser.getBirthdate()));
+				displayUser.setInsuranceNumber(displayUser.getInsuranceNumber());
+				displayUser.setStartDate(Common.convertDate(displayUser.getStartDate()));
+				displayUser.setEndDate(Common.convertDate(displayUser.getEndDate()));
+				displayUser.setPlaceOfRegister(StringEscapeUtils.escapeHtml4(displayUser.getPlaceOfRegister()));
+			}
+		}
+		return displayUsers;
+	}
 	/*
 	 * (non-Javadoc)
 	 * @see com.luvina.logics.TblUserLogic#getDetailUser(int)
 	 */
-//	@Override
-//	public DetailUser getDetailUser(int id) {
-//		DetailUser detailUser =tblUserDao.getDetailUser(id);
-//		detailUser.setUsername(StringEscapeUtils.escapeHtml4(detailUser.getUsername()));
-//		detailUser.setGender(Common.convertGender(detailUser.getGender()));
-//		detailUser.setBirthdate(Common.convertDate(detailUser.getBirthdate()));
-//		detailUser.setInsuranceNumber(detailUser.getInsuranceNumber());
-//		detailUser.setStartDate(Common.convertDate(detailUser.getStartDate()));
-//		detailUser.setEndDate(Common.convertDate(detailUser.getEndDate()));
-//		detailUser.setPlaceOfRegister(StringEscapeUtils.escapeHtml4(detailUser.getPlaceOfRegister()));
-//		detailUser.setCompany(StringEscapeUtils.escapeHtml4(detailUser.getCompany()));
-//		return detailUser;
-//	}
+	@Override
+	public DetailUser getDetailUser(int id) {
+		DetailUser detailUser =tblUserDao.getDetailUser(id);
+		detailUser.setUsername(StringEscapeUtils.escapeHtml4(detailUser.getUsername()));
+		detailUser.setGender(Common.convertGender(detailUser.getGender()));
+		detailUser.setBirthdate(Common.convertDate(detailUser.getBirthdate()));
+		detailUser.setInsuranceNumber(detailUser.getInsuranceNumber());
+		detailUser.setStartDate(Common.convertDate(detailUser.getStartDate()));
+		detailUser.setEndDate(Common.convertDate(detailUser.getEndDate()));
+		detailUser.setPlaceOfRegister(StringEscapeUtils.escapeHtml4(detailUser.getPlaceOfRegister()));
+		detailUser.setCompany(StringEscapeUtils.escapeHtml4(detailUser.getCompany()));
+		return detailUser;
+	}
 	/*
 	 * (non-Javadoc)
 	 * @see com.luvina.logics.TblUserLogic#checkUserExist(int)
 	 */
-//	@Override
-//	public boolean checkUserExist(int id) {
-//		return tblUserDao.checkUserExist(id);
-//	}
+	@Override
+	public boolean checkUserExist(int id) {
+		return tblUserDao.checkUserExist(id);
+	}
 	
 	/*
 	 * (non-Javadoc)
 	 * @see com.luvina.logics.TblUserLogic#getNumberOfUsers(com.luvina.entities.SearchingInfo)
 	 */
-//	@Override
-//	public long getNumberOfUsers(SearchingInfo info) {
-//		return tblUserDao.getNumberOfUsers(info);
-//	}
+	@Override
+	public long getNumberOfUsers(SearchingInfo info) {
+		return tblUserDao.getNumberOfUsers(info);
+	}
 	/*
 	 * (non-Javadoc)
 	 * @see com.luvina.logics.TblUserLogic#exportUser(com.luvina.entities.SearchingInfo, java.lang.String)
