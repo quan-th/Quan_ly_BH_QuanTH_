@@ -7,41 +7,56 @@ package com.example.demo.entities;
 /**
  * @author HP
  *
- * Company
+ *         Company
  */
 
 public class Company {
 	private int companyID;
 	private String companyName;
+
+	@Override
+	public boolean equals(Object obj) {
+		Company company = (Company) obj;
+		if (company.getCompanyID() == companyID && company.getCompanyName().equals(companyName)) {
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	 * @return the companyID
 	 */
 	public int getCompanyID() {
 		return companyID;
 	}
+
 	/**
-	 * @param companyID the companyID to set
+	 * @param companyID
+	 *            the companyID to set
 	 */
 	public void setCompanyID(int companyID) {
 		this.companyID = companyID;
 	}
+
 	/**
 	 * @return the companyName
 	 */
 	public String getCompanyName() {
 		return companyName;
 	}
+
 	/**
-	 * @param companyName the companyName to set
+	 * @param companyName
+	 *            the companyName to set
 	 */
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
 	}
+
 	public Company(int companyID, String companyName) {
 		super();
 		this.companyID = companyID;
 		this.companyName = companyName;
 	}
-	
-	
+
 }

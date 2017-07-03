@@ -19,6 +19,19 @@ public class DisplayUser {
 	private String endDate;
 	private String placeOfRegister;
 
+	@Override
+	public boolean equals(Object obj) {
+		DisplayUser displayUser = (DisplayUser) obj;
+		if (displayUser.getId() == id && displayUser.getUsername().equals(username)
+				&& displayUser.getGender().equals(gender) && displayUser.getBirthdate().equals(birthdate)
+				&& displayUser.getInsuranceNumber().equals(insuranceNumber)
+				&& displayUser.getStartDate().equals(startDate) && displayUser.getEndDate().equals(endDate)
+				&& displayUser.getPlaceOfRegister().equals(placeOfRegister)) {
+			return true;
+		}
+		return false;
+	}
+
 	public DisplayUser(int id, String username, String gender, String birthdate, String insuranceNumber,
 			String startDate, String endDate, String placeOfRegister) {
 		super();
@@ -44,7 +57,8 @@ public class DisplayUser {
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setId(int id) {
 		this.id = id;

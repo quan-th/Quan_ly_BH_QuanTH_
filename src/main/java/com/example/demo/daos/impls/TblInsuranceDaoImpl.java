@@ -6,7 +6,6 @@ package com.example.demo.daos.impls;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +15,6 @@ import com.example.demo.entities.InsuranceInfo;
 import com.example.demo.entities.TblCompany;
 import com.example.demo.entities.TblInsurance;
 import com.example.demo.entities.TblUser;
-import com.example.demo.utils.Constant;
 
 /**
  * @author HP

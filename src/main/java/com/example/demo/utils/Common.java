@@ -5,11 +5,12 @@ package com.example.demo.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
 
 /**
- * @author LA-AM Lớp gồm các phương thức common
+ * @author LA-AM Lá»›p gá»“m cÃ¡c phÆ°Æ¡ng thá»©c common
  */
 public class Common {
 	/**
@@ -28,10 +29,10 @@ public class Common {
 
 	}
 	/**
-	 * Convert Giới tính từ số -> chữ
+	 * Convert giới tính
 	 * 
 	 * @param number
-	 *            01->Nam,02->Nữ
+	 *            01->Nam,02->nữ
 	 * @return giới tính
 	 */
 	public static String convertGender(String number) {
@@ -39,11 +40,11 @@ public class Common {
 				: ValueProperties.getValue(Constant.STR_FEMALE));
 	}
 	/**
-	 * mã hóa MD5
+	 * mÃ£ hÃ³a MD5
 	 *
 	 * @param str
-	 *            chuỗi cần mã hóa
-	 * @return chuỗi được mã hóa
+	 *            chuá»—i cáº§n mÃ£ hÃ³a
+	 * @return chuá»—i Ä‘Æ°á»£c mÃ£ hÃ³a
 	 */
 	public static String convertToMD5(String str) {
 		StringBuffer sb = new StringBuffer();
@@ -64,9 +65,9 @@ public class Common {
 	/**
 	 * Escape wildcard trong mysql
 	 * 
-	 * @param chuỗi cần escapeWildCard
+	 * @param chuá»—i cáº§n escapeWildCard
 	 *           
-	 * @return chuỗi đã được escape
+	 * @return chuá»—i Ä‘Ã£ Ä‘Æ°á»£c escape
 	 */
 	public static String escapeWildCard(String str) {
 		str = str.replace("_", "\\_");
@@ -75,11 +76,11 @@ public class Common {
 	}
 
 	/**
-	 * Convert ngày từ yyyy-mm-dd thành dd/mm/yyyy
+	 * Convert ngÃ y tá»« yyyy-mm-dd thÃ nh dd/mm/yyyy
 	 * 
 	 * @param date
-	 *            ngày cần convert
-	 * @return ngày sau khi convert
+	 *            ngÃ y cáº§n convert
+	 * @return ngÃ y sau khi convert
 	 */
 	public static String convertDate(String date) {
 		String[] arrDate = date.split("-");
@@ -88,21 +89,21 @@ public class Common {
 	}
 
 	/**
-	 * Kiểm tra chuỗi có null
+	 * Kiá»ƒm tra chuá»—i cÃ³ null
 	 * 
 	 * @param string
-	 *            chuỗi cần kiểm tra
-	 * @return true nếu null,false nếu không
+	 *            chuá»—i cáº§n kiá»ƒm tra
+	 * @return true náº¿u null,false náº¿u khÃ´ng
 	 */
 	public static boolean isNull(String string) {
 		return string == null;
 	}
 
 	/**
-	 * Kiểm tra ngày hợp lệ
+	 * Kiá»ƒm tra ngÃ y há»£p lá»‡
 	 *
 	 * @param date
-	 *            return true nếu hợp lệ, false nếu không hợp lệ
+	 *            return true náº¿u há»£p lá»‡, false náº¿u khÃ´ng há»£p lá»‡
 	 */
 	public static boolean checkValidDate(String date) {
 
@@ -176,10 +177,10 @@ public class Common {
 	}
 
 	/**
-	 * convert String thành date
+	 * convert String thÃ nh date
 	 * 
 	 * @param strDate
-	 *            chuỗi cần convert
+	 *            chuá»—i cáº§n convert
 	 * @return date
 	 */
 	public static String convertStringToDate(String strDate) {
@@ -191,21 +192,21 @@ public class Common {
 	 * Conver utf-8 to Ascii
 	 * 
 	 * @param s
-	 *            chuỗi cần convert
-	 * @return chuỗi được convert
+	 *            chuá»—i cáº§n convert
+	 * @return chuá»—i Ä‘Æ°á»£c convert
 	 */
 	public static String decompose(String s) {
 		return java.text.Normalizer.normalize(s, java.text.Normalizer.Form.NFD)
-				.replaceAll("\\p{InCombiningDiacriticalMarks}+", "").replaceAll("đ", "d");
+				.replaceAll("\\p{InCombiningDiacriticalMarks}+", "").replaceAll("Ä‘", "d");
 	}
 
 	/**
-	 * Chuẩn hoá chuỗi Kí tự đầu của word viết hoa Các word cách nhau 1 space
-	 * Chỉ nhận kí tự latin
+	 * Chuáº©n hoÃ¡ chuá»—i KÃ­ tá»± Ä‘áº§u cá»§a word viáº¿t hoa CÃ¡c word cÃ¡ch nhau 1 space
+	 * Chá»‰ nháº­n kÃ­ tá»± latin
 	 * 
 	 * @param s
-	 *            chuỗi truyền vào
-	 * @return chuỗi được chuẩn hoá
+	 *            chuá»—i truyá»�n vÃ o
+	 * @return chuá»—i Ä‘Æ°á»£c chuáº©n hoÃ¡
 	 */
 	public static String normarlizeString(String s) {
 		StringBuilder result = new StringBuilder();
@@ -223,12 +224,12 @@ public class Common {
 	}
 
 	/**
-	 * Chuẩn hoá mục chọn công ty.
+	 * Chuáº©n hoÃ¡ má»¥c chá»�n cÃ´ng ty.
 	 * 
 	 * @param choseCompany
-	 *            chuỗi cần chuẩn hoá
-	 * @return return choseCompany nếu hợp lệ, return Constant.ALREADY_HAVE nếu
-	 *         không hợp lệ
+	 *            chuá»—i cáº§n chuáº©n hoÃ¡
+	 * @return return choseCompany náº¿u há»£p lá»‡, return Constant.ALREADY_HAVE náº¿u
+	 *         khÃ´ng há»£p lá»‡
 	 */
 	public static String normalizeChoseCompany(String choseCompany) {
 		if (Constant.ALREADY_HAVE.equals(choseCompany) || Constant.ADD_NEW_COMPANY.equals(choseCompany)) {
@@ -251,5 +252,23 @@ public class Common {
 		tem = tem.replace("%", "\\%");
 		tem = tem.replace("_", "\\_");
 		return tem;
+	}
+	/**
+	 * So sánh 2 arraylist
+	 * @param <E>
+	 * 
+	 * @param companies
+	 *            expected
+	 * @param companiesActual
+	 *            actual
+	 * @return
+	 */
+	public static <E> boolean myComparison(ArrayList<E> companies, ArrayList<E> companiesActual) {
+		for (int i = 0; i < companies.size(); i++) {
+			if (companies.get(i).equals(companiesActual.get(i)) == false) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

@@ -4,6 +4,7 @@
  */
 package com.example.demo.logics.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -47,8 +48,8 @@ public class TblUserLogicImpl implements TblUserLogic {
 	 * SearchingInfo)
 	 */
 	@Override
-	public List<DisplayUser> getListUsers(SearchingInfo info, int currentPage, int maxResult) {
-		List<DisplayUser> displayUsers =tblUserDao.getListUsers(info,currentPage,maxResult);
+	public ArrayList<DisplayUser> getListUsers(SearchingInfo info, int currentPage, int maxResult) {
+		ArrayList<DisplayUser> displayUsers = (ArrayList<DisplayUser>) tblUserDao.getListUsers(info,currentPage,maxResult);
 		if (displayUsers.size() != 0) {
 			for (DisplayUser displayUser : displayUsers) {
 				displayUser.setUsername(StringEscapeUtils.escapeHtml4(displayUser.getUsername()));
