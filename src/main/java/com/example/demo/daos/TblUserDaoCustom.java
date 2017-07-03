@@ -16,15 +16,15 @@ import com.example.demo.entities.TblUser;
  */
 public interface TblUserDaoCustom {
 	/**
-	 * lấy danh sách ngư�?i dùng theo đi�?u kiện
+	 * lấy danh sách người dùng theo điều kiện tìm kiếm
 	 * 
 	 * @param info
-	 *            đi�?u kiện tìm kiếm
+	 *            điều kiện tìm kiếm
 	 * @param currentPage
 	 *            trang hiện tại
 	 * @param maxResult
 	 *            số record/trang
-	 * @return danh sách ngư�?i dùng
+	 * @return danh sách người dùng
 	 */
 	public List<DisplayUser> getListUsers(SearchingInfo info, int currentPage, int maxResult);
 
@@ -32,7 +32,7 @@ public interface TblUserDaoCustom {
 	 * Lấy tổng số user
 	 * 
 	 * @param info
-	 *            đi�?u kiệm tìm kiếm
+	 *            điều kiệm tìm kiếm
 	 * @return số user
 	 */
 	public long getNumberOfUsers(SearchingInfo info);

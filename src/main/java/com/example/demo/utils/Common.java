@@ -9,7 +9,7 @@ import java.security.NoSuchAlgorithmException;
 import javax.servlet.http.HttpSession;
 
 /**
- * @author LA-AM Lá»›p gá»“m cÃ¡c phÆ°Æ¡ng thá»©c Common
+ * @author LA-AM Lớp gồm các phương thức common
  */
 public class Common {
 	/**
@@ -39,11 +39,11 @@ public class Common {
 				: ValueProperties.getValue(Constant.STR_FEMALE));
 	}
 	/**
-	 * mÃ£ hÃ³a báº±ng MD5
+	 * mã hóa MD5
 	 *
 	 * @param str
-	 *            chuá»—i cáº§n mÃ£ hÃ³a
-	 * @return chuá»—i Ä‘Æ°á»£c mÃ£ hÃ³a
+	 *            chuỗi cần mã hóa
+	 * @return chuỗi được mã hóa
 	 */
 	public static String convertToMD5(String str) {
 		StringBuffer sb = new StringBuffer();
@@ -64,9 +64,9 @@ public class Common {
 	/**
 	 * Escape wildcard trong mysql
 	 * 
-	 * @param chuá»—i
-	 *            truyá»�n vÃ o
-	 * @return chuá»—i tráº£ vá»�.
+	 * @param chuỗi cần escapeWildCard
+	 *           
+	 * @return chuỗi đã được escape
 	 */
 	public static String escapeWildCard(String str) {
 		str = str.replace("_", "\\_");
@@ -75,11 +75,11 @@ public class Common {
 	}
 
 	/**
-	 * Convert ngÃ y tá»« yyyy-mm-dd thÃ nh dd/mm/yyyy
+	 * Convert ngày từ yyyy-mm-dd thành dd/mm/yyyy
 	 * 
 	 * @param date
-	 *            ngÃ y cáº§n convert
-	 * @return ngÃ y sau khi convert
+	 *            ngày cần convert
+	 * @return ngày sau khi convert
 	 */
 	public static String convertDate(String date) {
 		String[] arrDate = date.split("-");
@@ -204,7 +204,7 @@ public class Common {
 	 * Chỉ nhận kí tự latin
 	 * 
 	 * @param s
-	 *            chuỗi truy�?n vào
+	 *            chuỗi truyền vào
 	 * @return chuỗi được chuẩn hoá
 	 */
 	public static String normarlizeString(String s) {
@@ -223,7 +223,7 @@ public class Common {
 	}
 
 	/**
-	 * Chuẩn hoá mục ch�?n công ty.
+	 * Chuẩn hoá mục chọn công ty.
 	 * 
 	 * @param choseCompany
 	 *            chuỗi cần chuẩn hoá
