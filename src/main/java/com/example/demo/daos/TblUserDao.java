@@ -18,7 +18,7 @@ import com.example.demo.entities.TblUser;
  *         TblUserDao
  */
 @Repository
-public interface TblUserDao extends JpaRepository<TblUser,Integer>{
+public interface TblUserDao extends JpaRepository<TblUser,Integer>,TblUserDaoCustom{
 	/**
 	 * Kiem tra login co thanh cong khong
 	 * 
@@ -29,4 +29,6 @@ public interface TblUserDao extends JpaRepository<TblUser,Integer>{
 	 * @return thanh cong->true, khong thanh cong->fail
 	 */
 	public List<TblUser> findByUserNameAndUserPassword(String Username, String Password);
+
+	public TblUser findByUserInternalId(Integer integer);
 }
