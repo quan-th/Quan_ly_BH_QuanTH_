@@ -45,16 +45,16 @@ public class TblUserDaoImpl implements TblUserDaoCustom {
 		ArrayList<String> conditions = new ArrayList<String>();
 
 		if (info != null) {
-			if (!"".equals(info.getUsername()) && !Common.isNull(info.getUsername())) {
+			if (info.getUsername().equals("") == false && Common.isNull(info.getUsername()) == false) {
 				conditions.add(Constant.DAO_USER_NAME);
 			}
-			if (!"".equals(info.getInsuranceId()) && !Common.isNull(info.getInsuranceId())) {
+			if (info.getInsuranceId().equals("") == false && Common.isNull(info.getInsuranceId()) == false) {
 				conditions.add(Constant.DAO_INSURANCE_NUMBER);
 			}
-			if (!"".equals(info.getPlaceOfRegister()) && !Common.isNull(info.getPlaceOfRegister())) {
+			if (info.getPlaceOfRegister().equals("") == false && Common.isNull(info.getPlaceOfRegister()) == false) {
 				conditions.add(Constant.DAO_PLACE_OF_REGISTER);
 			}
-			if (!"0".equals(info.getCompanyId())) {
+			if (info.getCompanyId().equals("0") == false) {
 				conditions.add(Constant.DAO_COMPANY_ID);
 			}
 		}
@@ -152,16 +152,16 @@ public class TblUserDaoImpl implements TblUserDaoCustom {
 		ArrayList<String> conditions = new ArrayList<String>();
 		long count = 0;
 		if (info != null) {
-			if (!"".equals(info.getUsername()) && !Common.isNull(info.getUsername())) {
+			if (info.getUsername().equals("") == false && Common.isNull(info.getUsername()) == false) {
 				conditions.add(Constant.DAO_USER_NAME);
 			}
-			if (!"".equals(info.getInsuranceId()) && !Common.isNull(info.getInsuranceId())) {
+			if (info.getInsuranceId().equals("") == false && Common.isNull(info.getInsuranceId()) == false) {
 				conditions.add(Constant.DAO_INSURANCE_NUMBER);
 			}
-			if (!"".equals(info.getPlaceOfRegister()) && !Common.isNull(info.getPlaceOfRegister())) {
+			if (info.getPlaceOfRegister().equals("") == false && Common.isNull(info.getPlaceOfRegister()) == false) {
 				conditions.add(Constant.DAO_PLACE_OF_REGISTER);
 			}
-			if (!"0".equals(info.getCompanyId())) {
+			if (info.getCompanyId().equals("0") == false) {
 				conditions.add(Constant.DAO_COMPANY_ID);
 			}
 		}

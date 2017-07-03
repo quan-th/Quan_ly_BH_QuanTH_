@@ -28,7 +28,7 @@ public interface TblInsuranceLogic {
 	public boolean insertOrUpdateInsurance(InsuranceInfo insuranceInfo);
 	/**
 	 * Lấy thông tin thẻ bảo hiểm
-	 * @param userId id ngư�?i dùng
+	 * @param userId id người dùng
 	 * @return thông tin thẻ bảo hiểm
 	 */
 	public InsuranceInfo getInsuranceInfo(int userId);

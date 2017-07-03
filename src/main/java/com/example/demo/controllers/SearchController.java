@@ -40,7 +40,7 @@ public class SearchController {
 	private TblCompanyLogic tblCompanyLogic;
 
 	/**
-	 * được g�?i đến khi ngư�?i dùng ch�?n tìm kiếm
+	 * được gọi đến khi ngưười dùng chọn tìm kiếm
 	 * 
 	 * @param model
 	 *            model
@@ -58,16 +58,16 @@ public class SearchController {
 		int totalRecords = 0;
 		int maxResult = Integer.parseInt(ValueProperties.getValue(Constant.MAX_RESULT));
 		// back
-		if (Constant.ACTION_BACK_MH002.equals(action)) {
+		if (action.equals(Constant.ACTION_BACK_MH002)) {
 			sessionId = request.getParameter("sessionId");
 			searchingInfo = (session.getAttribute(sessionId) != null) ? (SearchingInfo) session.getAttribute(sessionId)
 					: new SearchingInfo();
-			if ("0".equals(searchingInfo.getCompanyId())) {
+			if (searchingInfo.getCompanyId().equals("0")) {
 				List<Company> companies = tblCompanyLogic.getAllCompany();
 				searchingInfo.setCompanyId(companies.get(0).getCompanyID() + "");
 			}
 			searchingInfo.setOrderByName(Common.validOrder(searchingInfo.getOrderByName()));
-		} else if (Constant.ACTION_SEARCH_MH002.equals(action)) {
+		} else if (action.equals(Constant.ACTION_SEARCH_MH002)) {
 			// search
 			sessionId = searchingInfo.getIdNumber();
 			// lần đầu tìm kiếm
@@ -104,7 +104,7 @@ public class SearchController {
 	}
 
 	/**
-	 * được g�?i đến sau khi login thành công
+	 * được gọi đến sau khi login thành công
 	 *
 	 * @param model
 	 *            model
@@ -159,8 +159,9 @@ public class SearchController {
 		int numberOfPages = getTotalOfPages(recordsOfPage, totalRecords);
 		ArrayList<Integer> pages = new ArrayList<Integer>();
 		int startPage = currentPage - 2 > 0 ? currentPage - 2 : 1;
+		int pageRange = Integer.parseInt(ValueProperties.getValue("PAGE_RANGE"));
 		pages.add(startPage);
-		for (int i = 1; startPage + i <= startPage + 4 && startPage + i <= numberOfPages; i++) {
+		for (int i = 1; startPage + i <= startPage + pageRange && startPage + i <= numberOfPages; i++) {
 			pages.add(startPage + i);
 		}
 		return pages;
