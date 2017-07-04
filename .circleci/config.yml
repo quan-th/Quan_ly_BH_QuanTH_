@@ -19,7 +19,7 @@ jobs:
           command: chmod +x gradlew
       - run:
           name: Run tests
-          command: ./gradlew.bat check jacocoTestReport
+          command: check jacocoTestReport
       - store_artifacts:
           name: Store artifacts
           path: build/reports
