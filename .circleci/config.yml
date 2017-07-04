@@ -6,7 +6,7 @@ jobs:
       - image: java:openjdk-8-jdk
     environment:
       _JAVA_OPTIONS: -Xmx1G
-      BASH_ENV: /home/circleci/.bashrc
+      BASH_ENV: ~/.bashrc
     steps:
       - checkout
       - restore_cache:
@@ -15,6 +15,7 @@ jobs:
             - Quan_ly_BH_QuanTH_-{{ .Branch }}
             - Quan_ly_BH_QuanTH_-master
 
+      - run: chmod +x gradlew
       - run:
           name: Run tests
           command: ./gradlew.bat check jacocoTestReport
