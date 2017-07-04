@@ -15,10 +15,9 @@ jobs:
             - Quan_ly_BH_QuanTH_-{{ .Branch }}
             - Quan_ly_BH_QuanTH_-master
 
-      - run: chmod +x gradlew
       - run:
           name: Run tests
-          command: ./gradlew.bat check jacocoTestReport
+          command: chmod +x gradlew.bat check jacocoTestReport
       - store_artifacts:
           name: Store artifacts
           path: build/reports
