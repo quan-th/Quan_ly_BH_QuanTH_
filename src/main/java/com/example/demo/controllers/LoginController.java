@@ -26,25 +26,27 @@ import com.example.demo.utils.Constant;
  *
  */
 @Controller
-@RequestMapping("/Login")
+
 public class LoginController {
-	
+
 	@Autowired
 	@Qualifier("validateLogin")
 	private Validator validateLogin;
 
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(value = "/Login", method = RequestMethod.POST)
 	public String validateLogin(ModelMap model, @ModelAttribute UserLogin userLogin, BindingResult bindingResult,
 			HttpServletRequest request) {
 
 		try {
-			model.addAttribute("userLogin", userLogin);
+
 			validateLogin.validate(userLogin, bindingResult);
 			HttpSession session = request.getSession();
 			if (!bindingResult.hasErrors()) {
 				session.setAttribute("loginId", userLogin.getUsername());
 				return "redirect:/AllUsers.do";
 			}
+			userLogin.setPassword("");
+			model.addAttribute("userLogin", userLogin);
 			return Constant.MH001;
 		} catch (CannotCreateTransactionException e) {
 			e.printStackTrace();
@@ -52,10 +54,9 @@ public class LoginController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(value = { "/Login", "" }, method = RequestMethod.GET)
 	public String displayLogin(Model model) {
 		model.addAttribute("userLogin", new UserLogin());
 		return Constant.MH001;
 	}
-
 }

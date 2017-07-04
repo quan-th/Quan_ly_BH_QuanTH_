@@ -40,7 +40,7 @@ public class SearchController {
 	private TblCompanyLogic tblCompanyLogic;
 
 	/**
-	 * được gọi đến khi ngưười dùng chọn tìm kiếm
+	 * Được gọi đến khi chọn tìm kiếm
 	 * 
 	 * @param model
 	 *            model
@@ -68,17 +68,22 @@ public class SearchController {
 			}
 			searchingInfo.setOrderByName(Common.validOrder(searchingInfo.getOrderByName()));
 		} else if (action.equals(Constant.ACTION_SEARCH_MH002)) {
-			// search
+
 			sessionId = searchingInfo.getIdNumber();
-			// lần đầu tìm kiếm
+
 			if (sessionId.equals("0")) {
 				sessionId = new Date().getTime() + "";
 				searchingInfo.setIdNumber(sessionId);
 			} else {
-				// các lần tìm kiếm sau
+
 				session.removeAttribute(sessionId);
 			}
 			searchingInfo.setOrderByName(Common.validOrder(searchingInfo.getOrderByName()));
+			try {
+				currentPage = Integer.parseInt(searchingInfo.getCurrentPage());
+			} catch (NumberFormatException e) {
+				searchingInfo.setCurrentPage("1");
+			}
 			session.setAttribute(sessionId, searchingInfo);
 		} else {
 			searchingInfo = new SearchingInfo();
@@ -86,20 +91,15 @@ public class SearchController {
 			searchingInfo.setCompanyId(companies.get(0).getCompanyID() + "");
 		}
 		totalRecords = (int) tblUserLogic.getNumberOfUsers(searchingInfo);
-		try {
-			currentPage = Integer.parseInt(searchingInfo.getCurrentPage());
-			currentPage = currentPage < 1 ? 1 : currentPage;
-			ArrayList<Integer> pages = paging(currentPage, maxResult, totalRecords);
-			ArrayList<DisplayUser> allUsers = (ArrayList<DisplayUser>) tblUserLogic.getListUsers(searchingInfo,
-					currentPage, maxResult);
-			model.addAttribute("searchingInfo", searchingInfo);
-			model.addAttribute("allUsers", allUsers);
-			model.addAttribute("pages", pages);
-			model.addAttribute("currentPage", currentPage);
-			model.addAttribute("totalPages", getTotalOfPages(maxResult, totalRecords));
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		}
+		currentPage = formedCurrentPage(currentPage, maxResult, totalRecords);
+		ArrayList<Integer> pages = paging(currentPage, maxResult, totalRecords);
+		ArrayList<DisplayUser> allUsers = (ArrayList<DisplayUser>) tblUserLogic.getListUsers(searchingInfo, currentPage,
+				maxResult);
+		model.addAttribute("searchingInfo", searchingInfo);
+		model.addAttribute("allUsers", allUsers);
+		model.addAttribute("pages", pages);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("totalPages", getTotalOfPages(maxResult, totalRecords));
 		return Constant.MH002;
 	}
 
@@ -145,7 +145,29 @@ public class SearchController {
 	}
 
 	/**
-	 * Lấy danh sách trang được paging
+	 * Chuẩn hóa currentPage
+	 * 
+	 * @param currentPage
+	 *            currentPage
+	 * @param recordsOfPage
+	 *            Số records/ trang
+	 * @param totalRecords
+	 *            tổng số records
+	 * @return
+	 */
+	private int formedCurrentPage(int currentPage, int recordsOfPage, int totalRecords) {
+		int numberOfPages = getTotalOfPages(recordsOfPage, totalRecords);
+		if (currentPage < 1) {
+			return 1;
+		} else if (currentPage > numberOfPages) {
+			return numberOfPages;
+		} else {
+			return currentPage;
+		}
+	}
+
+	/**
+	 * Lấy danh sách trang paging
 	 * 
 	 * @param currentPage
 	 *            trang bắt đầu
@@ -153,15 +175,22 @@ public class SearchController {
 	 *            record trên mỗi trang
 	 * @param totalRecords
 	 *            tổng số records
-	 * @return danh sách trang dùng để paging
+	 * @return danh sách trang paging
 	 */
 	private ArrayList<Integer> paging(int currentPage, int recordsOfPage, int totalRecords) {
 		int numberOfPages = getTotalOfPages(recordsOfPage, totalRecords);
-		ArrayList<Integer> pages = new ArrayList<Integer>();
-		int startPage = currentPage - 2 > 0 ? currentPage - 2 : 1;
 		int pageRange = Integer.parseInt(ValueProperties.getValue("PAGE_RANGE"));
+		int numberOfPageToAdd = pageRange - 1;
+		int startPage = 0;
+		ArrayList<Integer> pages = new ArrayList<Integer>();
+		if (currentPage - pageRange / 2 + numberOfPageToAdd < numberOfPages) {
+			startPage = currentPage - pageRange / 2 > 0 ? currentPage - pageRange / 2 : 1;
+		} else {
+			startPage = numberOfPages - numberOfPageToAdd;
+		}
+
 		pages.add(startPage);
-		for (int i = 1; startPage + i <= startPage + pageRange && startPage + i <= numberOfPages; i++) {
+		for (int i = 1; startPage + i <= startPage + numberOfPageToAdd && startPage + i <= numberOfPages; i++) {
 			pages.add(startPage + i);
 		}
 		return pages;
@@ -174,7 +203,7 @@ public class SearchController {
 	 *            trang bắt đầu
 	 * @param recordsOfPage
 	 *            record trên mỗi trang
-	 * @return tổng số trang
+	 * @return tổng trang
 	 */
 	private int getTotalOfPages(int recordsOfPage, int totalRecords) {
 		return (totalRecords % recordsOfPage == 0) ? totalRecords / recordsOfPage : totalRecords / recordsOfPage + 1;
