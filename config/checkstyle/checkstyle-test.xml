@@ -11,23 +11,6 @@
       http://checkstyle.sourceforge.net/config.html#Checker
       <property name="basedir" value="${basedir}"/>
   -->
-
-  <!-- Filters -->
-  
-  <!-- Javadoc Comments -->
-  <module name="JavadocPackage">
-    <property name="severity" value="ignore"/>
-  </module>
-
-
-  <!-- Size Violations -->
-  <module name="FileLength">
-    <property name="fileExtensions" value="java"/>
-  </module>
-
-  <!-- Whitespace -->
-  <module name="FileTabCharacter"/>
-
   <module name="TreeWalker">
     <property name="tabWidth" value="4"/>
     <module name="TypecastParenPad"/>
