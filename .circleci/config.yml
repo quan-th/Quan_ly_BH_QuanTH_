@@ -6,10 +6,9 @@ jobs:
       - image: java:openjdk-8-jdk
     environment:
       _JAVA_OPTIONS: -Xmx1G
-      TERM: dumb
+      BASH_ENV: /home/circleci/.bashrc
     steps:
       - checkout
-      - setup_remote_docker
       - restore_cache:
           keys:
             - Quan_ly_BH_QuanTH_-{{ .Branch }}-{{ checksum ".circleci/config.yml" }}-{{ checksum "build.gradle" }}-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
