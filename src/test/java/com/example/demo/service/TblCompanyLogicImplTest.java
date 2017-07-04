@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -17,7 +18,6 @@ import com.example.demo.entities.Company;
 import com.example.demo.entities.TblCompany;
 import com.example.demo.logics.impl.TblCompanyLogicImpl;
 import com.example.demo.logics.impl.TblUserLogicImpl;
-import com.example.demo.utils.Common;
 @RunWith(MockitoJUnitRunner.class)
 public class TblCompanyLogicImplTest {
 	@InjectMocks
@@ -46,7 +46,7 @@ public class TblCompanyLogicImplTest {
 		companies.add( new Company(3, "ITC"));
 		companies.add( new Company(4, "TinhVan"));
 		companies.add( new Company(5, "CityCom"));
-		assertEquals(true, Common.myComparison(companies, companiesActual));
+		assertThat(companiesActual, is(companies));
 	}
 
 	

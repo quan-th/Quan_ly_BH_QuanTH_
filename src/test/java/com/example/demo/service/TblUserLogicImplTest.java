@@ -1,24 +1,32 @@
 package com.example.demo.service;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import com.example.demo.controllers.SearchController;
 import com.example.demo.daos.TblUserDao;
 import com.example.demo.entities.DisplayUser;
 import com.example.demo.entities.SearchingInfo;
 import com.example.demo.entities.TblUser;
 import com.example.demo.logics.impl.TblUserLogicImpl;
-import com.example.demo.utils.Common;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TblUserLogicImplTest {
@@ -26,7 +34,8 @@ public class TblUserLogicImplTest {
 	private TblUserLogicImpl tblUserLogic;
 	@Mock
 	private TblUserDao tblUserDao;
-	private SearchingInfo searchingInfo = new SearchingInfo();
+	@Rule
+	public ExpectedException thrown = ExpectedException.none();
 
 	@Before
 	public void setUp() {
@@ -38,27 +47,55 @@ public class TblUserLogicImplTest {
 				"2017-12-25", "Ha Noi"));
 		displayUsers.add(new DisplayUser(20, "Tran Đuc Cong", "01", "1995-01-11", "4567891235", "2017-01-17",
 				"2017-01-31", "Ha Noi"));
-		when(tblUserDao.findByUserNameAndUserPassword("admin", "admin")).thenReturn(tblUsers);
-
-		when(tblUserDao.getNumberOfUsers(searchingInfo)).thenReturn((long) 24);
-		when(tblUserDao.getListUsers(searchingInfo, 1, 2)).thenReturn(displayUsers);
+		when(tblUserDao.findByUserNameAndUserPassword(anyString(), anyString())).thenReturn(tblUsers);
+		when(tblUserDao.getNumberOfUsers(anyObject())).thenReturn((long) 24);
+		when(tblUserDao.getListUsers(anyObject(), anyInt(), anyInt())).thenReturn(displayUsers);
 	}
 
+	/**
+	 * Truong hop success
+	 */
 	@Test
 	public void LoginByUsernameAndPasswordTest() {
 		List<TblUser> tblUsers = tblUserLogic.LoginByUsernameAndPassword("admin", "admin");
 		assertEquals(1, tblUsers.size());
+
 	}
 
+	@Test
+	public void pagingTest(){
+		SearchController controller = new SearchController();
+		ArrayList<Integer> pagingActual=controller.paging(4, 1, 10);
+		ArrayList<Integer> pagingExpect= new ArrayList<>();
+		pagingExpect.add(1);
+		pagingExpect.add(2);
+		pagingExpect.add(3);
+		
+		pagingExpect.add(4);
+		
+		pagingExpect.add(5);
+		pagingExpect.add(6);
+		pagingExpect.add(7);
+		assertThat(pagingActual, is(pagingExpect));
+	}
+
+	/**
+	 * Truong hop success
+	 */
 	@Test
 	public void getNumberOfUsersTest() {
-		SearchingInfo info = searchingInfo;
-		long totalRecords = tblUserLogic.getNumberOfUsers(info);
+		SearchingInfo searchingInfo = new SearchingInfo();
+		long totalRecords = tblUserLogic.getNumberOfUsers(searchingInfo);
 		assertEquals(24, totalRecords);
+
 	}
 
+	/**
+	 * Truong hop success
+	 */
 	@Test
 	public void getListUsersTest() {
+		SearchingInfo searchingInfo = new SearchingInfo();
 		searchingInfo.setCompanyId("1");
 		int currentPage = 1;
 		int maxResult = 2;
@@ -88,6 +125,8 @@ public class TblUserLogicImplTest {
 		displayUser2.setPlaceOfRegister("Ha Noi");
 
 		displayUsers.add(displayUser2);
-		assertEquals(true, Common.myComparison(displayUsers, displayUsersActual));
+
+		assertThat(displayUsersActual, is(displayUsers));
 	}
+
 }

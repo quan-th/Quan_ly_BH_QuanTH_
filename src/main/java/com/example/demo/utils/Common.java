@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpSession;
 
 /**
- * @author LA-AM Lá»›p gá»“m cÃ¡c phÆ°Æ¡ng thá»©c common
+ * @author LA-AM lop gom cac phuong thuc common
  */
 public class Common {
 	/**
@@ -28,6 +28,7 @@ public class Common {
 		return template;
 
 	}
+
 	/**
 	 * Convert giới tính
 	 * 
@@ -39,12 +40,13 @@ public class Common {
 		return (Constant.MALE.equals(number) ? ValueProperties.getValue(Constant.STR_MALE)
 				: ValueProperties.getValue(Constant.STR_FEMALE));
 	}
+
 	/**
-	 * mÃ£ hÃ³a MD5
+	 * ma hoa MD5
 	 *
 	 * @param str
-	 *            chuá»—i cáº§n mÃ£ hÃ³a
-	 * @return chuá»—i Ä‘Æ°á»£c mÃ£ hÃ³a
+	 *            chuoi can ma hoa md5
+	 * @return chuoi da duoc ma hoa md5
 	 */
 	public static String convertToMD5(String str) {
 		StringBuffer sb = new StringBuffer();
@@ -65,9 +67,10 @@ public class Common {
 	/**
 	 * Escape wildcard trong mysql
 	 * 
-	 * @param chuá»—i cáº§n escapeWildCard
-	 *           
-	 * @return chuá»—i Ä‘Ã£ Ä‘Æ°á»£c escape
+	 * @param chuoi
+	 *            can escapeWildCard
+	 * 
+	 * @return chuoi da duoc escape
 	 */
 	public static String escapeWildCard(String str) {
 		str = str.replace("_", "\\_");
@@ -76,11 +79,11 @@ public class Common {
 	}
 
 	/**
-	 * Convert ngÃ y tá»« yyyy-mm-dd thÃ nh dd/mm/yyyy
+	 * Convert ngay tu yyyy-mm-dd thanh dd/mm/yyyy
 	 * 
 	 * @param date
-	 *            ngÃ y cáº§n convert
-	 * @return ngÃ y sau khi convert
+	 *            ngay can convert
+	 * @return ngay sau khi convert
 	 */
 	public static String convertDate(String date) {
 		String[] arrDate = date.split("-");
@@ -89,21 +92,21 @@ public class Common {
 	}
 
 	/**
-	 * Kiá»ƒm tra chuá»—i cÃ³ null
+	 * kiem tra chuoi null
 	 * 
 	 * @param string
-	 *            chuá»—i cáº§n kiá»ƒm tra
-	 * @return true náº¿u null,false náº¿u khÃ´ng
+	 *            chuoi can kiem tra
+	 * @return true neu null,false neu khong
 	 */
 	public static boolean isNull(String string) {
 		return string == null;
 	}
 
 	/**
-	 * Kiá»ƒm tra ngÃ y há»£p lá»‡
+	 * Kiem tra ngay hop le
 	 *
 	 * @param date
-	 *            return true náº¿u há»£p lá»‡, false náº¿u khÃ´ng há»£p lá»‡
+	 *            return true neu ngay hop le, false neu ngay khong hop le
 	 */
 	public static boolean checkValidDate(String date) {
 
@@ -177,10 +180,10 @@ public class Common {
 	}
 
 	/**
-	 * convert String thÃ nh date
+	 * convert String thanh date
 	 * 
 	 * @param strDate
-	 *            chuá»—i cáº§n convert
+	 *            chuoi can convert
 	 * @return date
 	 */
 	public static String convertStringToDate(String strDate) {
@@ -192,8 +195,8 @@ public class Common {
 	 * Conver utf-8 to Ascii
 	 * 
 	 * @param s
-	 *            chuá»—i cáº§n convert
-	 * @return chuá»—i Ä‘Æ°á»£c convert
+	 *            chuoi can convert
+	 * @return chuoi da duoc convert
 	 */
 	public static String decompose(String s) {
 		return java.text.Normalizer.normalize(s, java.text.Normalizer.Form.NFD)
@@ -201,12 +204,11 @@ public class Common {
 	}
 
 	/**
-	 * Chuáº©n hoÃ¡ chuá»—i KÃ­ tá»± Ä‘áº§u cá»§a word viáº¿t hoa CÃ¡c word cÃ¡ch nhau 1 space
-	 * Chá»‰ nháº­n kÃ­ tá»± latin
+	 * Chuan hoa chuoi String theo require
 	 * 
 	 * @param s
-	 *            chuá»—i truyá»�n vÃ o
-	 * @return chuá»—i Ä‘Æ°á»£c chuáº©n hoÃ¡
+	 *            chuoi chuyen hoa
+	 * @return chuoi da duoc chuyen hoa
 	 */
 	public static String normarlizeString(String s) {
 		StringBuilder result = new StringBuilder();
@@ -224,12 +226,12 @@ public class Common {
 	}
 
 	/**
-	 * Chuáº©n hoÃ¡ má»¥c chá»�n cÃ´ng ty.
+	 * Chuan hoa chon cong ty.
 	 * 
 	 * @param choseCompany
-	 *            chuá»—i cáº§n chuáº©n hoÃ¡
-	 * @return return choseCompany náº¿u há»£p lá»‡, return Constant.ALREADY_HAVE náº¿u
-	 *         khÃ´ng há»£p lá»‡
+	 *            chuoi can chuan hoa¡
+	 * @return return choseCompany neu hop le‡, return Constant.ALREADY_HAVE neu
+	 *         khong hop le
 	 */
 	public static String normalizeChoseCompany(String choseCompany) {
 		if (Constant.ALREADY_HAVE.equals(choseCompany) || Constant.ADD_NEW_COMPANY.equals(choseCompany)) {
@@ -253,8 +255,10 @@ public class Common {
 		tem = tem.replace("_", "\\_");
 		return tem;
 	}
+
 	/**
 	 * So sánh 2 arraylist
+	 * 
 	 * @param <E>
 	 * 
 	 * @param companies

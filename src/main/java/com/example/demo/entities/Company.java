@@ -4,6 +4,8 @@
  */
 package com.example.demo.entities;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
 /**
  * @author HP
  *
@@ -13,16 +15,10 @@ package com.example.demo.entities;
 public class Company {
 	private int companyID;
 	private String companyName;
-
 	@Override
 	public boolean equals(Object obj) {
-		Company company = (Company) obj;
-		if (company.getCompanyID() == companyID && company.getCompanyName().equals(companyName)) {
-			return true;
-		}
-		return false;
+		return EqualsBuilder.reflectionEquals(this, obj);
 	}
-
 	/**
 	 * @return the companyID
 	 */

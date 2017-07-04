@@ -4,11 +4,14 @@
  */
 package com.example.demo.entities;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
 /**
  * @author HP
  *
  *         DisplayUser lớp chứa các thông tin hiển thị của user
  */
+
 public class DisplayUser {
 	private int id;
 	private String username;
@@ -18,18 +21,9 @@ public class DisplayUser {
 	private String startDate;
 	private String endDate;
 	private String placeOfRegister;
-
 	@Override
 	public boolean equals(Object obj) {
-		DisplayUser displayUser = (DisplayUser) obj;
-		if (displayUser.getId() == id && displayUser.getUsername().equals(username)
-				&& displayUser.getGender().equals(gender) && displayUser.getBirthdate().equals(birthdate)
-				&& displayUser.getInsuranceNumber().equals(insuranceNumber)
-				&& displayUser.getStartDate().equals(startDate) && displayUser.getEndDate().equals(endDate)
-				&& displayUser.getPlaceOfRegister().equals(placeOfRegister)) {
-			return true;
-		}
-		return false;
+		return EqualsBuilder.reflectionEquals(this, obj);
 	}
 
 	public DisplayUser(int id, String username, String gender, String birthdate, String insuranceNumber,
