@@ -16,7 +16,7 @@ jobs:
             - Quan_ly_BH_QuanTH_-master
 
       - run:
-          command: chmod +x gradlew.bat
+          command: chmod +x gradlew
       - run:
           name: Run tests
           command: ./gradlew.bat check jacocoTestReport
