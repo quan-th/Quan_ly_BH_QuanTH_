@@ -16,10 +16,8 @@ jobs:
             - Quan_ly_BH_QuanTH_-master
 
       - run:
-          command: chmod +x gradlew
-      - run:
           name: Run tests
-          command: check jacocoTestReport
+          command: ./bash gradlew.bat check jacocoTestReport
       - store_artifacts:
           name: Store artifacts
           path: build/reports
