@@ -91,7 +91,7 @@ public class SearchController {
 			searchingInfo.setCompanyId(companies.get(0).getCompanyID() + "");
 		}
 		totalRecords = (int) tblUserLogic.getNumberOfUsers(searchingInfo);
-		currentPage = formedCurrentPage(currentPage,maxResult,totalRecords);
+		currentPage = formedCurrentPage(currentPage, maxResult, totalRecords);
 		ArrayList<Integer> pages = paging(currentPage, maxResult, totalRecords);
 		ArrayList<DisplayUser> allUsers = (ArrayList<DisplayUser>) tblUserLogic.getListUsers(searchingInfo, currentPage,
 				maxResult);
@@ -143,11 +143,16 @@ public class SearchController {
 	private List<Company> loadDefaultValues(ModelMap model) {
 		return tblCompanyLogic.getAllCompany();
 	}
+
 	/**
 	 * Chuẩn hóa currentPage
-	 * @param currentPage currentPage
-	 * @param recordsOfPage Số records/ trang
-	 * @param totalRecords tổng số records
+	 * 
+	 * @param currentPage
+	 *            currentPage
+	 * @param recordsOfPage
+	 *            Số records/ trang
+	 * @param totalRecords
+	 *            tổng số records
 	 * @return
 	 */
 	private int formedCurrentPage(int currentPage, int recordsOfPage, int totalRecords) {
@@ -176,8 +181,14 @@ public class SearchController {
 		int numberOfPages = getTotalOfPages(recordsOfPage, totalRecords);
 		int pageRange = Integer.parseInt(ValueProperties.getValue("PAGE_RANGE"));
 		int numberOfPageToAdd = pageRange - 1;
+		int startPage = 0;
 		ArrayList<Integer> pages = new ArrayList<Integer>();
-		int startPage = currentPage - pageRange / 2 > 0 ? currentPage - pageRange / 2 : 1;
+		if (currentPage - pageRange / 2 + numberOfPageToAdd < numberOfPages) {
+			startPage = currentPage - pageRange / 2 > 0 ? currentPage - pageRange / 2 : 1;
+		} else {
+			startPage = numberOfPages - numberOfPageToAdd;
+		}
+
 		pages.add(startPage);
 		for (int i = 1; startPage + i <= startPage + numberOfPageToAdd && startPage + i <= numberOfPages; i++) {
 			pages.add(startPage + i);

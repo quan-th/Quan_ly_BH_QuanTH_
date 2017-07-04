@@ -38,13 +38,15 @@ public class LoginController {
 			HttpServletRequest request) {
 
 		try {
-			model.addAttribute("userLogin", userLogin);
+
 			validateLogin.validate(userLogin, bindingResult);
 			HttpSession session = request.getSession();
 			if (!bindingResult.hasErrors()) {
 				session.setAttribute("loginId", userLogin.getUsername());
 				return "redirect:/AllUsers.do";
 			}
+			userLogin.setPassword("");
+			model.addAttribute("userLogin", userLogin);
 			return Constant.MH001;
 		} catch (CannotCreateTransactionException e) {
 			e.printStackTrace();
