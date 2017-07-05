@@ -61,3 +61,17 @@ jacocoTestReport {
 		csv.enabled false
 	}
 }
+
+task resolveDependencies {
+	doLast {
+		project.configurations.each {
+			println "Resolve " + it.name + " configuration dependencies..."
+			it.resolve()
+		}
+	}
+}
+
+// ======== wrapper ========
+task wrapper(type: Wrapper) {
+	gradleVersion = "3.3"
+}
