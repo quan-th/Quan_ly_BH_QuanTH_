@@ -6,7 +6,6 @@ jobs:
       - image: java:openjdk-8-jdk
     environment:
       _JAVA_OPTIONS: -Xmx1G
-      BASH_ENV: ~/.bashrc
     steps:
       - checkout
       - restore_cache:
