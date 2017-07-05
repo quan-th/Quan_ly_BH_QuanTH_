@@ -91,8 +91,9 @@ public class SearchController {
 			searchingInfo.setCompanyId(companies.get(0).getCompanyID() + "");
 		}
 		totalRecords = (int) tblUserLogic.getNumberOfUsers(searchingInfo);
-		currentPage = formedCurrentPage(currentPage, maxResult, totalRecords);
-		ArrayList<Integer> pages = paging(currentPage, maxResult, totalRecords);
+		currentPage = Common.formedCurrentPage(searchingInfo.getCurrentPage(), maxResult, totalRecords);
+		searchingInfo.setCurrentPage(currentPage+"");
+		ArrayList<Integer> pages = Common.paging(currentPage, maxResult, totalRecords);
 		ArrayList<DisplayUser> allUsers = (ArrayList<DisplayUser>) tblUserLogic.getListUsers(searchingInfo, currentPage,
 				maxResult);
 		model.addAttribute("searchingInfo", searchingInfo);
@@ -100,6 +101,7 @@ public class SearchController {
 		model.addAttribute("pages", pages);
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("totalPages", getTotalOfPages(maxResult, totalRecords));
+		model.addAttribute("totalPages", Common.getTotalOfPages(maxResult, totalRecords));
 		return Constant.MH002;
 	}
 
@@ -118,7 +120,7 @@ public class SearchController {
 		int currentPage = 1;
 		int maxResult = Integer.parseInt(ValueProperties.getValue(Constant.MAX_RESULT));
 		int totalRecords = (int) tblUserLogic.getNumberOfUsers(searchingInfo);
-		ArrayList<Integer> pages = paging(currentPage, maxResult, totalRecords);
+		ArrayList<Integer> pages = Common.paging(currentPage, maxResult, totalRecords);
 		ArrayList<DisplayUser> allUsers = (ArrayList<DisplayUser>) tblUserLogic.getListUsers(searchingInfo, currentPage,
 				maxResult);
 		model.addAttribute("searchingInfo", searchingInfo);
@@ -128,7 +130,7 @@ public class SearchController {
 
 		model.addAttribute("currentPage", currentPage);
 
-		model.addAttribute("totalPages", getTotalOfPages(maxResult, totalRecords));
+		model.addAttribute("totalPages", Common.getTotalOfPages(maxResult, totalRecords));
 
 		return Constant.MH002;
 	}

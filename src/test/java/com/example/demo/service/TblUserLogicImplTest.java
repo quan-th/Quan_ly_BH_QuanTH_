@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
@@ -12,6 +13,7 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hamcrest.core.IsEqual;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -27,11 +29,12 @@ import com.example.demo.entities.DisplayUser;
 import com.example.demo.entities.SearchingInfo;
 import com.example.demo.entities.TblUser;
 import com.example.demo.logics.impl.TblUserLogicImpl;
+import com.example.demo.utils.Common;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TblUserLogicImplTest {
 	@InjectMocks
-	private TblUserLogicImpl tblUserLogic;
+	private TblUserLogicImpl sut;
 	@Mock
 	private TblUserDao tblUserDao;
 	@Rule
@@ -57,41 +60,46 @@ public class TblUserLogicImplTest {
 	 */
 	@Test
 	public void LoginByUsernameAndPasswordTest() {
-		List<TblUser> tblUsers = tblUserLogic.LoginByUsernameAndPassword("admin", "admin");
+		List<TblUser> tblUsers = sut.LoginByUsernameAndPassword("admin", "admin");
 		assertEquals(1, tblUsers.size());
 
 	}
-
+	/**
+	 * Test paging(int param1, int param2, int param3)
+	 * @param param1 currentPage
+	 * @param param2 records/Page
+	 * @param param3 totalRecords
+	 * return listPaging
+	 */
 	@Test
-	public void pagingTest(){
-		SearchController controller = new SearchController();
-		ArrayList<Integer> pagingActual=controller.paging(4, 1, 10);
-		ArrayList<Integer> pagingExpect= new ArrayList<>();
+	public void pagingTest() {
+		ArrayList<Integer> pagingActual = Common.paging(1, 1, 10);
+		ArrayList<Integer> pagingExpect = new ArrayList<>();
 		pagingExpect.add(1);
 		pagingExpect.add(2);
 		pagingExpect.add(3);
-		
 		pagingExpect.add(4);
-		
 		pagingExpect.add(5);
-		pagingExpect.add(6);
-		pagingExpect.add(7);
 		assertThat(pagingActual, is(pagingExpect));
 	}
 
 	/**
-	 * Truong hop success
+	 * Test getNumberOfUsers
 	 */
 	@Test
 	public void getNumberOfUsersTest() {
 		SearchingInfo searchingInfo = new SearchingInfo();
-		long totalRecords = tblUserLogic.getNumberOfUsers(searchingInfo);
+		long totalRecords = sut.getNumberOfUsers(searchingInfo);
 		assertEquals(24, totalRecords);
 
 	}
 
 	/**
-	 * Truong hop success
+	 * Test  getListUsers(SearchingInfo param1, int param2, int param3)
+	 * @param param1 info search
+	 * @param param2 currenPage
+	 * @param param3 record/page
+	 * return listPaging
 	 */
 	@Test
 	public void getListUsersTest() {
@@ -99,7 +107,7 @@ public class TblUserLogicImplTest {
 		searchingInfo.setCompanyId("1");
 		int currentPage = 1;
 		int maxResult = 2;
-		ArrayList<DisplayUser> displayUsersActual = tblUserLogic.getListUsers(searchingInfo, currentPage, maxResult);
+		ArrayList<DisplayUser> displayUsersActual = sut.getListUsers(searchingInfo, currentPage, maxResult);
 		ArrayList<DisplayUser> displayUsers = new ArrayList<>();
 
 		DisplayUser displayUser = new DisplayUser();
@@ -128,5 +136,13 @@ public class TblUserLogicImplTest {
 
 		assertThat(displayUsersActual, is(displayUsers));
 	}
-
+	/**
+	 * Test formedCurrentPage currentPage is letter => return 1, currentPage < 1 =>  return 1, currentPage > totalPages => return totalPage
+	 */
+	@Test
+	public void formedCurrentPageTest(){		
+		int currentPageActual=Common.formedCurrentPage("100", 1, 4);
+		assertEquals(1, currentPageActual);
+	}
+	
 }

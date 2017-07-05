@@ -275,4 +275,86 @@ public class Common {
 		}
 		return true;
 	}
+
+	/**
+	 * Chuẩn hóa currentPage
+	 * 
+	 * @param currentPage
+	 *            currentPage
+	 * @param recordsOfPage
+	 *            Số records/ trang
+	 * @param totalRecords
+	 *            tổng số records
+	 * @return
+	 */
+	public static int formedCurrentPage(String strCurrentPage, int recordsOfPage, int totalRecords) {
+		int currentPage = 0;
+		try {
+			currentPage = Integer.parseInt(strCurrentPage);
+		} catch (NumberFormatException e) {
+			currentPage = 1;
+		}
+		int numberOfPages = getTotalOfPages(recordsOfPage, totalRecords);
+		if (currentPage < 1) {
+			return 1;
+		} else if (currentPage > numberOfPages) {
+			return numberOfPages;
+		} else {
+			return currentPage;
+		}
+	}
+
+	/**
+	 * Lấy danh sách trang paging
+	 * 
+	 * @param currentPage
+	 *            trang bắt đầu
+	 * @param recordsOfPage
+	 *            record trên mỗi trang
+	 * @param totalRecords
+	 *            tổng số records
+	 * @return danh sách trang paging
+	 */
+	public static ArrayList<Integer> paging(int currentPage, int recordsOfPage, int totalRecords) {
+		int numberOfPages = getTotalOfPages(recordsOfPage, totalRecords);
+		int pageRange = Integer.parseInt(ValueProperties.getValue("PAGE_RANGE"));
+		int numberOfPageToAdd = pageRange - 1;
+		int startPage = 0;
+		ArrayList<Integer> pages = new ArrayList<Integer>();
+		// if (currentPage - pageRange / 2 + numberOfPageToAdd > numberOfPages)
+		// {
+		//
+		// startPage = numberOfPages - numberOfPageToAdd?;
+		// } else if (currentPage - pageRange / 2 + numberOfPageToAdd < 1) {
+		// startPage = 1;
+		// } else {
+		// startPage = currentPage - pageRange / 2 > 0 ? currentPage - pageRange
+		// / 2 : 1;
+		// }
+		if (1 <= currentPage && currentPage <= 1 + numberOfPageToAdd) {
+			startPage = 1;
+		} else if (numberOfPages - numberOfPageToAdd <= currentPage && currentPage <= numberOfPages) {
+			startPage = numberOfPages - numberOfPageToAdd;
+		} else {
+			startPage = currentPage - pageRange / 2 > 0 ? currentPage - pageRange / 2 : 1;
+		}
+		pages.add(startPage);
+		for (int i = 1; startPage + i <= startPage + numberOfPageToAdd && startPage + i <= numberOfPages; i++) {
+			pages.add(startPage + i);
+		}
+		return pages;
+	}
+
+	/**
+	 * Lấy tổng số trang
+	 * 
+	 * @param startPage
+	 *            trang bắt đầu
+	 * @param recordsOfPage
+	 *            record trên mỗi trang
+	 * @return tổng trang
+	 */
+	public static int getTotalOfPages(int recordsOfPage, int totalRecords) {
+		return (totalRecords % recordsOfPage == 0) ? totalRecords / recordsOfPage : totalRecords / recordsOfPage + 1;
+	}
 }
