@@ -14,6 +14,10 @@ apply plugin: 'java'
 apply plugin: 'eclipse-wtp'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'war'
+apply plugin: "checkstyle"
+apply plugin: "jacoco"
+
+apply from: 'gradle/checkstyle.gradle'
 
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
@@ -44,4 +48,16 @@ dependencies {
  compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '1.5.3.RELEASE'
  providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
  testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+jacoco {
+    toolVersion = "0.7.6.201602180812"
+    reportsDir = file("$buildDir/reports/jacoco")
+}
+
+jacocoTestReport {
+	reports {
+		xml.enabled false
+		csv.enabled false
+	}
 }
