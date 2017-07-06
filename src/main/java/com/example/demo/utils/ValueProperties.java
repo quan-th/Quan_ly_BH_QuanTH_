@@ -11,7 +11,6 @@ import java.util.Properties;
 
 /**
  * @author LA-AM
- *Ä�á»�c value tá»« file properties
  */
 public class ValueProperties {
 	static private Map<String, String> data = new HashMap<String, String>();

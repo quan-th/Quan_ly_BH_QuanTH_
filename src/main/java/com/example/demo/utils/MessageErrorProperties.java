@@ -11,7 +11,6 @@ import java.util.Properties;
 
 /**
  * @author LA-AM
- *	Ä�á»�c file properties thÃ´ng bÃ¡o lá»—i
  */
 public class MessageErrorProperties {
 	static private Map<String, String> data = new HashMap<String, String>();
