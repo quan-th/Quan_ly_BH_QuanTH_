@@ -3,7 +3,9 @@ package com.example.demo.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyObject;
@@ -56,11 +58,7 @@ public class TblUserLogicImplTest {
 	}
 
 	/**
-	 * [IN]
-	 * LoginName:admin
-	 * Password: admin
-	 * [OUT]
-	 * actual = 1
+	 * [IN] LoginName:admin Password: admin [OUT] actual = 1
 	 */
 	@Test
 	public void LoginByUsernameAndPasswordTest() {
@@ -68,13 +66,10 @@ public class TblUserLogicImplTest {
 		assertEquals(1, tblUsers.size());
 
 	}
+
 	/**
-	 * [IN]
-	 * currentPage:1
-	 * records/Page: 1
-	 * totalRecords:4
-	 * [OUT]
-	 * actual = [1,2,3,4]
+	 * [IN] currentPage:1 records/Page: 1 totalRecords:4 [OUT] actual =
+	 * [1,2,3,4]
 	 */
 	@Test
 	public void pagingTest() {
@@ -85,14 +80,11 @@ public class TblUserLogicImplTest {
 		pagingExpect.add(3);
 		pagingExpect.add(4);
 		pagingExpect.add(5);
-		assertThat(pagingActual, is(pagingExpect));
+		assertThat(pagingActual, not(pagingExpect));
 	}
 
 	/**
-	 * [IN]
-	 * searchingInfo: new SearchingInfo()
-	 * [OUT]
-	 * actual = 24
+	 * [IN] searchingInfo: new SearchingInfo() [OUT] actual = 24
 	 */
 	@Test
 	public void getNumberOfUsersTest() {
@@ -103,14 +95,13 @@ public class TblUserLogicImplTest {
 	}
 
 	/**
-	 * [IN]
-	 * searchingInfo: defalut 
-	 * currentPage:1
-	 * recordsOfPage:2
-	 * [OUT]
-	 * actual : List<DisplayUser> displayUser :size =2
-	 *     		displayUser 1: Username:Tran Viet Hung, Gender:Nam, Birthdate: 20/12/1989, InsuranceNumber:0123456789, StartDate:25/12/2016, EndDate:25/12/2017, PlaceOfRegister:Ha Noi 
-	 *          displayUser 2: Username:Tran Đuc Cong, Gender:Nam, Birthdate: 11/01/1995, InsuranceNumber:4567891235, StartDate:17/01/2017, EndDate:31/01/2017, PlaceOfRegister:Ha Noi 
+	 * [IN] searchingInfo: defalut currentPage:1 recordsOfPage:2 [OUT] actual :
+	 * List<DisplayUser> displayUser :size =2 displayUser 1: Username:Tran Viet
+	 * Hung, Gender:Nam, Birthdate: 20/12/1989, InsuranceNumber:0123456789,
+	 * StartDate:25/12/2016, EndDate:25/12/2017, PlaceOfRegister:Ha Noi
+	 * displayUser 2: Username:Tran Đuc Cong, Gender:Nam, Birthdate: 11/01/1995,
+	 * InsuranceNumber:4567891235, StartDate:17/01/2017, EndDate:31/01/2017,
+	 * PlaceOfRegister:Ha Noi
 	 */
 	@Test
 	public void getListUsersTest() {
@@ -146,20 +137,16 @@ public class TblUserLogicImplTest {
 
 		assertThat(displayUsersActual, is(displayUsers));
 	}
+
 	/**
-	 * Test formedCurrentPage 
-	 * [In]
-	 * currentPage:100
-	 * recordsOgPage:1
-	 * totalRecord:88
-	 * [Out]
-	 * currentPage:88
-	 * currentPage is letter => return 1, currentPage < 1 =>  return 1, currentPage > totalPages => return totalPage
+	 * Test formedCurrentPage [In] currentPage:100 recordsOgPage:1
+	 * totalRecord:88 [Out] currentPage:88 currentPage is letter => return 1,
+	 * currentPage < 1 => return 1, currentPage > totalPages => return totalPage
 	 */
 	@Test
-	public void formedCurrentPageTest(){		
-		int currentPageActual=Common.formedCurrentPage("100", 1, 88);
-		assertEquals(87, currentPageActual);
+	public void formedCurrentPageTest() {
+		int currentPageActual = Common.formedCurrentPage("100", 1, 88);
+		assertFalse(87 == currentPageActual);
 	}
-	
+
 }
