@@ -5,11 +5,12 @@ package com.example.demo.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
 
 /**
- * @author LA-AM Lớp gồm các phương thức common
+ * @author LA-AM lop gom cac phuong thuc common
  */
 public class Common {
 	/**
@@ -27,23 +28,25 @@ public class Common {
 		return template;
 
 	}
+
 	/**
-	 * Convert Giới tính từ số -> chữ
+	 * Convert giới tính
 	 * 
 	 * @param number
-	 *            01->Nam,02->Nữ
+	 *            01->Nam,02->nữ
 	 * @return giới tính
 	 */
 	public static String convertGender(String number) {
 		return (Constant.MALE.equals(number) ? ValueProperties.getValue(Constant.STR_MALE)
 				: ValueProperties.getValue(Constant.STR_FEMALE));
 	}
+
 	/**
-	 * mã hóa MD5
+	 * ma hoa MD5
 	 *
 	 * @param str
-	 *            chuỗi cần mã hóa
-	 * @return chuỗi được mã hóa
+	 *            chuoi can ma hoa md5
+	 * @return chuoi da duoc ma hoa md5
 	 */
 	public static String convertToMD5(String str) {
 		StringBuffer sb = new StringBuffer();
@@ -64,9 +67,10 @@ public class Common {
 	/**
 	 * Escape wildcard trong mysql
 	 * 
-	 * @param chuỗi cần escapeWildCard
-	 *           
-	 * @return chuỗi đã được escape
+	 * @param chuoi
+	 *            can escapeWildCard
+	 * 
+	 * @return chuoi da duoc escape
 	 */
 	public static String escapeWildCard(String str) {
 		str = str.replace("_", "\\_");
@@ -75,11 +79,11 @@ public class Common {
 	}
 
 	/**
-	 * Convert ngày từ yyyy-mm-dd thành dd/mm/yyyy
+	 * Convert ngay tu yyyy-mm-dd thanh dd/mm/yyyy
 	 * 
 	 * @param date
-	 *            ngày cần convert
-	 * @return ngày sau khi convert
+	 *            ngay can convert
+	 * @return ngay sau khi convert
 	 */
 	public static String convertDate(String date) {
 		String[] arrDate = date.split("-");
@@ -88,21 +92,21 @@ public class Common {
 	}
 
 	/**
-	 * Kiểm tra chuỗi có null
+	 * kiem tra chuoi null
 	 * 
 	 * @param string
-	 *            chuỗi cần kiểm tra
-	 * @return true nếu null,false nếu không
+	 *            chuoi can kiem tra
+	 * @return true neu null,false neu khong
 	 */
 	public static boolean isNull(String string) {
 		return string == null;
 	}
 
 	/**
-	 * Kiểm tra ngày hợp lệ
+	 * Kiem tra ngay hop le
 	 *
 	 * @param date
-	 *            return true nếu hợp lệ, false nếu không hợp lệ
+	 *            return true neu ngay hop le, false neu ngay khong hop le
 	 */
 	public static boolean checkValidDate(String date) {
 
@@ -176,10 +180,10 @@ public class Common {
 	}
 
 	/**
-	 * convert String thành date
+	 * convert String thanh date
 	 * 
 	 * @param strDate
-	 *            chuỗi cần convert
+	 *            chuoi can convert
 	 * @return date
 	 */
 	public static String convertStringToDate(String strDate) {
@@ -191,21 +195,20 @@ public class Common {
 	 * Conver utf-8 to Ascii
 	 * 
 	 * @param s
-	 *            chuỗi cần convert
-	 * @return chuỗi được convert
+	 *            chuoi can convert
+	 * @return chuoi da duoc convert
 	 */
 	public static String decompose(String s) {
 		return java.text.Normalizer.normalize(s, java.text.Normalizer.Form.NFD)
-				.replaceAll("\\p{InCombiningDiacriticalMarks}+", "").replaceAll("đ", "d");
+				.replaceAll("\\p{InCombiningDiacriticalMarks}+", "").replaceAll("Ä‘", "d");
 	}
 
 	/**
-	 * Chuẩn hoá chuỗi Kí tự đầu của word viết hoa Các word cách nhau 1 space
-	 * Chỉ nhận kí tự latin
+	 * Chuan hoa chuoi String theo require
 	 * 
 	 * @param s
-	 *            chuỗi truyền vào
-	 * @return chuỗi được chuẩn hoá
+	 *            chuoi chuyen hoa
+	 * @return chuoi da duoc chuyen hoa
 	 */
 	public static String normarlizeString(String s) {
 		StringBuilder result = new StringBuilder();
@@ -223,12 +226,12 @@ public class Common {
 	}
 
 	/**
-	 * Chuẩn hoá mục chọn công ty.
+	 * Chuan hoa chon cong ty.
 	 * 
 	 * @param choseCompany
-	 *            chuỗi cần chuẩn hoá
-	 * @return return choseCompany nếu hợp lệ, return Constant.ALREADY_HAVE nếu
-	 *         không hợp lệ
+	 *            chuoi can chuan hoa¡
+	 * @return return choseCompany neu hop le‡, return Constant.ALREADY_HAVE neu
+	 *         khong hop le
 	 */
 	public static String normalizeChoseCompany(String choseCompany) {
 		if (Constant.ALREADY_HAVE.equals(choseCompany) || Constant.ADD_NEW_COMPANY.equals(choseCompany)) {
@@ -251,5 +254,99 @@ public class Common {
 		tem = tem.replace("%", "\\%");
 		tem = tem.replace("_", "\\_");
 		return tem;
+	}
+
+	/**
+	 * So sánh 2 arraylist
+	 * 
+	 * @param <E>
+	 * 
+	 * @param companies
+	 *            expected
+	 * @param companiesActual
+	 *            actual
+	 * @return
+	 */
+	public static <E> boolean myComparison(ArrayList<E> companies, ArrayList<E> companiesActual) {
+		for (int i = 0; i < companies.size(); i++) {
+			if (companies.get(i).equals(companiesActual.get(i)) == false) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Chuẩn hóa currentPage
+	 * 
+	 * @param currentPage
+	 *            currentPage
+	 * @param recordsOfPage
+	 *            Số records/ trang
+	 * @param totalRecords
+	 *            tổng số records
+	 * @return
+	 */
+	public static int formedCurrentPage(String strCurrentPage, int recordsOfPage, int totalRecords) {
+		int currentPage = 0;
+		try {
+			currentPage = Integer.parseInt(strCurrentPage);
+		} catch (NumberFormatException e) {
+			currentPage = 1;
+		}
+		int numberOfPages = getTotalOfPages(recordsOfPage, totalRecords);
+		if (currentPage < 1) {
+			return 1;
+		} else if (currentPage > numberOfPages) {
+			return numberOfPages;
+		} else {
+			return currentPage;
+		}
+	}
+
+	/**
+	 * Lấy danh sách trang paging
+	 * 
+	 * @param currentPage
+	 *            trang bắt đầu
+	 * @param recordsOfPage
+	 *            record trên mỗi trang
+	 * @param totalRecords
+	 *            tổng số records
+	 * @return danh sách trang paging
+	 */
+	public static ArrayList<Integer> paging(int currentPage, int recordsOfPage, int totalRecords) {
+		int numberOfPages = getTotalOfPages(recordsOfPage, totalRecords);
+		int pageRange = Integer.parseInt(ValueProperties.getValue("PAGE_RANGE"));
+		int numberOfPageToAdd = pageRange - 1;
+		int startPage = 0;
+		ArrayList<Integer> pages = new ArrayList<Integer>();
+		if (currentPage != 0) {
+			if (1 <= currentPage && currentPage <= 1 + numberOfPageToAdd) {
+				startPage = 1;
+			} else if (numberOfPages - numberOfPageToAdd <= currentPage && currentPage <= numberOfPages) {
+				startPage = numberOfPages - numberOfPageToAdd;
+			} else {
+				startPage = currentPage - pageRange / 2 > 0 ? currentPage - pageRange / 2 : 1;
+			}
+			pages.add(startPage);
+			for (int i = 1; startPage + i <= startPage + numberOfPageToAdd && startPage + i <= numberOfPages; i++) {
+				pages.add(startPage + i);
+			}
+		}
+		return pages;
+	}
+
+	/**
+	 * Lấy tổng số trang
+	 * 
+	 * @param startPage
+	 *            trang bắt đầu
+	 * @param recordsOfPage
+	 *            record trên mỗi trang
+	 * @return tổng trang
+	 */
+	public static int getTotalOfPages(int recordsOfPage, int totalRecords) {
+		return (totalRecords % recordsOfPage == 0) ? totalRecords / recordsOfPage : totalRecords / recordsOfPage + 1;
 	}
 }

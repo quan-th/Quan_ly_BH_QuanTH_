@@ -25,7 +25,7 @@ public interface TblUserLogic {
 	 */
 	public List<TblUser> LoginByUsernameAndPassword(String Username,String Password);
 	/**
-	 * lấy danh sách người dùng theo điều kiện
+	 * lấy danh sách người dùng theo điều kiện tìm kiếm
 	 * @param info điều kiện tìm kiếm
 	 * @param currentPage trang hiện tại
 	 * @param maxResult số record/trang
@@ -35,18 +35,18 @@ public interface TblUserLogic {
 	/**
 	 * Lấy thông tin chi tiết User
 	 * @param id userId
-	 * @return thông tin chi tiết User
+	 * @return Thông tin chi tiết User
 	 */
 	public DetailUser getDetailUser(int id);
 	/**
-	 * Kiểm tra user có tồn tại không
+	 * Kiểm tra tồn tại User
 	 * @param id userid
 	 * @return true nếu có false nếu không
 	 */
 	public boolean checkUserExist(int id);
 	/**
-	 * Lấy tổng số user
-	 * @param info điều kiện tìm kiếm
+	 * LLấy số User user
+	 * @param info thông tin tìm kiếm
 	 * @return số user
 	 */
 	public long getNumberOfUsers(SearchingInfo info);
