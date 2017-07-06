@@ -6,17 +6,18 @@ package com.example.demo.entities;
 
 import java.io.Serializable;
 
+import lombok.EqualsAndHashCode;
+
 /**
  * @author HP
  *
- * DetailUser
+ *         DetailUser
  */
-public class DetailUser extends DisplayUser implements Serializable{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+@EqualsAndHashCode(callSuper = true, of = {"company"})
+public class DetailUser extends DisplayUser {
+
 	private String company;
+
 	public DetailUser(int id, String username, String gender, String birthdate, String insuranceNumber,
 			String startDate, String endDate, String placeOfRegister, String company) {
 		super(id, username, gender, birthdate, insuranceNumber, startDate, endDate, placeOfRegister);
@@ -38,7 +39,8 @@ public class DetailUser extends DisplayUser implements Serializable{
 	}
 
 	/**
-	 * @param company the company to set
+	 * @param company
+	 *            the company to set
 	 */
 	public void setCompany(String company) {
 		this.company = company;

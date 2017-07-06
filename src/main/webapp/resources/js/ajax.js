@@ -51,7 +51,7 @@ $(document).ready(function() {
 $(document).ready(function() {
 	$.ajax({
 		type : "POST",
-		url : window.location.origin + "/insurence_quanth/Register.do/loadCompany",
+		url : window.location.origin + "/Register.do/loadCompany",
 		data : {
 			"companyId" : $("#cb_companys").val()
 		},
@@ -68,7 +68,7 @@ $(document).ready(function() {
 	$("#cb_companys").change(function() {
 		$.ajax({
 			type : "POST",
-			url : window.location.origin + "/insurence_quanth/Register.do/loadCompany",
+			url : window.location.origin + "/Register.do/loadCompany",
 			data : {
 				"companyId" : $(this).val()
 			},

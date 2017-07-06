@@ -4,11 +4,17 @@
  */
 package com.example.demo.entities;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
+import lombok.EqualsAndHashCode;
+
 /**
  * @author HP
  *
  *         DisplayUser lớp chứa các thông tin hiển thị của user
  */
+@EqualsAndHashCode(of = { "username", "gender", "birthdate", "insuranceNumber", "startDate", "endDate",
+		"placeOfRegister", "id" })
 public class DisplayUser {
 	private int id;
 	private String username;
@@ -21,7 +27,6 @@ public class DisplayUser {
 
 	public DisplayUser(int id, String username, String gender, String birthdate, String insuranceNumber,
 			String startDate, String endDate, String placeOfRegister) {
-		super();
 		this.id = id;
 		this.username = username;
 		this.gender = gender;
@@ -44,7 +49,8 @@ public class DisplayUser {
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setId(int id) {
 		this.id = id;
