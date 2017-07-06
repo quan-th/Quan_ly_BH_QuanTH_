@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Copyright(C) 2016  Luvina
  * ValidateUser.java, Aug 7, 2016 LA-AM
  */

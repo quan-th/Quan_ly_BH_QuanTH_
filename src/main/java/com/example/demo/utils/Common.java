@@ -6,8 +6,10 @@ package com.example.demo.utils;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+
 
 import javax.servlet.http.HttpSession;
 
@@ -351,7 +353,6 @@ public class Common {
 	public static int getTotalOfPages(int recordsOfPage, int totalRecords) {
 		return (totalRecords % recordsOfPage == 0) ? totalRecords / recordsOfPage : totalRecords / recordsOfPage + 1;
 	}
-
 	/**
 	 * So sánh ngày bắt đầu và ngày kết thúc
 	 * 
@@ -383,6 +384,6 @@ public class Common {
 		} catch (ArrayIndexOutOfBoundsException e) {
 			return false;
 		}
-
 	}
 }
+

@@ -41,7 +41,7 @@ public class TblUserDaoImpl implements TblUserDaoCustom {
 	 */
 	@Override
 	public List<DisplayUser> getListUsers(SearchingInfo info, int currentPage, int maxResult) {
-		List<DisplayUser> displayUsers = new ArrayList<DisplayUser>();
+		ArrayList<DisplayUser> displayUsers = new ArrayList<DisplayUser>();
 		ArrayList<String> conditions = new ArrayList<String>();
 
 		if (info != null) {
@@ -120,7 +120,7 @@ public class TblUserDaoImpl implements TblUserDaoCustom {
 					countConditions++;
 				}
 			}
-			displayUsers = query.getResultList();
+			displayUsers = (ArrayList<DisplayUser>) query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

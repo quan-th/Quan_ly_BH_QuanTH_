@@ -18,7 +18,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "tbl_company", catalog = "quanlybaohiem")
-public class TblCompany{
+public class TblCompany {
 
 	private int companyInternalId;
 	private String companyName;
@@ -36,19 +36,17 @@ public class TblCompany{
 		this.address = address;
 	}
 
-	public TblCompany(int companyInternalId, String companyName, String address, String email, String telephone,
-			Set<TblUser> tblUsers) {
+	public TblCompany(int companyInternalId, String companyName, String address, String email, String telephone) {
 		this.companyInternalId = companyInternalId;
 		this.companyName = companyName;
 		this.address = address;
 		this.email = email;
 		this.telephone = telephone;
-		this.tblUsers = tblUsers;
 	}
 
 	@Id
 	@Column(name = "company_internal_id", unique = true, nullable = false)
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public int getCompanyInternalId() {
 		return this.companyInternalId;
 	}

@@ -6,8 +6,6 @@ package com.example.demo.entities;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
-import lombok.EqualsAndHashCode;
-
 /**
  * @author HP
  *
