@@ -14,23 +14,8 @@ import com.example.demo.entities.TblUser;
  */
 public interface TblInsuranceDaoCustom {
 	/**
-	 * Kiểm tra mã thẻ bảo hiểm tồn tại
-	 * 
-	 * @param number
-	 *            số thẻ bảo hiểm
-	 * @return true nếu tồn tại false nếu không
-	 */
-	public boolean checkExist(String number);
-	/**
-	 * Thêm/ sua thông tin thẻ bảo hiểm
-	 * @param insuranceInfo 
-	 * @return true nếu thành công false nếu không thành công.
-	 * @throws Exception 
-	 */
-	public boolean insertOrUpdateInsurance(InsuranceInfo insuranceInfo,TblCompany company,TblUser user,TblInsurance insurance) throws Exception;
-	/**
 	 * Lấy thông tin thẻ bảo hiểm
-	 * @param userId id ngư�?i dùng
+	 * @param userId id người dùng
 	 * @return thông tin thẻ bảo hiểm
 	 */
 	public InsuranceInfo getInsuranceInfo(int userId);

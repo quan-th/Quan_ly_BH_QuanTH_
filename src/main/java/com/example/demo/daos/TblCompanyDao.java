@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.demo.entities.Company;
 import com.example.demo.entities.TblCompany;
 
 /**
@@ -19,4 +18,5 @@ import com.example.demo.entities.TblCompany;
 public interface TblCompanyDao extends JpaRepository<TblCompany, Integer>,TblCompanyDaoCustom {	
 	public List<TblCompany> findAll();	
 	public TblCompany findByCompanyInternalId(Integer integer);
+	public TblCompany save(TblCompany tblCompany);
 }
