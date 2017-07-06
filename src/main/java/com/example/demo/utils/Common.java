@@ -321,26 +321,18 @@ public class Common {
 		int numberOfPageToAdd = pageRange - 1;
 		int startPage = 0;
 		ArrayList<Integer> pages = new ArrayList<Integer>();
-		// if (currentPage - pageRange / 2 + numberOfPageToAdd > numberOfPages)
-		// {
-		//
-		// startPage = numberOfPages - numberOfPageToAdd?;
-		// } else if (currentPage - pageRange / 2 + numberOfPageToAdd < 1) {
-		// startPage = 1;
-		// } else {
-		// startPage = currentPage - pageRange / 2 > 0 ? currentPage - pageRange
-		// / 2 : 1;
-		// }
-		if (1 <= currentPage && currentPage <= 1 + numberOfPageToAdd) {
-			startPage = 1;
-		} else if (numberOfPages - numberOfPageToAdd <= currentPage && currentPage <= numberOfPages) {
-			startPage = numberOfPages - numberOfPageToAdd;
-		} else {
-			startPage = currentPage - pageRange / 2 > 0 ? currentPage - pageRange / 2 : 1;
-		}
-		pages.add(startPage);
-		for (int i = 1; startPage + i <= startPage + numberOfPageToAdd && startPage + i <= numberOfPages; i++) {
-			pages.add(startPage + i);
+		if (currentPage != 0) {
+			if (1 <= currentPage && currentPage <= 1 + numberOfPageToAdd) {
+				startPage = 1;
+			} else if (numberOfPages - numberOfPageToAdd <= currentPage && currentPage <= numberOfPages) {
+				startPage = numberOfPages - numberOfPageToAdd;
+			} else {
+				startPage = currentPage - pageRange / 2 > 0 ? currentPage - pageRange / 2 : 1;
+			}
+			pages.add(startPage);
+			for (int i = 1; startPage + i <= startPage + numberOfPageToAdd && startPage + i <= numberOfPages; i++) {
+				pages.add(startPage + i);
+			}
 		}
 		return pages;
 	}

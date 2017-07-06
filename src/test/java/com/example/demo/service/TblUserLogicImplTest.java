@@ -56,7 +56,11 @@ public class TblUserLogicImplTest {
 	}
 
 	/**
-	 * Truong hop success
+	 * [IN]
+	 * LoginName:admin
+	 * Password: admin
+	 * [OUT]
+	 * actual = 1
 	 */
 	@Test
 	public void LoginByUsernameAndPasswordTest() {
@@ -65,15 +69,16 @@ public class TblUserLogicImplTest {
 
 	}
 	/**
-	 * Test paging(int param1, int param2, int param3)
-	 * @param param1 currentPage
-	 * @param param2 records/Page
-	 * @param param3 totalRecords
-	 * return listPaging
+	 * [IN]
+	 * currentPage:1
+	 * records/Page: 1
+	 * totalRecords:4
+	 * [OUT]
+	 * actual = [1,2,3,4]
 	 */
 	@Test
 	public void pagingTest() {
-		ArrayList<Integer> pagingActual = Common.paging(1, 1, 10);
+		ArrayList<Integer> pagingActual = Common.paging(1, 1, 4);
 		ArrayList<Integer> pagingExpect = new ArrayList<>();
 		pagingExpect.add(1);
 		pagingExpect.add(2);
@@ -84,7 +89,10 @@ public class TblUserLogicImplTest {
 	}
 
 	/**
-	 * Test getNumberOfUsers
+	 * [IN]
+	 * searchingInfo: new SearchingInfo()
+	 * [OUT]
+	 * actual = 24
 	 */
 	@Test
 	public void getNumberOfUsersTest() {
@@ -95,19 +103,21 @@ public class TblUserLogicImplTest {
 	}
 
 	/**
-	 * Test  getListUsers(SearchingInfo param1, int param2, int param3)
-	 * @param param1 info search
-	 * @param param2 currenPage
-	 * @param param3 record/page
-	 * return listPaging
+	 * [IN]
+	 * searchingInfo: defalut 
+	 * currentPage:1
+	 * recordsOfPage:2
+	 * [OUT]
+	 * actual : List<DisplayUser> displayUser :size =2
+	 *     		displayUser 1: Username:Tran Viet Hung, Gender:Nam, Birthdate: 20/12/1989, InsuranceNumber:0123456789, StartDate:25/12/2016, EndDate:25/12/2017, PlaceOfRegister:Ha Noi 
+	 *          displayUser 2: Username:Tran Đuc Cong, Gender:Nam, Birthdate: 11/01/1995, InsuranceNumber:4567891235, StartDate:17/01/2017, EndDate:31/01/2017, PlaceOfRegister:Ha Noi 
 	 */
 	@Test
 	public void getListUsersTest() {
 		SearchingInfo searchingInfo = new SearchingInfo();
-		searchingInfo.setCompanyId("1");
 		int currentPage = 1;
-		int maxResult = 2;
-		ArrayList<DisplayUser> displayUsersActual = sut.getListUsers(searchingInfo, currentPage, maxResult);
+		int recordsOfPage = 2;
+		ArrayList<DisplayUser> displayUsersActual = sut.getListUsers(searchingInfo, currentPage, recordsOfPage);
 		ArrayList<DisplayUser> displayUsers = new ArrayList<>();
 
 		DisplayUser displayUser = new DisplayUser();
@@ -137,12 +147,19 @@ public class TblUserLogicImplTest {
 		assertThat(displayUsersActual, is(displayUsers));
 	}
 	/**
-	 * Test formedCurrentPage currentPage is letter => return 1, currentPage < 1 =>  return 1, currentPage > totalPages => return totalPage
+	 * Test formedCurrentPage 
+	 * [In]
+	 * currentPage:100
+	 * recordsOgPage:1
+	 * totalRecord:88
+	 * [Out]
+	 * currentPage:88
+	 * currentPage is letter => return 1, currentPage < 1 =>  return 1, currentPage > totalPages => return totalPage
 	 */
 	@Test
 	public void formedCurrentPageTest(){		
-		int currentPageActual=Common.formedCurrentPage("100", 1, 4);
-		assertEquals(1, currentPageActual);
+		int currentPageActual=Common.formedCurrentPage("100", 1, 88);
+		assertEquals(87, currentPageActual);
 	}
 	
 }
