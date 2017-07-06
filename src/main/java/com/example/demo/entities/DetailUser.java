@@ -13,7 +13,6 @@ import lombok.EqualsAndHashCode;
  *
  *         DetailUser
  */
-@EqualsAndHashCode(callSuper = true, of = {"company"})
 public class DetailUser extends DisplayUser {
 
 	private String company;
@@ -23,7 +22,11 @@ public class DetailUser extends DisplayUser {
 		super(id, username, gender, birthdate, insuranceNumber, startDate, endDate, placeOfRegister);
 		this.company = company;
 	}
-
+	@Override
+	public boolean equals(Object obj) {
+		DetailUser detailUserTemp=(DetailUser) obj;
+		return super.equals(obj)&& company.equals(detailUserTemp.company);
+	}
 	/**
 	 * 
 	 */

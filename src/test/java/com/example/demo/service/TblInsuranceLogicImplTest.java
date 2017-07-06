@@ -7,7 +7,6 @@ import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
-import org.hamcrest.core.IsEqual;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -18,6 +17,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import com.example.demo.daos.TblCompanyDao;
 import com.example.demo.daos.TblInsuranceDao;
 import com.example.demo.daos.TblUserDao;
+import com.example.demo.data.DataFixture;
 import com.example.demo.entities.DetailUser;
 import com.example.demo.entities.TblCompany;
 import com.example.demo.entities.TblInsurance;
@@ -46,9 +46,9 @@ public class TblInsuranceLogicImplTest {
 		// setup
 		TblInsurance value = new TblInsurance();
 		when(tblInsuranceDao.findByInsuranceNumber(anyString())).thenReturn(value);
-		// process
+		// exercise
 		TblInsurance value1 = tblInsuranceDao.findByInsuranceNumber(anyString());
-		// assert
+		// verify
 		assertTrue(value1 != null);
 	}
 
@@ -66,11 +66,11 @@ public class TblInsuranceLogicImplTest {
 		when(tblCompanyDao.save(tblCompany)).thenReturn(tblCompany);
 		TblUser tblUser = new TblUser();
 		when(tblUserDao.save(tblUser)).thenReturn(tblUser);
-		// process
+		// exercise
 		TblInsurance insuranceActual = tblInsuranceDao.save(tblInsurance);
 		TblCompany companyActual = tblCompanyDao.save(tblCompany);
 		TblUser userActual = tblUserDao.save(tblUser);
-		// assert
+		// verify
 		assertTrue(
 				insuranceActual.equals(tblInsurance) && companyActual.equals(tblCompany) && userActual.equals(tblUser));
 	}
@@ -90,44 +90,53 @@ public class TblInsuranceLogicImplTest {
 		when(tblCompanyDao.save(company)).thenReturn(company);
 		TblUser tblUser = new TblUser();
 		when(tblUserDao.save(tblUser)).thenReturn(tblUser);
-		// process
+		// exercise
 		TblCompany companyActual = tblCompanyDao.save(company);
 		TblInsurance insuranceActual = tblInsuranceDao.save(insurance);
 		TblUser userActual = tblUserDao.save(tblUser);
 
 	}
 
+	/**
+	 * [In] UserId:1; [Out] DetailUser ( Id :0, UserName :Tran HongQuan,
+	 * Birthday:17/06/1995. Gender: Nam, InsuranceNumber:0123456789, StartDate
+	 * :17/06/2017, Enddate: 17/06/2018, PlaceOfRegister:HaDong, Company: Ha
+	 * Dong )
+	 */
 	@Test
 	public void getDetailUserTest() {
 		// setup
-		TblUser tblUser = new TblUser();
-		tblUser.setUserFullName("<h1>Tran Hong Quan</h1>");
-		tblUser.setUserSexDivision("01");
-		tblUser.setBirthday("1995-06-17");
-		TblInsurance tblInsurance = new TblInsurance();
-		tblInsurance.setInsuranceNumber("0123456789");
-		tblInsurance.setInsuranceStartDate("2017-06-17");
-		tblInsurance.setInsuranceEndDate("2018-06-17");
-		tblInsurance.setPlaceOfRegister("<p>Ha noi</p>");
-		tblUser.setTblInsurance(tblInsurance);
-		TblCompany tblCompany = new TblCompany();
-		tblCompany.setCompanyName("<td>Ha Dong</td>");
-		tblUser.setTblCompany(tblCompany);
-		when(tblUserDao.findByUserInternalId(anyObject())).thenReturn(tblUser);
-		// process
-		DetailUser detailUserExpect = new DetailUser();
-		detailUserExpect.setUsername("<h1>Tran Hong Quan</h1>");
-		detailUserExpect.setGender("Nam");
-		detailUserExpect.setBirthdate("17/06/1995");
-		detailUserExpect.setInsuranceNumber("0123456789");
-		detailUserExpect.setStartDate("17/06/2017");
-		detailUserExpect.setEndDate("17/06/2018");
-		detailUserExpect.setPlaceOfRegister("<p>Ha noi</p>");
-		detailUserExpect.setCompany("<td>Ha Dong</td>");
-		DetailUser detailUserActual = tblUserLogicImpl.getDetailUser(1);
-		// assert
-		assertThat(detailUserActual,is(detailUserExpect));
 
+		TblUser tblUser = DataFixture.getTblUser();
+		when(tblUserDao.findByUserInternalId(anyObject())).thenReturn(tblUser);
+		// exercise
+
+		DetailUser detailUserActual = tblUserLogicImpl.getDetailUser(1);
+		DetailUser detailUserExpect = DataFixture.getDetailUser();
+		// verify
+		assertTrue(detailUserActual.getUsername().equals(detailUserExpect.getUsername())
+				&& detailUserActual.getBirthdate().equals(detailUserExpect.getBirthdate())
+				&& detailUserActual.getGender().equals(detailUserExpect.getGender())
+				&& detailUserActual.getInsuranceNumber().equals(detailUserExpect.getInsuranceNumber())
+				&& detailUserActual.getStartDate().equals(detailUserExpect.getStartDate())
+				&& detailUserActual.getEndDate().equals(detailUserExpect.getEndDate())
+				&& detailUserActual.getId() == detailUserExpect.getId()
+				&& detailUserActual.getCompany().equals(detailUserExpect.getCompany())
+				&& detailUserActual.getPlaceOfRegister().equals(detailUserExpect.getPlaceOfRegister()));
+
+	}
+	/**
+	 * [In]
+	 * UserId:1
+	 * [Out]
+	 * NullpointerException
+	 */
+	@Test(expected = NullPointerException.class)
+	public void findByUserInternalIdThrowNPE() {
+		// setup
+		when(tblUserDao.findByUserInternalId(anyObject())).thenThrow(new NullPointerException());
+		// exercise
+		DetailUser detailUserActual = tblUserLogicImpl.getDetailUser(1);
 	}
 
 }

@@ -13,8 +13,7 @@ import lombok.EqualsAndHashCode;
  *
  *         DisplayUser lớp chứa các thông tin hiển thị của user
  */
-@EqualsAndHashCode(of = { "username", "gender", "birthdate", "insuranceNumber", "startDate", "endDate",
-		"placeOfRegister", "id" })
+
 public class DisplayUser {
 	private int id;
 	private String username;
@@ -24,7 +23,6 @@ public class DisplayUser {
 	private String startDate;
 	private String endDate;
 	private String placeOfRegister;
-
 	public DisplayUser(int id, String username, String gender, String birthdate, String insuranceNumber,
 			String startDate, String endDate, String placeOfRegister) {
 		this.id = id;

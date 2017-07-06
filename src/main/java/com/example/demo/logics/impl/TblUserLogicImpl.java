@@ -73,14 +73,19 @@ public class TblUserLogicImpl implements TblUserLogic {
 	public DetailUser getDetailUser(int id) {
 		TblUser tblUser = tblUserDao.findByUserInternalId(id);
 		DetailUser detailUser = new DetailUser();
-		detailUser.setUsername(StringEscapeUtils.escapeHtml4(tblUser.getUserFullName()));
-		detailUser.setGender(Common.convertGender(tblUser.getUserSexDivision()));
-		detailUser.setBirthdate(Common.convertDate(tblUser.getBirthday()));
-		detailUser.setInsuranceNumber(tblUser.getTblInsurance().getInsuranceNumber());
-		detailUser.setStartDate(Common.convertDate(tblUser.getTblInsurance().getInsuranceStartDate()));
-		detailUser.setEndDate(Common.convertDate(tblUser.getTblInsurance().getInsuranceEndDate()));
-		detailUser.setPlaceOfRegister(StringEscapeUtils.escapeHtml4(tblUser.getTblInsurance().getPlaceOfRegister()));
-		detailUser.setCompany(StringEscapeUtils.escapeHtml4(tblUser.getTblCompany().getCompanyName()));
+		try {
+			detailUser.setUsername(StringEscapeUtils.escapeHtml4(tblUser.getUserFullName()));
+			detailUser.setGender(Common.convertGender(tblUser.getUserSexDivision()));
+			detailUser.setBirthdate(Common.convertDate(tblUser.getBirthday()));
+			detailUser.setInsuranceNumber(tblUser.getTblInsurance().getInsuranceNumber());
+			detailUser.setStartDate(Common.convertDate(tblUser.getTblInsurance().getInsuranceStartDate()));
+			detailUser.setEndDate(Common.convertDate(tblUser.getTblInsurance().getInsuranceEndDate()));
+			detailUser
+					.setPlaceOfRegister(StringEscapeUtils.escapeHtml4(tblUser.getTblInsurance().getPlaceOfRegister()));
+			detailUser.setCompany(StringEscapeUtils.escapeHtml4(tblUser.getTblCompany().getCompanyName()));
+		} catch (NullPointerException e) {
+			throw new NullPointerException();
+		}
 		return detailUser;
 	}
 
