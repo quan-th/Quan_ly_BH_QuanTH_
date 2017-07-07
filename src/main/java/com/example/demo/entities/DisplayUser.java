@@ -4,6 +4,8 @@
  */
 package com.example.demo.entities;
 
+import java.io.StringBufferInputStream;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 /**
@@ -32,7 +34,11 @@ public class DisplayUser {
 		this.endDate = endDate;
 		this.placeOfRegister = placeOfRegister;
 	}
-
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		return EqualsBuilder.reflectionEquals(this, obj);
+	}
 	public DisplayUser() {
 		super();
 	}

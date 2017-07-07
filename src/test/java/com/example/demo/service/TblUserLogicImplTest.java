@@ -50,7 +50,7 @@ public class TblUserLogicImplTest {
 		List<DisplayUser> displayUsers = new ArrayList<>();
 		displayUsers.add(new DisplayUser(1, "Tran Viet Hung", "01", "1989-12-20", "0123456789", "2016-12-25",
 				"2017-12-25", "Ha Noi"));
-		displayUsers.add(new DisplayUser(20, "Tran Đuc Cong", "01", "1995-01-11", "4567891235", "2017-01-17",
+		displayUsers.add(new DisplayUser(20, "Tran Duc Cong", "01", "1995-01-11", "4567891235", "2017-01-17",
 				"2017-01-31", "Ha Noi"));
 		when(tblUserDao.findByUserNameAndUserPassword(anyString(), anyString())).thenReturn(tblUsers);
 		when(tblUserDao.getNumberOfUsers(anyObject())).thenReturn((long) 24);
@@ -99,7 +99,7 @@ public class TblUserLogicImplTest {
 	 * List<DisplayUser> displayUser :size =2 displayUser 1: Username:Tran Viet
 	 * Hung, Gender:Nam, Birthdate: 20/12/1989, InsuranceNumber:0123456789,
 	 * StartDate:25/12/2016, EndDate:25/12/2017, PlaceOfRegister:Ha Noi
-	 * displayUser 2: Username:Tran Đuc Cong, Gender:Nam, Birthdate: 11/01/1995,
+	 * displayUser 2: Username:Tran Ä�uc Cong, Gender:Nam, Birthdate: 11/01/1995,
 	 * InsuranceNumber:4567891235, StartDate:17/01/2017, EndDate:31/01/2017,
 	 * PlaceOfRegister:Ha Noi
 	 */
@@ -125,7 +125,7 @@ public class TblUserLogicImplTest {
 
 		DisplayUser displayUser2 = new DisplayUser();
 		displayUser2.setId(20);
-		displayUser2.setUsername("Tran Đuc Cong");
+		displayUser2.setUsername("Tran Duc Cong");
 		displayUser2.setGender("Nam");
 		displayUser2.setBirthdate("11/01/1995");
 		displayUser2.setInsuranceNumber("4567891235");
