@@ -4,12 +4,13 @@
  */
 package com.example.demo.entities;
 
+import java.io.StringBufferInputStream;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 /**
  * @author HP
- *
- *         DisplayUser lớp chứa các thông tin hiển thị của user
+ * DisplayUser lớp chứa các thông tin hiển thị của user
  */
 
 public class DisplayUser {
@@ -21,14 +22,8 @@ public class DisplayUser {
 	private String startDate;
 	private String endDate;
 	private String placeOfRegister;
-	@Override
-	public boolean equals(Object obj) {
-		return EqualsBuilder.reflectionEquals(this, obj);
-	}
-
 	public DisplayUser(int id, String username, String gender, String birthdate, String insuranceNumber,
 			String startDate, String endDate, String placeOfRegister) {
-		super();
 		this.id = id;
 		this.username = username;
 		this.gender = gender;
@@ -38,7 +33,11 @@ public class DisplayUser {
 		this.endDate = endDate;
 		this.placeOfRegister = placeOfRegister;
 	}
-
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		return EqualsBuilder.reflectionEquals(this, obj);
+	}
 	public DisplayUser() {
 		super();
 	}

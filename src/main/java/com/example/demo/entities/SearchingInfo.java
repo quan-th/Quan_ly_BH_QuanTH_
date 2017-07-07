@@ -6,8 +6,7 @@ package com.example.demo.entities;
 
 /**
  * @author HP
- *
- *         SearchingInfo lớp gồm các thông tin tìm kiếm
+ * SearchingInfo lớp gồm các thông tin tìm kiếm
  */
 public class SearchingInfo {
 	private String username="";

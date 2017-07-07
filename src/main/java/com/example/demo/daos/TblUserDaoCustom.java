@@ -12,7 +12,7 @@ import com.example.demo.entities.TblUser;
 
 /**
  * @author tranhongquan
- *
+ * TblUserDaoCustom
  */
 public interface TblUserDaoCustom {
 	/**

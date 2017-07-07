@@ -24,8 +24,7 @@ import com.example.demo.utils.Constant;
 
 /**
  * @author HP
- *
- *         TblUserDaoImpl
+ * TblUserDaoImpl
  */
 @Component
 @Transactional

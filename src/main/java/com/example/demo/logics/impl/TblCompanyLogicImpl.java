@@ -14,11 +14,11 @@ import com.example.demo.daos.TblCompanyDao;
 import com.example.demo.entities.Company;
 import com.example.demo.entities.TblCompany;
 import com.example.demo.logics.TblCompanyLogic;
+import com.example.demo.utils.Constant;
 
 /**
  * @author HP
- *
- *         TblCompanyLogicImpl
+ * TblCompanyLogicImpl
  */
 @Component
 public class TblCompanyLogicImpl implements TblCompanyLogic {
@@ -47,8 +47,13 @@ public class TblCompanyLogicImpl implements TblCompanyLogic {
 	@Override
 	public String getCompanyById(int id) {
 		// TODO Auto-generated method stub
-//		return (tblCompanyDao.getCompanyById(id));
-		return "";
+		TblCompany tblCompany = tblCompanyDao.findByCompanyInternalId(id);
+		String result = "{\"" + Constant.COMPANY_NAME + "\":\"" + tblCompany.getCompanyName() + "\",\""
+				+ Constant.COMPANY_ADDRESS + "\":\"" + tblCompany.getAddress() + "\",\"" + Constant.COMPANY_EMAIL
+				+ "\":\"" + tblCompany.getEmail() + "\",\"" + Constant.COMPANY_PHONE + "\":\""
+				+ tblCompany.getTelephone() + "\"}";
+		return result;
+		
 	}
 
 }

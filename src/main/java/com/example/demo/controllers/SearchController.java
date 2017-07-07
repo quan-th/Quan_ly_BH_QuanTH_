@@ -29,8 +29,7 @@ import com.example.demo.utils.ValueProperties;
 
 /**
  * @author HP
- *
- *         SearchController
+ * SearchController
  */
 @Controller
 public class SearchController {
@@ -79,11 +78,7 @@ public class SearchController {
 				session.removeAttribute(sessionId);
 			}
 			searchingInfo.setOrderByName(Common.validOrder(searchingInfo.getOrderByName()));
-			try {
-				currentPage = Integer.parseInt(searchingInfo.getCurrentPage());
-			} catch (NumberFormatException e) {
-				searchingInfo.setCurrentPage("1");
-			}
+			
 			session.setAttribute(sessionId, searchingInfo);
 		} else {
 			searchingInfo = new SearchingInfo();
@@ -100,7 +95,6 @@ public class SearchController {
 		model.addAttribute("allUsers", allUsers);
 		model.addAttribute("pages", pages);
 		model.addAttribute("currentPage", currentPage);
-		model.addAttribute("totalPages", getTotalOfPages(maxResult, totalRecords));
 		model.addAttribute("totalPages", Common.getTotalOfPages(maxResult, totalRecords));
 		return Constant.MH002;
 	}
@@ -146,70 +140,8 @@ public class SearchController {
 		return tblCompanyLogic.getAllCompany();
 	}
 
-	/**
-	 * Chuẩn hóa currentPage
-	 * 
-	 * @param currentPage
-	 *            currentPage
-	 * @param recordsOfPage
-	 *            Số records/ trang
-	 * @param totalRecords
-	 *            tổng số records
-	 * @return
-	 */
-	private int formedCurrentPage(int currentPage, int recordsOfPage, int totalRecords) {
-		int numberOfPages = getTotalOfPages(recordsOfPage, totalRecords);
-		if (currentPage < 1) {
-			return 1;
-		} else if (currentPage > numberOfPages) {
-			return numberOfPages;
-		} else {
-			return currentPage;
-		}
-	}
-
-	/**
-	 * Lấy danh sách trang paging
-	 * 
-	 * @param currentPage
-	 *            trang bắt đầu
-	 * @param recordsOfPage
-	 *            record trên mỗi trang
-	 * @param totalRecords
-	 *            tổng số records
-	 * @return danh sách trang paging
-	 */
-	private ArrayList<Integer> paging(int currentPage, int recordsOfPage, int totalRecords) {
-		int numberOfPages = getTotalOfPages(recordsOfPage, totalRecords);
-		int pageRange = Integer.parseInt(ValueProperties.getValue("PAGE_RANGE"));
-		int numberOfPageToAdd = pageRange - 1;
-		int startPage = 0;
-		ArrayList<Integer> pages = new ArrayList<Integer>();
-		if (currentPage - pageRange / 2 + numberOfPageToAdd < numberOfPages) {
-			startPage = currentPage - pageRange / 2 > 0 ? currentPage - pageRange / 2 : 1;
-		} else {
-			startPage = numberOfPages - numberOfPageToAdd;
-		}
-
-		pages.add(startPage);
-		for (int i = 1; startPage + i <= startPage + numberOfPageToAdd && startPage + i <= numberOfPages; i++) {
-			pages.add(startPage + i);
-		}
-		return pages;
-	}
-
-	/**
-	 * Lấy tổng số trang
-	 * 
-	 * @param startPage
-	 *            trang bắt đầu
-	 * @param recordsOfPage
-	 *            record trên mỗi trang
-	 * @return tổng trang
-	 */
-	private int getTotalOfPages(int recordsOfPage, int totalRecords) {
-		return (totalRecords % recordsOfPage == 0) ? totalRecords / recordsOfPage : totalRecords / recordsOfPage + 1;
-	}
+	
+	
 
 	@RequestMapping(value = "/Search.do/CSV", method = RequestMethod.POST)
 	private String exportCSV(ModelMap model, @ModelAttribute SearchingInfo searchingInfo) {

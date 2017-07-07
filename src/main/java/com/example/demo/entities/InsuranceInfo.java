@@ -14,8 +14,7 @@ import com.example.demo.utils.Constant;
 
 /**
  * @author HP
- *
- *         InsuranceInfo InsuranceInfo
+ * InsuranceInfo 
  */
 public class InsuranceInfo {
 	public interface ValidateForCompany extends Default {
@@ -24,10 +23,8 @@ public class InsuranceInfo {
 	private int userId = 0;
 	private String username;
 	private String userPassword;
-	@NotEmpty
 	@Pattern(regexp = "[0-9]{10}$")
 	private String insuranceNumber;
-	@NotEmpty
 	@Size(min = 1, max = 255)
 	private String fullname;
 	@NotEmpty

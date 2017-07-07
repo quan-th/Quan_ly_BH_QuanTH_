@@ -23,7 +23,7 @@ import com.example.demo.utils.Constant;
 
 /**
  * @author HP
- *
+ * LoginController
  */
 @Controller
 
