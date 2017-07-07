@@ -38,4 +38,10 @@ public interface TblInsuranceLogic {
 	 * @return true nếu xoá thành công, false nếu xoá không thành công
 	 */
 	public boolean deleteInsurance(int id);
+	/**
+	 * Check Valid Insurance Number
+	 * @param insuranceInfo
+	 * @return true if valid, false if not valid
+	 */
+	public boolean checkValidInsuranceForUpdate(InsuranceInfo insuranceInfo);
 }

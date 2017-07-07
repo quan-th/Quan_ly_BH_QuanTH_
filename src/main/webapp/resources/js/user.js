@@ -47,7 +47,7 @@ function searchUser() {
 }
 function updateUser() {
 	var frm = getInputForm();
-	frm.action = "/insurence_quanth/Update.do";
+	frm.action = "/Update.do";
 	frm.submit();
 }
 function deleteUser(deleteMessage, id) {
@@ -55,14 +55,14 @@ function deleteUser(deleteMessage, id) {
 	var r = confirm(deleteMessage);
 	if (r == true) {
 		window.location.href = window.location.origin
-		+ "/insurence_quanth/Delete.do?userId=" + id;
+		+ "/Delete.do?userId=" + id;
 	} else {
 		return;
 	}
 }
 function exportCSV() {
 	var frm = getInputForm();
-	frm.action = "/insurence_quanth/Search.do/CSV";
+	frm.action = "/Search.do/CSV";
 	frm.method = "POST"
 	frm.submit();
 }

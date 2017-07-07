@@ -131,9 +131,7 @@ public class SearchController {
 
 	/**
 	 * load thông tin mặc định
-	 * 
-	 * @param model
-	 *            model
+	 * @param model model
 	 */
 	@ModelAttribute("companies")
 	private List<Company> loadDefaultValues(ModelMap model) {
@@ -141,10 +139,32 @@ public class SearchController {
 	}
 
 	
-	
-
 	@RequestMapping(value = "/Search.do/CSV", method = RequestMethod.POST)
 	private String exportCSV(ModelMap model, @ModelAttribute SearchingInfo searchingInfo) {
-		return Constant.MH001;
+		int currentPage = 1;
+		int totalRecords = 0;
+		int maxResult = Integer.parseInt(ValueProperties.getValue(Constant.MAX_RESULT));
+		try {
+			totalRecords = (int) tblUserLogic.getNumberOfUsers(searchingInfo);
+			currentPage = Integer.parseInt(searchingInfo.getCurrentPage());
+			currentPage = currentPage < 1 ? 1 : currentPage;
+			ArrayList<Integer> pages = Common.paging(currentPage, maxResult, totalRecords);
+			model.addAttribute("totalPages", Common.getTotalOfPages(maxResult, totalRecords));
+
+			ArrayList<DisplayUser> displayUsers = (ArrayList<DisplayUser>) tblUserLogic.getListUsers(searchingInfo,
+					currentPage, maxResult);
+			model.addAttribute("allUsers", displayUsers);
+			model.addAttribute("searchingInfo", searchingInfo);
+			model.addAttribute("pages", pages);
+			model.addAttribute("currentPage", currentPage);
+			String jsonCompany = tblCompanyLogic.getCompanyById(Integer.parseInt(searchingInfo.getCompanyId()));
+			if (tblUserLogic.exportUser(searchingInfo, jsonCompany)) {
+				return Constant.MH002;
+			} else {
+				return Constant.ERROR;
+			}
+		} catch (Exception e) {
+			return Constant.ERROR;
+		}
 	}
 }

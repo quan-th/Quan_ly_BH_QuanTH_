@@ -28,4 +28,5 @@ public interface TblUserDao extends JpaRepository<TblUser,Integer>,TblUserDaoCus
 
 	public TblUser findByUserInternalId(Integer integer);
 	public TblUser save(TblUser tblUser);
+	public void delete(TblUser tblUser);
 }

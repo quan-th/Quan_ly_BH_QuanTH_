@@ -1,16 +1,18 @@
 package com.example.demo.service;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.booleanThat;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.dao.DataIntegrityViolationException;
 
@@ -125,11 +127,9 @@ public class TblInsuranceLogicImplTest {
 				&& detailUserActual.getPlaceOfRegister().equals(detailUserExpect.getPlaceOfRegister()));
 
 	}
+
 	/**
-	 * [In]
-	 * UserId:1
-	 * [Out]
-	 * NullpointerException
+	 * [In] UserId:1 [Out] NullpointerException
 	 */
 	@Test(expected = NullPointerException.class)
 	public void findByUserInternalIdThrowNPE() {
@@ -137,6 +137,25 @@ public class TblInsuranceLogicImplTest {
 		when(tblUserDao.findByUserInternalId(anyObject())).thenThrow(new NullPointerException());
 		// exercise
 		DetailUser detailUserActual = tblUserLogicImpl.getDetailUser(1);
+	}
+	/**
+	 * [In]
+	 * UserId :1
+	 * [Out]
+	 * actual :true
+	 */
+	@Test
+	public void deleteInsuranceTest() {
+		// setup
+		TblUser tblUser = DataFixture.getTblUser();
+		when(tblUserDao.findByUserInternalId(anyObject())).thenReturn(tblUser);
+		doNothing().when(tblUserDao).delete(any(TblUser.class));
+		doNothing().when(tblInsuranceDao).delete(any(TblInsurance.class));
+		// exercise
+		boolean result = sut.deleteInsurance(1);
+		// verify
+		assertTrue(result);
+
 	}
 
 }

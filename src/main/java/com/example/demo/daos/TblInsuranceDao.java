@@ -7,12 +7,13 @@ package com.example.demo.daos;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.demo.entities.TblInsurance;
+import com.example.demo.entities.TblUser;
 
 /**
  * @author HP
  * TblInsuranceDao
  */
-public interface TblInsuranceDao extends JpaRepository<TblInsurance, Integer>, TblInsuranceDaoCustom {
+public interface TblInsuranceDao extends JpaRepository<TblInsurance, Integer>{
 	/**
 	 * Tìm kiếm theo số thẻ bảo hiểm
 	 * @param insuranceNumber
@@ -20,4 +21,5 @@ public interface TblInsuranceDao extends JpaRepository<TblInsurance, Integer>, T
 	 */
 	public TblInsurance findByInsuranceNumber(String insuranceNumber);
 	public TblInsurance save(TblInsurance tblCompany);
+	public void delete(TblInsurance tblCompany);
 }

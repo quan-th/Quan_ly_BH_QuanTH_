@@ -4,10 +4,17 @@
  */
 package com.example.demo.logics.impl;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,15 +25,17 @@ import com.example.demo.entities.SearchingInfo;
 import com.example.demo.entities.TblUser;
 import com.example.demo.logics.TblUserLogic;
 import com.example.demo.utils.Common;
+import com.example.demo.utils.Constant;
+import com.example.demo.utils.ValueProperties;
 
 /**
- * @author HP 
- * TblUserLogic
+ * @author HP TblUserLogic
  */
 @Component
 public class TblUserLogicImpl implements TblUserLogic {
 	@Autowired
 	private TblUserDao tblUserDao;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -46,7 +55,8 @@ public class TblUserLogicImpl implements TblUserLogic {
 	 */
 	@Override
 	public ArrayList<DisplayUser> getListUsers(SearchingInfo info, int currentPage, int maxResult) {
-		ArrayList<DisplayUser> displayUsers = (ArrayList<DisplayUser>) tblUserDao.getListUsers(info,currentPage,maxResult);
+		ArrayList<DisplayUser> displayUsers = (ArrayList<DisplayUser>) tblUserDao.getListUsers(info, currentPage,
+				maxResult);
 		if (displayUsers.size() != 0) {
 			for (DisplayUser displayUser : displayUsers) {
 				displayUser.setUsername(StringEscapeUtils.escapeHtml4(displayUser.getUsername()));
@@ -71,6 +81,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 		TblUser tblUser = tblUserDao.findByUserInternalId(id);
 		DetailUser detailUser = new DetailUser();
 		try {
+			detailUser.setId(id);
 			detailUser.setUsername(StringEscapeUtils.escapeHtml4(tblUser.getUserFullName()));
 			detailUser.setGender(Common.convertGender(tblUser.getUserSexDivision()));
 			detailUser.setBirthdate(Common.convertDate(tblUser.getBirthday()));
@@ -106,5 +117,138 @@ public class TblUserLogicImpl implements TblUserLogic {
 	public long getNumberOfUsers(SearchingInfo info) {
 		return tblUserDao.getNumberOfUsers(info);
 	}
-}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.example.demo.logics.TblUserLogic#exportUser(com.example.demo.entities
+	 * .SearchingInfo, java.lang.String)
+	 */
+	@Override
+	public boolean exportUser(SearchingInfo searchingInfo, String jsonCompany) {
+		BufferedWriter bw = null;
+		OutputStreamWriter osw = null;
+		int currentPagetoRecord = 1;
+		int maxResultToRecord = 5;
+		ArrayList<DisplayUser> allUsers = (ArrayList<DisplayUser>) getListUserForExport(searchingInfo,
+				currentPagetoRecord, maxResultToRecord);
+
+		try {
+			JSONObject obj = new JSONObject(jsonCompany);
+			String companyName = obj.getString(Constant.COMPANY_NAME);
+			String companyAddress = obj.getString(Constant.COMPANY_ADDRESS);
+			String companyPhone = obj.getString(Constant.COMPANY_PHONE);
+			String companyEmail = obj.getString(Constant.COMPANY_EMAIL);
+			String COMMA_DELIMITER = ",";
+			String LINE_SEPARATOR = "\n";
+			File f = new File("D:\\CSV\\" + companyName + ".csv");
+			f.setWritable(true);
+			byte[] bom = new byte[] { (byte) 0xEF, (byte) 0xBB, (byte) 0xBF };
+			// File header
+			String HEADER = ValueProperties.getValue("USER_FULL_NAME") + "," + ValueProperties.getValue("GENDER") + ","
+					+ ValueProperties.getValue("DOB") + "," + ValueProperties.getValue("INSURANCE_NUMBER") + ","
+					+ ValueProperties.getValue("START_DATE") + "," + ValueProperties.getValue("END_DATE") + ","
+					+ ValueProperties.getValue("PLACE_OF_REGISTER");
+
+			FileOutputStream fos = new FileOutputStream(f, false);
+			fos.write(bom);
+			osw = new OutputStreamWriter(fos, "UTF-8");
+			bw = new BufferedWriter(osw);
+
+			// Adding the header of file
+			bw.append(ValueProperties.getValue("LIST_INSURANCE"));
+			// 2 New Line after the header
+			bw.append(LINE_SEPARATOR);
+			bw.append(LINE_SEPARATOR);
+			// Adding CompanyName
+			bw.append(ValueProperties.getValue("COMPANY_NAME"));
+			bw.append(COMMA_DELIMITER);
+			bw.append(companyName);
+			bw.append(LINE_SEPARATOR);
+			// Adding CompanyAddress
+			bw.append(ValueProperties.getValue("ADDRESS"));
+			bw.append(COMMA_DELIMITER);
+			bw.append(companyAddress);
+			bw.append(LINE_SEPARATOR);
+			// Adding CompanyEmail
+			bw.append(ValueProperties.getValue("EMAIL"));
+			bw.append(COMMA_DELIMITER);
+			bw.append(companyEmail);
+			bw.append(LINE_SEPARATOR);
+			// Adding companyPhone
+			bw.append(ValueProperties.getValue("PHONE_NUMBER"));
+			bw.append(COMMA_DELIMITER);
+			bw.append("'" + companyPhone);
+			bw.append(LINE_SEPARATOR);
+			// Adding 2 new line
+			bw.append(LINE_SEPARATOR);
+			// Adding the header of table
+			bw.append(HEADER);
+			// New Line after the header
+			bw.append(LINE_SEPARATOR);
+			// Iterate the empList
+			while (allUsers.size() <= maxResultToRecord) {
+				Iterator<DisplayUser> it = allUsers.iterator();
+				while (it.hasNext()) {
+					DisplayUser displayUser = (DisplayUser) it.next();
+					bw.append(displayUser.getUsername());
+					bw.append(COMMA_DELIMITER);
+					bw.append(displayUser.getGender());
+					bw.append(COMMA_DELIMITER);
+					bw.append("'" + displayUser.getBirthdate());
+					bw.append(COMMA_DELIMITER);
+					bw.append("'" + displayUser.getInsuranceNumber());
+					bw.append(COMMA_DELIMITER);
+					bw.append("'" + displayUser.getStartDate());
+					bw.append(COMMA_DELIMITER);
+					bw.append("'" + displayUser.getEndDate());
+					bw.append(COMMA_DELIMITER);
+					bw.append("'" + displayUser.getPlaceOfRegister());
+					bw.append(LINE_SEPARATOR);
+				}
+				if (allUsers.size() == maxResultToRecord) {
+					currentPagetoRecord++;
+					allUsers = (ArrayList<DisplayUser>) getListUserForExport(searchingInfo, currentPagetoRecord,
+							maxResultToRecord);
+				} else if (allUsers.size() < maxResultToRecord) {
+					break;
+				}
+			}
+			bw.flush();
+			return true;
+		} catch (Exception ee) {
+			ee.printStackTrace();
+			return false;
+		} finally {
+			try {
+				bw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.luvina.logics.TblUserLogic#getListUserForExport(com.luvina.entities.
+	 * SearchingInfo, int, int)
+	 */
+	@Override
+	public List<DisplayUser> getListUserForExport(SearchingInfo info, int currentPage, int maxResult) {
+		List<DisplayUser> displayUsers = tblUserDao.getListUsers(info, currentPage, maxResult);
+		if (displayUsers.size() != 0) {
+			for (DisplayUser displayUser : displayUsers) {
+				displayUser.setGender(Common.convertGender(displayUser.getGender()));
+				displayUser.setBirthdate(Common.convertDate(displayUser.getBirthdate()));
+				displayUser.setInsuranceNumber(displayUser.getInsuranceNumber());
+				displayUser.setStartDate(Common.convertDate(displayUser.getStartDate()));
+				displayUser.setEndDate(Common.convertDate(displayUser.getEndDate()));
+				displayUser.setPlaceOfRegister(StringEscapeUtils.escapeHtml4(displayUser.getPlaceOfRegister()));
+			}
+		}
+		return displayUsers;
+	}
+}

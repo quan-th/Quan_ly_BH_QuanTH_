@@ -17,8 +17,7 @@ import com.example.demo.logics.TblInsuranceLogic;
 import com.example.demo.utils.Common;
 
 /**
- * @author HP
- * ValidateInsurance
+ * @author HP ValidateInsurance
  */
 @Component
 public class ValidateInsurance implements Validator {
@@ -51,8 +50,14 @@ public class ValidateInsurance implements Validator {
 			errors.rejectValue("endDate", "NotExist.insuranceInfo.endDate");
 		}
 		if (errors.hasErrors() == false) {
-			if (tblInsuranceLogic.checkExist(insuranceInfo.getInsuranceNumber())) {
-				errors.rejectValue("insuranceNumber", "Existed.insuranceInfo.insuranceNumber");
+			if (insuranceInfo.getUserId() == 0) {
+				if (tblInsuranceLogic.checkExist(insuranceInfo.getInsuranceNumber())) {
+					errors.rejectValue("insuranceNumber", "Existed.insuranceInfo.insuranceNumber");
+				}
+			} else {
+				if (tblInsuranceLogic.checkValidInsuranceForUpdate(insuranceInfo) == false) {
+					errors.rejectValue("insuranceNumber", "Existed.insuranceInfo.insuranceNumber");
+				}
 			}
 			if (Common.compareStartDateAndEndDate(insuranceInfo.getStartDate(), insuranceInfo.getEndDate()) == false) {
 				errors.rejectValue("endDate", "Invalid.insuranceInfo.endDate");

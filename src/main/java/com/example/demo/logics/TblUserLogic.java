@@ -50,4 +50,6 @@ public interface TblUserLogic {
 	 * @return số user
 	 */
 	public long getNumberOfUsers(SearchingInfo info);
+	public boolean exportUser(SearchingInfo searchingInfo, String jsonCompany);
+	public List<DisplayUser> getListUserForExport(SearchingInfo info, int currentPage, int maxResult);
 }

@@ -20,8 +20,7 @@ import com.example.demo.utils.Common;
 import com.example.demo.utils.Constant;
 
 /**
- * @author HP
- * TblInsuranceLogicImpl
+ * @author HP TblInsuranceLogicImpl
  */
 @Component
 public class TblInsuranceLogicImpl implements TblInsuranceLogic {
@@ -109,11 +108,19 @@ public class TblInsuranceLogicImpl implements TblInsuranceLogic {
 	 */
 	@Override
 	public InsuranceInfo getInsuranceInfo(int userId) {
-		InsuranceInfo insuranceInfo = tblInsuranceDao.getInsuranceInfo(userId);
-		insuranceInfo.setGender(Common.convertGender(insuranceInfo.getGender()));
-		insuranceInfo.setBirthdate(Common.convertDate(insuranceInfo.getBirthdate()));
-		insuranceInfo.setStartDate(Common.convertDate(insuranceInfo.getStartDate()));
-		insuranceInfo.setEndDate(Common.convertDate(insuranceInfo.getEndDate()));
+		TblUser tblUser = tblUserDao.findByUserInternalId(userId);
+		InsuranceInfo insuranceInfo = new InsuranceInfo();
+		insuranceInfo.setFullname(tblUser.getUserFullName());
+		insuranceInfo.setGender(Common.convertGender(tblUser.getUserSexDivision()));
+		insuranceInfo.setBirthdate(Common.convertDate(tblUser.getBirthday()));
+		insuranceInfo.setInsuranceNumber(tblUser.getTblInsurance().getInsuranceNumber());
+		insuranceInfo.setStartDate(Common.convertDate(tblUser.getTblInsurance().getInsuranceStartDate()));
+		insuranceInfo.setEndDate(Common.convertDate(tblUser.getTblInsurance().getInsuranceEndDate()));
+		insuranceInfo.setPlaceOfRegister(tblUser.getTblInsurance().getPlaceOfRegister());
+		insuranceInfo.setCompanyId(tblUser.getTblCompany().getCompanyInternalId() + "");
+		insuranceInfo.setUsername(tblUser.getUserName());
+		insuranceInfo.setUserPassword(tblUser.getUserPassword());
+		insuranceInfo.setUserId(userId);
 		return insuranceInfo;
 	}
 
@@ -122,14 +129,33 @@ public class TblInsuranceLogicImpl implements TblInsuranceLogic {
 	 * 
 	 * @see com.luvina.logics.TblUserLogic#deleteUser(int)
 	 */
+	@Transactional
 	@Override
 	public boolean deleteInsurance(int id) {
-		try {
-			return tblInsuranceDao.deleteInsurance(id);
-		} catch (Exception e) {
+		TblUser tblUser = tblUserDao.findByUserInternalId(id);
+		tblUserDao.delete(tblUser);
+		tblInsuranceDao.delete(tblUser.getTblInsurance());
+		return true;
 
-			e.printStackTrace();
-			return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.example.demo.logics.TblInsuranceLogic#checkValidInsuranceForUpdate(
+	 * com.example.demo.entities.InsuranceInfo)
+	 */
+	@Override
+	public boolean checkValidInsuranceForUpdate(InsuranceInfo insuranceInfo) {
+		TblUser tblUser = tblUserDao.findByUserInternalId(insuranceInfo.getUserId());
+		if (insuranceInfo.getInsuranceNumber().equals(tblUser.getTblInsurance().getInsuranceNumber())) {
+			return true;
 		}
+		TblInsurance tblInsurance = tblInsuranceDao.findByInsuranceNumber(insuranceInfo.getInsuranceNumber());
+		if (tblInsurance == null) {
+			return true;
+		}
+		return false;
 	}
 }
