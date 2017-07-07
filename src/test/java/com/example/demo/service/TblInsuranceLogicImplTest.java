@@ -113,7 +113,7 @@ public class TblInsuranceLogicImplTest {
 		when(tblUserDao.findByUserInternalId(anyObject())).thenReturn(tblUser);
 		// exercise
 
-		DetailUser detailUserActual = tblUserLogicImpl.getDetailUser(1);
+		DetailUser detailUserActual = tblUserLogicImpl.getDetailUser(0);
 		DetailUser detailUserExpect = DataFixture.getDetailUser();
 		// verify
 		assertTrue(detailUserActual.getUsername().equals(detailUserExpect.getUsername())

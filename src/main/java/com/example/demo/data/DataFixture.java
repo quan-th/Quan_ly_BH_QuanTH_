@@ -39,6 +39,7 @@ public class DataFixture {
 	 */
 	public static DetailUser getDetailUser(){
 		DetailUser detailUserExpect = new DetailUser();
+		
 		detailUserExpect.setUsername("Tran Hong Quan");
 		detailUserExpect.setGender("Nam");
 		detailUserExpect.setBirthdate("17/06/1995");

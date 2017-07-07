@@ -41,10 +41,8 @@ public class SearchController {
 	/**
 	 * Được gọi đến khi chọn tìm kiếm
 	 * 
-	 * @param model
-	 *            model
-	 * @param searchingInfo
-	 *            thông tin tìm kiếm
+	 * @param model model
+	 * @param searchingInfo thông tin tìm kiếm
 	 * @return màn hình 002
 	 */
 	@RequestMapping(value = "/Search.do", method = RequestMethod.GET)
@@ -101,9 +99,7 @@ public class SearchController {
 
 	/**
 	 * được gọi đến sau khi login thành công
-	 *
-	 * @param model
-	 *            model
+	 * @param model model
 	 * @return màn hình 002
 	 */
 	@RequestMapping(value = "/AllUsers.do", method = RequestMethod.GET)

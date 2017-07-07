@@ -31,8 +31,7 @@ import com.example.demo.validate.ValidateInsurance;
 
 /**
  * @author HP
- *
- *         UpdateController
+ * UpdateController
  */
 @Controller
 public class UpdateController {
@@ -50,10 +49,8 @@ public class UpdateController {
 	/**
 	 * Gọi khi ấn cập nhật từ MH003
 	 * 
-	 * @param model
-	 *            model
-	 * @param insuranceInfo
-	 *            thông tin bảo hiểm
+	 * @param model model
+	 * @param insuranceInfo thông tin bảo hiểm
 	 * @return màn hình 004
 	 */
 
