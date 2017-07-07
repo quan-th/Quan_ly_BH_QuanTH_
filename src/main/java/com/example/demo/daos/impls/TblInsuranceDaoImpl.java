@@ -45,18 +45,4 @@ public class TblInsuranceDaoImpl implements TblInsuranceDaoCustom {
 
 		return true;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.luvina.daos.TblInsuranceDao#getTblInsuranceByUserId(int)
-	 */
-	@Override
-	public TblInsurance getTblInsuranceByUserId(int id) {
-		TblUser tblUser = (TblUser) entityManager
-				.createQuery("Select c from " + TblUser.class.getName() + " c where c.userInternalId =:userInternalId")
-				.setParameter("userInternalId", id).getSingleResult();
-		return tblUser.getTblInsurance();
-	}
-
 }

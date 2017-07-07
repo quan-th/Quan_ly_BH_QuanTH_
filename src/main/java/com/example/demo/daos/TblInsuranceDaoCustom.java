@@ -25,10 +25,4 @@ public interface TblInsuranceDaoCustom {
 	 * @return true nếu xoá thành công, false nếu xoá không thành công
 	 */
 	public boolean deleteInsurance(int id) throws Exception;
-	/**
-	 * Lay TblIsurance theo Id
-	 * @param id userId
-	 * @return TblInsurance
-	 */
-	public TblInsurance getTblInsuranceByUserId(int id);
 }
