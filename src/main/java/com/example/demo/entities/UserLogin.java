@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * @author HP
- *
+ * UserLogin
  */
 public class UserLogin {
 	@NotEmpty

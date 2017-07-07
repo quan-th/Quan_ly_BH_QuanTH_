@@ -18,8 +18,7 @@ import com.example.demo.utils.Constant;
 
 /**
  * @author HP
- *
- *         TblCompanyLogicImpl
+ * TblCompanyLogicImpl
  */
 @Component
 public class TblCompanyLogicImpl implements TblCompanyLogic {

@@ -12,8 +12,7 @@ import com.example.demo.entities.TblCompany;
 
 /**
  * @author HP
- *
- *         TblCompanyDao
+ * TblCompanyDao
  */
 public interface TblCompanyDao extends JpaRepository<TblCompany, Integer>,TblCompanyDaoCustom {	
 	public List<TblCompany> findAll();	

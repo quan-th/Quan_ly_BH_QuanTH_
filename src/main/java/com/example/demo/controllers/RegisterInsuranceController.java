@@ -31,9 +31,8 @@ import com.example.demo.utils.Constant;
 import com.example.demo.validate.ValidateInsurance;
 
 /**
- * @author HP
- *
- *         RegisterInsuranceController
+ * @author HP 
+ * RegisterInsuranceController
  */
 @Controller
 public class RegisterInsuranceController {
@@ -48,11 +47,8 @@ public class RegisterInsuranceController {
 
 	/**
 	 * Gọi khi ấn đăng kí từ MH002
-	 * 
-	 * @param model
-	 *            model
-	 * @param insuranceInfo
-	 *            thông tin bảo hiểm
+	 * @param model model
+	 * @param insuranceInfo thông tin bảo hiểm
 	 * @return màn hình 004
 	 */
 
@@ -74,11 +70,8 @@ public class RegisterInsuranceController {
 
 	/**
 	 * Gọi khi ấn đăng kí từ MH004
-	 * 
-	 * @param model
-	 *            model
-	 * @param insuranceInfo
-	 *            thông tin bảo hiểm
+	 * @param model model
+	 * @param insuranceInfo thông tin bảo hiểm
 	 * @return màn hình 004
 	 */
 	@RequestMapping(value = "/Register.do", method = RequestMethod.POST)
@@ -109,11 +102,8 @@ public class RegisterInsuranceController {
 
 	/**
 	 * Được gọi khi người dùng chọn công ty
-	 * 
-	 * @param model
-	 *            model
-	 * @param companyId
-	 *            Id của công ty chọn
+	 * @param model model
+	 * @param companyId Id của công ty chọn
 	 * @return detail công ty Json
 	 */
 	@RequestMapping(value = "/Register.do/loadCompany", method = RequestMethod.POST)
@@ -124,9 +114,7 @@ public class RegisterInsuranceController {
 
 	/**
 	 * load thông tin mặc định
-	 * 
-	 * @param model
-	 *            model
+	 * @param model model
 	 */
 	@ModelAttribute("companies")
 	private List<Company> loadDefaultValues(ModelMap model) {

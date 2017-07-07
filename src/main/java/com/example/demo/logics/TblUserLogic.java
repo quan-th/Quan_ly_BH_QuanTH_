@@ -14,7 +14,7 @@ import com.example.demo.entities.TblUser;
 /**
  * @author HP
  *
- * TblUserLogic
+ * interface TblUserLogic
  */
 public interface TblUserLogic {
 	/**

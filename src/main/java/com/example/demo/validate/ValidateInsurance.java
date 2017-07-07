@@ -18,8 +18,7 @@ import com.example.demo.utils.Common;
 
 /**
  * @author HP
- *
- *         ValidateInsurance
+ * ValidateInsurance
  */
 @Component
 public class ValidateInsurance implements Validator {

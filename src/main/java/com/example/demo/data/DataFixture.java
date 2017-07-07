@@ -10,7 +10,7 @@ import com.example.demo.entities.TblUser;
 
 /**
  * @author tranhongquan
- *
+ * DataFixture
  */
 public class DataFixture {
 	/**

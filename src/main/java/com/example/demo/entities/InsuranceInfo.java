@@ -14,8 +14,7 @@ import com.example.demo.utils.Constant;
 
 /**
  * @author HP
- *
- *         InsuranceInfo InsuranceInfo
+ * InsuranceInfo 
  */
 public class InsuranceInfo {
 	public interface ValidateForCompany extends Default {

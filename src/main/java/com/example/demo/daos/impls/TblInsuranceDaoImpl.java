@@ -17,8 +17,7 @@ import com.example.demo.entities.TblUser;
 
 /**
  * @author HP
- *
- *         TblInsuranceDaoImpl
+ * TblInsuranceDaoImpl
  */
 @Component
 public class TblInsuranceDaoImpl implements TblInsuranceDaoCustom {

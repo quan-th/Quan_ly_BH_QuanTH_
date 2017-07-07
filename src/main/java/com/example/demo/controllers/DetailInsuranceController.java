@@ -17,9 +17,8 @@ import com.example.demo.logics.TblUserLogic;
 import com.example.demo.utils.Constant;
 
 /**
- * @author HP
- *
- *         DetailInsuranceController
+ * @author HP 
+ * DetailInsuranceController
  */
 @Controller
 public class DetailInsuranceController {
@@ -29,20 +28,19 @@ public class DetailInsuranceController {
 	@RequestMapping(value = "/Details.do", method = RequestMethod.GET)
 	public String detailsUser(HttpServletRequest request, ModelMap model) {
 		String sessionId = request.getParameter("SessionId");
+
 		model.addAttribute("SessionId", sessionId);
 		try {
-			int id = Integer.parseInt(request.getParameter("UserId"));
-			if (tblUserLogic.checkUserExist(id)) {
-				DetailUser detailUser = tblUserLogic.getDetailUser(id);
-				model.addAttribute("detailUser", detailUser);
-				return Constant.MH003;
-			} else {
+			int userId = Integer.parseInt(request.getParameter("UserId"));
+			if (tblUserLogic.checkUserExist(userId) == false) {
 				return Constant.ERROR;
 			}
-		} catch (NumberFormatException e) {
-			return Constant.ERROR;
-		} catch (NullPointerException e) {
+			DetailUser detailUser = tblUserLogic.getDetailUser(userId);
+			model.addAttribute("detailUser", detailUser);
+			return Constant.MH003;
+		} catch (NumberFormatException | NullPointerException e) {
 			return Constant.ERROR;
 		}
+
 	}
 }

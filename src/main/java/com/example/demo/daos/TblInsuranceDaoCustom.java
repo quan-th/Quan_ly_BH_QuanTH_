@@ -10,7 +10,7 @@ import com.example.demo.entities.TblUser;
 
 /**
  * @author tranhongquan
- *
+ * TblInsuranceDaoCustom
  */
 public interface TblInsuranceDaoCustom {
 	/**

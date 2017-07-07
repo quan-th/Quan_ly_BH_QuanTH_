@@ -7,9 +7,8 @@ package com.example.demo.entities;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 /**
- * @author HP
- *
- *         Company
+ * @author HP 
+ * Company
  */
 
 public class Company {
@@ -27,8 +26,7 @@ public class Company {
 	}
 
 	/**
-	 * @param companyID
-	 *            the companyID to set
+	 * @param companyID the companyID to set
 	 */
 	public void setCompanyID(int companyID) {
 		this.companyID = companyID;

@@ -10,8 +10,7 @@ import com.example.demo.entities.TblInsurance;
 
 /**
  * @author HP
- *
- *         TblInsuranceDao
+ * TblInsuranceDao
  */
 public interface TblInsuranceDao extends JpaRepository<TblInsurance, Integer>, TblInsuranceDaoCustom {
 	/**

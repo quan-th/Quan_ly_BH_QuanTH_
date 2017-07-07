@@ -15,7 +15,8 @@ import com.example.demo.logics.TblUserLogic;
 import com.example.demo.utils.Common;
 
 /**
- * @author LA-AM Lớp thực hiện các chức năng liên quan đến validate admin
+ * @author LA-AM 
+ * Lớp thực hiện các chức năng liên quan đến validate admin
  */
 @Component
 @Qualifier("validateLogin")

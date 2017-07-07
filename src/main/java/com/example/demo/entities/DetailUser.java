@@ -4,14 +4,9 @@
  */
 package com.example.demo.entities;
 
-import java.io.Serializable;
-
-import lombok.EqualsAndHashCode;
-
 /**
- * @author HP
- *
- *         DetailUser
+ * @author HP 
+ * DetailUser
  */
 public class DetailUser extends DisplayUser {
 
@@ -27,9 +22,6 @@ public class DetailUser extends DisplayUser {
 		DetailUser detailUserTemp=(DetailUser) obj;
 		return super.equals(obj)&& company.equals(detailUserTemp.company);
 	}
-	/**
-	 * 
-	 */
 	public DetailUser() {
 		super();
 	}
@@ -42,8 +34,7 @@ public class DetailUser extends DisplayUser {
 	}
 
 	/**
-	 * @param company
-	 *            the company to set
+	 * @param company the company to set
 	 */
 	public void setCompany(String company) {
 		this.company = company;

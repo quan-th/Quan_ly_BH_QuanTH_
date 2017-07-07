@@ -14,14 +14,13 @@ import java.util.GregorianCalendar;
 import javax.servlet.http.HttpSession;
 
 /**
- * @author LA-AM lop gom cac phuong thuc common
+ * @author LA-AM 
+ * lop gom cac phuong thuc common
  */
 public class Common {
 	/**
 	 * checkLogin
-	 *
-	 * @param session
-	 *            HttpSession
+	 * @param session HttpSession
 	 * @return ADM001
 	 */
 	public static String checkLogin(HttpSession session) {
@@ -35,9 +34,7 @@ public class Common {
 
 	/**
 	 * Convert giới tính
-	 * 
-	 * @param number
-	 *            01->Nam,02->nữ
+	 * @param number 01->Nam,02->nữ
 	 * @return giới tính
 	 */
 	public static String convertGender(String number) {
@@ -47,9 +44,7 @@ public class Common {
 
 	/**
 	 * ma hoa MD5
-	 *
-	 * @param str
-	 *            chuoi can ma hoa md5
+	 * @param str chuoi can ma hoa md5
 	 * @return chuoi da duoc ma hoa md5
 	 */
 	public static String convertToMD5(String str) {
@@ -70,10 +65,7 @@ public class Common {
 
 	/**
 	 * Escape wildcard trong mysql
-	 * 
-	 * @param chuoi
-	 *            can escapeWildCard
-	 * 
+	 * @param chuoi can escapeWildCard 
 	 * @return chuoi da duoc escape
 	 */
 	public static String escapeWildCard(String str) {
@@ -84,9 +76,7 @@ public class Common {
 
 	/**
 	 * Convert ngay tu yyyy-mm-dd thanh dd/mm/yyyy
-	 * 
-	 * @param date
-	 *            ngay can convert
+	 * @param date ngay can convert
 	 * @return ngay sau khi convert
 	 */
 	public static String convertDate(String date) {
@@ -97,9 +87,7 @@ public class Common {
 
 	/**
 	 * kiem tra chuoi null
-	 * 
-	 * @param string
-	 *            chuoi can kiem tra
+	 * @param string chuoi can kiem tra
 	 * @return true neu null,false neu khong
 	 */
 	public static boolean isNull(String string) {
@@ -108,9 +96,8 @@ public class Common {
 
 	/**
 	 * Kiem tra ngay hop le
-	 *
 	 * @param date
-	 *            return true neu ngay hop le, false neu ngay khong hop le
+	 * return true neu ngay hop le, false neu ngay khong hop le
 	 */
 	public static boolean checkValidDate(String date) {
 
@@ -170,9 +157,7 @@ public class Common {
 
 	/**
 	 * validate order
-	 * 
-	 * @param order
-	 *            order can validate
+	 * @param order order can validate
 	 * @return order neu hop le, ASC neu khong hop le
 	 */
 	public static String validOrder(String order) {
@@ -185,9 +170,7 @@ public class Common {
 
 	/**
 	 * convert String thanh date
-	 * 
-	 * @param strDate
-	 *            chuoi can convert
+	 * @param strDate chuoi can convert
 	 * @return date
 	 */
 	public static String convertStringToDate(String strDate) {
@@ -197,9 +180,7 @@ public class Common {
 
 	/**
 	 * Conver utf-8 to Ascii
-	 * 
-	 * @param s
-	 *            chuoi can convert
+	 * @param s chuoi can convert
 	 * @return chuoi da duoc convert
 	 */
 	public static String decompose(String s) {
@@ -209,9 +190,7 @@ public class Common {
 
 	/**
 	 * Chuan hoa chuoi String theo require
-	 * 
-	 * @param s
-	 *            chuoi chuyen hoa
+	 * @param s chuoi chuyen hoa
 	 * @return chuoi da duoc chuyen hoa
 	 */
 	public static String normarlizeString(String s) {
@@ -231,11 +210,8 @@ public class Common {
 
 	/**
 	 * Chuan hoa chon cong ty.
-	 * 
-	 * @param choseCompany
-	 *            chuoi can chuan hoa¡
-	 * @return return choseCompany neu hop le‡, return Constant.ALREADY_HAVE neu
-	 *         khong hop le
+	 * @param choseCompany chuoi can chuan hoa¡
+	 * @return choseCompany neu hop le‡, return Constant.ALREADY_HAVE neu khong hop le
 	 */
 	public static String normalizeChoseCompany(String choseCompany) {
 		if (Constant.ALREADY_HAVE.equals(choseCompany) || Constant.ADD_NEW_COMPANY.equals(choseCompany)) {
@@ -247,9 +223,7 @@ public class Common {
 
 	/**
 	 * escapeWildcard
-	 *
-	 * @param str
-	 *            String
+	 * @param str String
 	 * @return String escapeWildcard
 	 */
 	public static String escapeWildcard(String str) {
@@ -259,36 +233,11 @@ public class Common {
 		tem = tem.replace("_", "\\_");
 		return tem;
 	}
-
-	/**
-	 * So sánh 2 arraylist
-	 * 
-	 * @param <E>
-	 * 
-	 * @param companies
-	 *            expected
-	 * @param companiesActual
-	 *            actual
-	 * @return
-	 */
-	public static <E> boolean myComparison(ArrayList<E> companies, ArrayList<E> companiesActual) {
-		for (int i = 0; i < companies.size(); i++) {
-			if (companies.get(i).equals(companiesActual.get(i)) == false) {
-				return false;
-			}
-		}
-		return true;
-	}
-
 	/**
 	 * Chuẩn hóa currentPage
-	 * 
-	 * @param currentPage
-	 *            currentPage
-	 * @param recordsOfPage
-	 *            Số records/ trang
-	 * @param totalRecords
-	 *            tổng số records
+	 * @param currentPage currentPage
+	 * @param recordsOfPage Số records/ trang
+	 * @param totalRecords tổng số records
 	 * @return
 	 */
 	public static int formedCurrentPage(String strCurrentPage, int recordsOfPage, int totalRecords) {
@@ -310,13 +259,9 @@ public class Common {
 
 	/**
 	 * Lấy danh sách trang paging
-	 * 
-	 * @param currentPage
-	 *            trang bắt đầu
-	 * @param recordsOfPage
-	 *            record trên mỗi trang
-	 * @param totalRecords
-	 *            tổng số records
+	 * @param currentPage trang bắt đầu
+	 * @param recordsOfPage record trên mỗi trang
+	 * @param totalRecords tổng số records
 	 * @return danh sách trang paging
 	 */
 	public static ArrayList<Integer> paging(int currentPage, int recordsOfPage, int totalRecords) {
@@ -343,11 +288,8 @@ public class Common {
 
 	/**
 	 * Lấy tổng số trang
-	 * 
-	 * @param startPage
-	 *            trang bắt đầu
-	 * @param recordsOfPage
-	 *            record trên mỗi trang
+	 * @param startPage trang bắt đầu
+	 * @param recordsOfPage record trên mỗi trang
 	 * @return tổng trang
 	 */
 	public static int getTotalOfPages(int recordsOfPage, int totalRecords) {
@@ -355,13 +297,9 @@ public class Common {
 	}
 	/**
 	 * So sánh ngày bắt đầu và ngày kết thúc
-	 * 
-	 * @param startDate
-	 *            ngày bắt đầu
-	 * @param endDate
-	 *            ngày kết thúc
-	 * @return true nếu ngày bắt đầu trước ngày kết thúc, false nếu ngày bắt đầu
-	 *         sau hoặc bằng ngày kết thúc
+	 * @param startDate ngày bắt đầu
+	 * @param endDate ngày kết thúc
+	 * @return true nếu ngày bắt đầu trước ngày kết thúc, false nếu ngày bắt đầu sau hoặc bằng ngày kết thúc
 	 */
 	public static boolean compareStartDateAndEndDate(String startDate, String endDate) {
 		try {
@@ -374,16 +312,11 @@ public class Common {
 			int compareDate = calEndDate.compareTo(calStartDate);
 			if (compareDate <= 0) {
 				return false;
-			} else {
-				return true;
-			}
-		} catch (NullPointerException e) {
-			return false;
-		} catch (NumberFormatException e) {
-			return false;
-		} catch (ArrayIndexOutOfBoundsException e) {
+			} 
+		} catch (NullPointerException | NumberFormatException | ArrayIndexOutOfBoundsException e) {
 			return false;
 		}
+		return true;
+		
 	}
 }
-

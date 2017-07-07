@@ -21,8 +21,7 @@ import com.example.demo.utils.Constant;
 
 /**
  * @author HP
- *
- *         TblInsuranceLogicImpl
+ * TblInsuranceLogicImpl
  */
 @Component
 public class TblInsuranceLogicImpl implements TblInsuranceLogic {

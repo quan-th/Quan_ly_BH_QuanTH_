@@ -20,17 +20,13 @@ import com.example.demo.logics.TblUserLogic;
 import com.example.demo.utils.Common;
 
 /**
- * @author HP
- *
- *         TblUserLogic
+ * @author HP 
+ * TblUserLogic
  */
 @Component
 public class TblUserLogicImpl implements TblUserLogic {
 	@Autowired
 	private TblUserDao tblUserDao;
-
-	// @Autowired
-	// private TblCompanyLogic tblCompanyLogic;
 	/*
 	 * (non-Javadoc)
 	 * 

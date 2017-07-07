@@ -29,8 +29,7 @@ import com.example.demo.utils.ValueProperties;
 
 /**
  * @author HP
- *
- *         SearchController
+ * SearchController
  */
 @Controller
 public class SearchController {

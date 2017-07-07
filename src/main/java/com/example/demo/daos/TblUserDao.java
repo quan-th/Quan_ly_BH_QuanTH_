@@ -14,18 +14,14 @@ import com.example.demo.entities.TblUser;
 
 /**
  * @author HP
- *
- *         TblUserDao
+ * TblUserDao
  */
 @Repository
 public interface TblUserDao extends JpaRepository<TblUser,Integer>,TblUserDaoCustom{
 	/**
 	 * Kiem tra login co thanh cong khong
-	 * 
-	 * @param Username
-	 *            username
-	 * @param Password
-	 *            password
+	 * @param Username username
+	 * @param Password password
 	 * @return thanh cong->true, khong thanh cong->fail
 	 */
 	public List<TblUser> findByUserNameAndUserPassword(String Username, String Password);

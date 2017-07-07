@@ -9,7 +9,7 @@ import com.example.demo.entities.InsuranceInfo;
 /**
  * @author HP
  *
- * TblInsuranceLogic
+ * interface TblInsuranceLogic
  */
 public interface TblInsuranceLogic {
 	/**

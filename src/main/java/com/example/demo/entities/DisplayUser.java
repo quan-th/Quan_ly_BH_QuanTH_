@@ -10,8 +10,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 
 /**
  * @author HP
- *
- *         DisplayUser lớp chứa các thông tin hiển thị của user
+ * DisplayUser lớp chứa các thông tin hiển thị của user
  */
 
 public class DisplayUser {
