@@ -19,14 +19,24 @@ import com.example.demo.entities.TblUser;
 @Repository
 public interface TblUserDao extends JpaRepository<TblUser,Integer>,TblUserDaoCustom{
 	/**
-	 * Kiem tra login co thanh cong khong
+	 * find List<TblUser> by UserNameAndUserPassword
 	 * @param Username username
 	 * @param Password password
-	 * @return thanh cong->true, khong thanh cong->fail
+	 * @return List<TblUser>
 	 */
 	public List<TblUser> findByUserNameAndUserPassword(String Username, String Password);
-
+	/**
+	 * find TblUser by UserInternalId
+	 * @param integer UserInternalId
+	 * @return TblUser
+	 */
 	public TblUser findByUserInternalId(Integer integer);
+	/**
+	 * save TblUser
+	 */
 	public TblUser save(TblUser tblUser);
+	/**
+	 * delete TblUser
+	 */
 	public void delete(TblUser tblUser);
 }

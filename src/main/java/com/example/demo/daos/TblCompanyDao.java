@@ -14,8 +14,19 @@ import com.example.demo.entities.TblCompany;
  * @author HP
  * TblCompanyDao
  */
-public interface TblCompanyDao extends JpaRepository<TblCompany, Integer>,TblCompanyDaoCustom {	
+public interface TblCompanyDao extends JpaRepository<TblCompany, Integer>{	
+	/**
+	 * get all TblCompanys
+	 */
 	public List<TblCompany> findAll();	
+	/**
+	 * find TblCompany by InternalId
+	 * @param integer internalId
+	 * @return tblCOmpany
+	 */
 	public TblCompany findByCompanyInternalId(Integer integer);
+	/**
+	 * save TblCompany
+	 */
 	public TblCompany save(TblCompany tblCompany);
 }

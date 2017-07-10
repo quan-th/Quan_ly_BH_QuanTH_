@@ -45,7 +45,7 @@ public class TblCompanyLogicImpl implements TblCompanyLogic {
 	 * @see com.luvina.logics.TblCompanyLogic#getCompanyById(int)
 	 */
 	@Override
-	public String getCompanyById(int id) {
+	public String getJsonCompanyById(int id) {
 		// TODO Auto-generated method stub
 		TblCompany tblCompany = tblCompanyDao.findByCompanyInternalId(id);
 		String result = "{\"" + Constant.COMPANY_NAME + "\":\"" + tblCompany.getCompanyName() + "\",\""

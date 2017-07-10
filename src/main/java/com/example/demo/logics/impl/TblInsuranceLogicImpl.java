@@ -5,6 +5,7 @@
 package com.example.demo.logics.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,34 +53,26 @@ public class TblInsuranceLogicImpl implements TblInsuranceLogic {
 	@Transactional
 	@Override
 	public boolean insertOrUpdateInsurance(InsuranceInfo insuranceInfo) {
-		TblCompany company = null;
-		TblInsurance tblInsurance = null;
-		TblUser tblUser = null;
-		if (insuranceInfo.getUserId() != 0) {
-			tblUser = tblUserDao.findByUserInternalId(insuranceInfo.getUserId());
-		} else {
-			tblUser = new TblUser();
+		TblUser tblUser = createTblUserForInsertOrUpdate(insuranceInfo.getUserId());
+		TblCompany tblCompany = createTblCompanyForInsertOrUpdate(insuranceInfo);
+		TblInsurance tblInsurance = createTblInsuranceForInsertOrUpdate(insuranceInfo);
+		tblUser = setDetailForTblUser(tblUser,insuranceInfo);
+		tblUser.setTblCompany(tblCompany);
+		tblUser.setTblInsurance(tblInsurance);
+		if (Constant.ADD_NEW_COMPANY.equals(insuranceInfo.getChoseCompany())) {
+			tblCompanyDao.save(tblCompany);
 		}
-
-		if (Constant.ALREADY_HAVE.equals(insuranceInfo.getChoseCompany())) {
-			company = tblCompanyDao.findByCompanyInternalId(Integer.parseInt(insuranceInfo.getCompanyId()));
-		} else {
-			company = new TblCompany();
-			company.setCompanyName(insuranceInfo.getCompanyName());
-			company.setAddress(insuranceInfo.getCompanyAddress());
-			company.setEmail(insuranceInfo.getCompanyEmail());
-			company.setTelephone(insuranceInfo.getCompanyPhone());
-		}
-		if (insuranceInfo.getUserId() != 0) {
-			tblInsurance = tblUserDao.findByUserInternalId(insuranceInfo.getUserId()).getTblInsurance();
-		} else {
-			tblInsurance = new TblInsurance();
-		}
-		tblInsurance.setInsuranceNumber(insuranceInfo.getInsuranceNumber());
-		tblInsurance.setPlaceOfRegister(insuranceInfo.getPlaceOfRegister());
-		tblInsurance.setInsuranceStartDate(Common.convertStringToDate(insuranceInfo.getStartDate()).toString());
-		tblInsurance.setInsuranceEndDate(Common.convertStringToDate(insuranceInfo.getEndDate()).toString());
-		// trường hợp thêm mới add userId và userPassword
+		tblInsuranceDao.save(tblInsurance);
+		tblUserDao.save(tblUser);
+    	return true;
+	}
+	/**
+	 * set more Details For TblUser
+	 * @param tblUser tblUser
+	 * @param insuranceInfo insuranceInfo
+	 * @return tblUser
+	 */
+	private TblUser setDetailForTblUser(TblUser tblUser, InsuranceInfo insuranceInfo) {
 		if (insuranceInfo.getUserId() == 0) {
 			tblUser.setUserName("admin");
 			tblUser.setUserPassword("admin");
@@ -91,14 +84,58 @@ public class TblInsuranceLogicImpl implements TblInsuranceLogic {
 		tblUser.setBirthday(Common.convertStringToDate(insuranceInfo.getBirthdate()));
 		tblUser.setUserFullName(Common.normarlizeString(insuranceInfo.getFullname()));
 		tblUser.setUserSexDivision(insuranceInfo.getGender());
-		tblUser.setTblCompany(company);
-		tblUser.setTblInsurance(tblInsurance);
-		if (Constant.ADD_NEW_COMPANY.equals(insuranceInfo.getChoseCompany())) {
-			tblCompanyDao.save(company);
+		return tblUser;
+	}
+
+	/**
+	 * create TblInsurance For Insert Or Update
+	 * @param insuranceInfo insuranceInfo
+	 * @return
+	 */
+	private TblInsurance createTblInsuranceForInsertOrUpdate(InsuranceInfo insuranceInfo) {
+		TblInsurance tblInsurance = null;
+		if (insuranceInfo.getUserId() != 0) {
+			tblInsurance = tblUserDao.findByUserInternalId(insuranceInfo.getUserId()).getTblInsurance();
+		} else {
+			tblInsurance = new TblInsurance();
 		}
-		tblInsuranceDao.save(tblInsurance);
-		tblUserDao.save(tblUser);
-		return true;
+		tblInsurance.setInsuranceNumber(insuranceInfo.getInsuranceNumber());
+		tblInsurance.setPlaceOfRegister(insuranceInfo.getPlaceOfRegister());
+		tblInsurance.setInsuranceStartDate(Common.convertStringToDate(insuranceInfo.getStartDate()).toString());
+		tblInsurance.setInsuranceEndDate(Common.convertStringToDate(insuranceInfo.getEndDate()).toString());
+		return tblInsurance;
+	}
+
+	/**
+	 * create TblCompany For Insert Or Update
+	 * @param insuranceInfo insurentInfo
+	 * @return tblCompany
+	 */
+	private TblCompany createTblCompanyForInsertOrUpdate(InsuranceInfo insuranceInfo) {
+		TblCompany tblCompany = null;
+		if (Constant.ALREADY_HAVE.equals(insuranceInfo.getChoseCompany())) {
+			tblCompany = tblCompanyDao.findByCompanyInternalId(Integer.parseInt(insuranceInfo.getCompanyId()));
+		} else {
+			tblCompany = new TblCompany();
+			tblCompany.setCompanyName(insuranceInfo.getCompanyName());
+			tblCompany.setAddress(insuranceInfo.getCompanyAddress());
+			tblCompany.setEmail(insuranceInfo.getCompanyEmail());
+			tblCompany.setTelephone(insuranceInfo.getCompanyPhone());
+		}
+		return tblCompany;
+	}
+
+	/**
+	 * Create TblUser for insert and update
+	 * @param userId
+	 * @return
+	 */
+	private TblUser createTblUserForInsertOrUpdate(int userId) {
+		if (userId != 0) {
+			return tblUserDao.findByUserInternalId(userId);
+		} else {
+			return new TblUser();
+		}
 	}
 
 	/*

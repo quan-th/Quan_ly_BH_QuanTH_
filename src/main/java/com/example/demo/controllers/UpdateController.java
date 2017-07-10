@@ -30,8 +30,7 @@ import com.example.demo.utils.Constant;
 import com.example.demo.validate.ValidateInsurance;
 
 /**
- * @author HP
- * UpdateController
+ * @author HP UpdateController
  */
 @Controller
 public class UpdateController {
@@ -45,15 +44,6 @@ public class UpdateController {
 	private TblInsuranceLogic tblInsuranceLogic;
 	@Autowired
 	private ValidateInsurance insurance;
-
-	/**
-	 * Gọi khi ấn cập nhật từ MH003
-	 * 
-	 * @param model model
-	 * @param insuranceInfo thông tin bảo hiểm
-	 * @return màn hình 004
-	 */
-
 	@RequestMapping(value = "/Update.do", method = RequestMethod.GET)
 	public String updateInsurance(ModelMap model, HttpServletRequest request) {
 		String sessionId = request.getParameter("SessionId");
@@ -70,9 +60,8 @@ public class UpdateController {
 		} catch (NumberFormatException | NullPointerException e) {
 			e.printStackTrace();
 			return Constant.ERROR;
-		} 
+		}
 	}
-
 	@RequestMapping(value = "/Update.do", method = RequestMethod.POST)
 	public String updateInsurance(ModelMap model, @ModelAttribute InsuranceInfo insuranceInfo,
 			HttpServletRequest httpServletRequest, BindingResult infoResult) {
@@ -87,42 +76,39 @@ public class UpdateController {
 		} else if (insuranceInfo.getChoseCompany().equals(Constant.ADD_NEW_COMPANY)) {
 			validator.validate(insuranceInfo, infoResult, InsuranceInfo.ValidateForCompany.class);
 		}
-
 		insurance.validate(insuranceInfo, infoResult);
 		if (!infoResult.hasErrors()) {
-			if (tblInsuranceLogic.insertOrUpdateInsurance(insuranceInfo)) {
-				return "redirect:/AllUsers.do";
-			} else {
+			try {
+				if (tblInsuranceLogic.insertOrUpdateInsurance(insuranceInfo)) {
+					return "redirect:/AllUsers.do";
+				}
+			} catch (RuntimeException e) {
+				e.printStackTrace();
 				String sessionId = httpServletRequest.getParameter("SessionId");
 				model.addAttribute("SessionId", sessionId);
 				return Constant.ERROR;
 			}
+
 		}
 		model.addAttribute("insuranceInfo", insuranceInfo);
 		model.addAttribute("action", Constant.ACTION_UPDATE);
 		return Constant.MH004;
 	}
-
 	/**
-	 * Được gọi khi người dùng chọn công ty
-	 * 
-	 * @param model
-	 *            model
-	 * @param companyId
-	 *            Id của công ty chọn
-	 * @return detail công ty Json
+	 * Called when user changes Company 
+	 * @param model model
+	 * @param companyId company's internalID
+	 * @return detail json detail Company
 	 */
 	@RequestMapping(value = "/Update.do/loadCompany", method = RequestMethod.POST)
 	@ResponseBody
 	public String detailsCompany(ModelMap model, @RequestParam Integer companyId) {
-		return tblCompanyLogic.getCompanyById(companyId);
+		return tblCompanyLogic.getJsonCompanyById(companyId);
 	}
 
 	/**
-	 * load thông tin mặc định
-	 * 
-	 * @param model
-	 *            model
+	 * load deafult datails
+	 * @param model model
 	 */
 	@ModelAttribute("companies")
 	private List<Company> loadDefaultValues(ModelMap model) {

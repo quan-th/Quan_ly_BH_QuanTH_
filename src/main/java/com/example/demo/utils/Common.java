@@ -33,9 +33,9 @@ public class Common {
 	}
 
 	/**
-	 * Convert giới tính
+	 * Convert gender
 	 * @param number 01->Nam,02->nữ
-	 * @return giới tính
+	 * @return gender 
 	 */
 	public static String convertGender(String number) {
 		return (Constant.MALE.equals(number) ? ValueProperties.getValue(Constant.STR_MALE)
@@ -43,9 +43,9 @@ public class Common {
 	}
 
 	/**
-	 * ma hoa MD5
-	 * @param str chuoi can ma hoa md5
-	 * @return chuoi da duoc ma hoa md5
+	 * encoding MD5
+	 * @param str origin String
+	 * @return changed string 
 	 */
 	public static String convertToMD5(String str) {
 		StringBuffer sb = new StringBuffer();
@@ -62,22 +62,10 @@ public class Common {
 		}
 		return sb.toString();
 	}
-
 	/**
-	 * Escape wildcard trong mysql
-	 * @param chuoi can escapeWildCard 
-	 * @return chuoi da duoc escape
-	 */
-	public static String escapeWildCard(String str) {
-		str = str.replace("_", "\\_");
-		str = str.replace("%", "\\%");
-		return str;
-	}
-
-	/**
-	 * Convert ngay tu yyyy-mm-dd thanh dd/mm/yyyy
-	 * @param date ngay can convert
-	 * @return ngay sau khi convert
+	 * Convert date form yyyy-mm-dd -> dd/mm/yyyy
+	 * @param date origin string
+	 * @return changed string
 	 */
 	public static String convertDate(String date) {
 		String[] arrDate = date.split("-");
@@ -86,18 +74,18 @@ public class Common {
 	}
 
 	/**
-	 * kiem tra chuoi null
-	 * @param string chuoi can kiem tra
-	 * @return true neu null,false neu khong
+	 * check null
+	 * @param string origin string
+	 * @return true if null,false if != null
 	 */
 	public static boolean isNull(String string) {
 		return string == null;
 	}
 
 	/**
-	 * Kiem tra ngay hop le
-	 * @param date
-	 * return true neu ngay hop le, false neu ngay khong hop le
+	 * check valid date
+	 * @param date origin date
+	 * return true if valid , false if not valid
 	 */
 	public static boolean checkValidDate(String date) {
 
@@ -157,8 +145,8 @@ public class Common {
 
 	/**
 	 * validate order
-	 * @param order order can validate
-	 * @return order neu hop le, ASC neu khong hop le
+	 * @param order origin order
+	 * @return order if valid, ASC if not valid
 	 */
 	public static String validOrder(String order) {
 		if (Constant.SORT_ASC.equals(order) || Constant.SORT_DESC.equals(order)) {
@@ -169,9 +157,9 @@ public class Common {
 	}
 
 	/**
-	 * convert String thanh date
-	 * @param strDate chuoi can convert
-	 * @return date
+	 * convert date form 
+	 * @param strDate origin string
+	 * @return changed string 
 	 */
 	public static String convertStringToDate(String strDate) {
 		String[] rs = strDate.split("/");
@@ -180,8 +168,8 @@ public class Common {
 
 	/**
 	 * Conver utf-8 to Ascii
-	 * @param s chuoi can convert
-	 * @return chuoi da duoc convert
+	 * @param s origin string
+	 * @return changed string 
 	 */
 	public static String decompose(String s) {
 		return java.text.Normalizer.normalize(s, java.text.Normalizer.Form.NFD)
@@ -189,9 +177,9 @@ public class Common {
 	}
 
 	/**
-	 * Chuan hoa chuoi String theo require
-	 * @param s chuoi chuyen hoa
-	 * @return chuoi da duoc chuyen hoa
+	 * normarlize String
+	 * @param s origin string
+	 * @return changed string 
 	 */
 	public static String normarlizeString(String s) {
 		StringBuilder result = new StringBuilder();
@@ -209,9 +197,9 @@ public class Common {
 	}
 
 	/**
-	 * Chuan hoa chon cong ty.
-	 * @param choseCompany chuoi can chuan hoa¡
-	 * @return choseCompany neu hop le‡, return Constant.ALREADY_HAVE neu khong hop le
+	 * normalize ChoseCompany.
+	 * @param choseCompany origin ChoseCompany¡
+	 * @return choseCompany if valid, return Constant.ALREADY_HAVE if not valid
 	 */
 	public static String normalizeChoseCompany(String choseCompany) {
 		if (Constant.ALREADY_HAVE.equals(choseCompany) || Constant.ADD_NEW_COMPANY.equals(choseCompany)) {
@@ -234,11 +222,11 @@ public class Common {
 		return tem;
 	}
 	/**
-	 * Chuẩn hóa currentPage
+	 * formed currentPage
 	 * @param currentPage currentPage
-	 * @param recordsOfPage Số records/ trang
-	 * @param totalRecords tổng số records
-	 * @return
+	 * @param recordsOfPage records/ page
+	 * @param totalRecords total records
+	 * @return current page
 	 */
 	public static int formedCurrentPage(String strCurrentPage, int recordsOfPage, int totalRecords) {
 		int currentPage = 0;
@@ -258,11 +246,11 @@ public class Common {
 	}
 
 	/**
-	 * Lấy danh sách trang paging
-	 * @param currentPage trang bắt đầu
-	 * @param recordsOfPage record trên mỗi trang
-	 * @param totalRecords tổng số records
-	 * @return danh sách trang paging
+	 * get list paging
+	 * @param currentPage current page
+	 * @param recordsOfPage records/page
+	 * @param totalRecords total records
+	 * @return list paging
 	 */
 	public static ArrayList<Integer> paging(int currentPage, int recordsOfPage, int totalRecords) {
 		int numberOfPages = getTotalOfPages(recordsOfPage, totalRecords);
@@ -287,19 +275,19 @@ public class Common {
 	}
 
 	/**
-	 * Lấy tổng số trang
-	 * @param startPage trang bắt đầu
-	 * @param recordsOfPage record trên mỗi trang
-	 * @return tổng trang
+	 * total page
+	 * @param totalRecords total records
+	 * @param recordsOfPage records/page
+	 * @return total page
 	 */
 	public static int getTotalOfPages(int recordsOfPage, int totalRecords) {
 		return (totalRecords % recordsOfPage == 0) ? totalRecords / recordsOfPage : totalRecords / recordsOfPage + 1;
 	}
 	/**
-	 * So sánh ngày bắt đầu và ngày kết thúc
-	 * @param startDate ngày bắt đầu
-	 * @param endDate ngày kết thúc
-	 * @return true nếu ngày bắt đầu trước ngày kết thúc, false nếu ngày bắt đầu sau hoặc bằng ngày kết thúc
+	 * compare date
+	 * @param startDate start Date
+	 * @param endDate end Date
+	 * @return true if endDate > start date, false if startDate< endDate
 	 */
 	public static boolean compareStartDateAndEndDate(String startDate, String endDate) {
 		try {

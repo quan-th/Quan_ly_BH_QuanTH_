@@ -15,15 +15,15 @@ import com.example.demo.entities.Company;
  */
 public interface TblCompanyLogic {
 	/**
-	 * Lấy danh sách company
-	 * @return mảng company
+	 * get All Company
+	 * @return List<Company> 
 	 */
 	public List<Company> getAllCompany();
 	/**
-	 * Lấy thông tin Company theo id
-	 * @param id id công ty
-	 * @return chuỗi json thông tin công ty
+	 * get company details
+	 * @param id company Internal ID
+	 * @return json details company
 	 */
-	public String getCompanyById(int id);
+	public String getJsonCompanyById(int id);
 	
 }

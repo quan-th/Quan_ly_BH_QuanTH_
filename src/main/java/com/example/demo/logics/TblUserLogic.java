@@ -18,38 +18,51 @@ import com.example.demo.entities.TblUser;
  */
 public interface TblUserLogic {
 	/**
-	 * Kiem tra login co thanh cong khong
+	 * Check Login success
 	 * @param Username username
 	 * @param Password password
-	 * @return thanh cong->true, khong thanh cong->fail
+	 * @return success->true, unsuccess->fail
 	 */
 	public List<TblUser> LoginByUsernameAndPassword(String Username,String Password);
 	/**
-	 * lấy danh sách người dùng theo điều kiện tìm kiếm
-	 * @param info điều kiện tìm kiếm
-	 * @param currentPage trang hiện tại
-	 * @param maxResult số record/trang
-	 * @return danh sách người dùng
+	 * get list user by searching Info
+	 * @param info searching Info
+	 * @param currentPage current Page
+	 * @param maxResult  records/Page
+	 * @return list User
 	 */
 	public List<DisplayUser> getListUsers(SearchingInfo info,int currentPage,int maxResult);
 	/**
-	 * Lấy thông tin chi tiết User
-	 * @param id userId
-	 * @return Thông tin chi tiết User
+	 * get User's details
+	 * @param id user internal Id
+	 * @return DetailUser
 	 */
 	public DetailUser getDetailUser(int id);
 	/**
-	 * Kiểm tra tồn tại User
-	 * @param id userid
-	 * @return true nếu có false nếu không
+	 * check exist User
+	 * @param id user internal Id
+	 * @return true if exist, false if not exist
 	 */
 	public boolean checkUserExist(int id);
 	/**
-	 * LLấy số User user
-	 * @param info thông tin tìm kiếm
-	 * @return số user
+	 * get number of users
+	 * @param info searching Info
+	 * @return number of users
 	 */
 	public long getNumberOfUsers(SearchingInfo info);
+	/**
+	 * Export CSV
+	 * @param searchingInfo searching infomation
+	 * @param jsonCompany json Company
+	 * @return success-> true, unsuccess-> false
+	 */
 	public boolean exportUser(SearchingInfo searchingInfo, String jsonCompany);
+	/**
+	 * get List UserForExport 
+	 * @param info searching infomation
+	 * @param currentPage current Page
+	 * @param maxResult records/page
+	 * @return List<DisplayUser>
+	 */
 	public List<DisplayUser> getListUserForExport(SearchingInfo info, int currentPage, int maxResult);
 }

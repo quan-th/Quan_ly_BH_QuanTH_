@@ -23,7 +23,6 @@ import com.example.demo.utils.Constant;
 public class DetailInsuranceController {
 	@Autowired
 	private TblUserLogic tblUserLogic;
-
 	@RequestMapping(value = "/Details.do", method = RequestMethod.GET)
 	public String detailsUser(HttpServletRequest request, ModelMap model) {
 		String sessionId = request.getParameter("SessionId");

@@ -6,9 +6,11 @@ package com.example.demo.logics.impl;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -128,96 +130,21 @@ public class TblUserLogicImpl implements TblUserLogic {
 	@Override
 	public boolean exportUser(SearchingInfo searchingInfo, String jsonCompany) {
 		BufferedWriter bw = null;
-		OutputStreamWriter osw = null;
-		int currentPagetoRecord = 1;
-		int maxResultToRecord = 5;
-		ArrayList<DisplayUser> allUsers = (ArrayList<DisplayUser>) getListUserForExport(searchingInfo,
-				currentPagetoRecord, maxResultToRecord);
-
+		String COMMA_DELIMITER = ",";
+		String LINE_SEPARATOR = "\n";
 		try {
 			JSONObject obj = new JSONObject(jsonCompany);
 			String companyName = obj.getString(Constant.COMPANY_NAME);
-			String companyAddress = obj.getString(Constant.COMPANY_ADDRESS);
-			String companyPhone = obj.getString(Constant.COMPANY_PHONE);
-			String companyEmail = obj.getString(Constant.COMPANY_EMAIL);
-			String COMMA_DELIMITER = ",";
-			String LINE_SEPARATOR = "\n";
-			File f = new File("D:\\CSV\\" + companyName + ".csv");
-			f.setWritable(true);
-			byte[] bom = new byte[] { (byte) 0xEF, (byte) 0xBB, (byte) 0xBF };
-			// File header
-			String HEADER = ValueProperties.getValue("USER_FULL_NAME") + "," + ValueProperties.getValue("GENDER") + ","
-					+ ValueProperties.getValue("DOB") + "," + ValueProperties.getValue("INSURANCE_NUMBER") + ","
-					+ ValueProperties.getValue("START_DATE") + "," + ValueProperties.getValue("END_DATE") + ","
-					+ ValueProperties.getValue("PLACE_OF_REGISTER");
-
-			FileOutputStream fos = new FileOutputStream(f, false);
-			fos.write(bom);
-			osw = new OutputStreamWriter(fos, "UTF-8");
-			bw = new BufferedWriter(osw);
-
-			// Adding the header of file
-			bw.append(ValueProperties.getValue("LIST_INSURANCE"));
-			// 2 New Line after the header
-			bw.append(LINE_SEPARATOR);
-			bw.append(LINE_SEPARATOR);
-			// Adding CompanyName
-			bw.append(ValueProperties.getValue("COMPANY_NAME"));
-			bw.append(COMMA_DELIMITER);
-			bw.append(companyName);
-			bw.append(LINE_SEPARATOR);
-			// Adding CompanyAddress
-			bw.append(ValueProperties.getValue("ADDRESS"));
-			bw.append(COMMA_DELIMITER);
-			bw.append(companyAddress);
-			bw.append(LINE_SEPARATOR);
-			// Adding CompanyEmail
-			bw.append(ValueProperties.getValue("EMAIL"));
-			bw.append(COMMA_DELIMITER);
-			bw.append(companyEmail);
-			bw.append(LINE_SEPARATOR);
-			// Adding companyPhone
-			bw.append(ValueProperties.getValue("PHONE_NUMBER"));
-			bw.append(COMMA_DELIMITER);
-			bw.append("'" + companyPhone);
-			bw.append(LINE_SEPARATOR);
-			// Adding 2 new line
-			bw.append(LINE_SEPARATOR);
-			// Adding the header of table
-			bw.append(HEADER);
-			// New Line after the header
-			bw.append(LINE_SEPARATOR);
-			// Iterate the empList
-			while (allUsers.size() <= maxResultToRecord) {
-				Iterator<DisplayUser> it = allUsers.iterator();
-				while (it.hasNext()) {
-					DisplayUser displayUser = (DisplayUser) it.next();
-					bw.append(displayUser.getUsername());
-					bw.append(COMMA_DELIMITER);
-					bw.append(displayUser.getGender());
-					bw.append(COMMA_DELIMITER);
-					bw.append("'" + displayUser.getBirthdate());
-					bw.append(COMMA_DELIMITER);
-					bw.append("'" + displayUser.getInsuranceNumber());
-					bw.append(COMMA_DELIMITER);
-					bw.append("'" + displayUser.getStartDate());
-					bw.append(COMMA_DELIMITER);
-					bw.append("'" + displayUser.getEndDate());
-					bw.append(COMMA_DELIMITER);
-					bw.append("'" + displayUser.getPlaceOfRegister());
-					bw.append(LINE_SEPARATOR);
-				}
-				if (allUsers.size() == maxResultToRecord) {
-					currentPagetoRecord++;
-					allUsers = (ArrayList<DisplayUser>) getListUserForExport(searchingInfo, currentPagetoRecord,
-							maxResultToRecord);
-				} else if (allUsers.size() < maxResultToRecord) {
-					break;
-				}
-			}
+			File exportFile = createExportFile(companyName);
+			String header = createColumnOfExportFile();
+			FileOutputStream fos = createFileOutputStreamWithBom(exportFile);
+			OutputStreamWriter osw = createOutputStreamWriter(fos);
+			bw = createBufferWriter(osw);
+			bw = writeHeaderOfExportFile(bw, jsonCompany, header, LINE_SEPARATOR, COMMA_DELIMITER);
+			bw = writeContentFile(bw, searchingInfo, LINE_SEPARATOR, COMMA_DELIMITER);
 			bw.flush();
 			return true;
-		} catch (Exception ee) {
+		} catch (IOException ee) {
 			ee.printStackTrace();
 			return false;
 		} finally {
@@ -227,6 +154,16 @@ public class TblUserLogicImpl implements TblUserLogic {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	/**
+	 * Create BufferWriter
+	 * 
+	 * @param osw OutputStreamWriter
+	 * @return bufferWriter
+	 */
+	private BufferedWriter createBufferWriter(OutputStreamWriter osw) {
+		return new BufferedWriter(osw);
 	}
 
 	/*
@@ -250,5 +187,144 @@ public class TblUserLogicImpl implements TblUserLogic {
 			}
 		}
 		return displayUsers;
+	}
+
+	/**
+	 * Create header of file
+	 * 
+	 * @return String header
+	 */
+	private String createColumnOfExportFile() {
+		StringBuilder header = new StringBuilder();
+		header.append(ValueProperties.getValue("USER_FULL_NAME") + ",");
+		header.append(ValueProperties.getValue("GENDER") + ",");
+		header.append(ValueProperties.getValue("DOB") + ",");
+		header.append(ValueProperties.getValue("INSURANCE_NUMBER") + ",");
+		header.append(ValueProperties.getValue("DOB") + ",");
+		header.append(ValueProperties.getValue("START_DATE") + ",");
+		header.append(ValueProperties.getValue("END_DATE") + ",");
+		header.append(ValueProperties.getValue("PLACE_OF_REGISTER"));
+		return header.toString();
+	}
+
+	/**
+	 * Create export File
+	 * @param companyName the company's Name
+	 * @return file to export
+	 */
+	private File createExportFile(String companyName) {
+		File exportFile = new File("D:\\CSV\\" + companyName + ".csv");
+		exportFile.setWritable(true);
+		return exportFile;
+	}
+
+	/**
+	 * Write header of Export File
+	 * @param bw bufferWriter
+	 * @param jsonCompany detail of the COmpany
+	 * @param header columns
+	 * @param lineSeparator '\n'
+	 * @param commaDelimiter ','
+	 * @return bw
+	 * @throws IOException
+	 */
+	private BufferedWriter writeHeaderOfExportFile(BufferedWriter bw, String jsonCompany, String header,
+			String lineSeparator, String commaDelimiter) throws IOException {
+		JSONObject obj = new JSONObject(jsonCompany);
+		String companyName = obj.getString(Constant.COMPANY_NAME);
+		String companyAddress = obj.getString(Constant.COMPANY_ADDRESS);
+		String companyPhone = obj.getString(Constant.COMPANY_PHONE);
+		String companyEmail = obj.getString(Constant.COMPANY_EMAIL);
+		bw.append(ValueProperties.getValue("LIST_INSURANCE"));
+		// 2 New Line after the header
+		bw.append(lineSeparator);
+		bw.append(lineSeparator);
+		// Adding CompanyName
+		bw.append(ValueProperties.getValue("COMPANY_NAME")+commaDelimiter+companyName+lineSeparator);
+		// Adding CompanyAddress
+		bw.append(ValueProperties.getValue("ADDRESS")+commaDelimiter+companyAddress+lineSeparator);
+		// Adding CompanyEmail
+		bw.append(ValueProperties.getValue("EMAIL")+commaDelimiter+companyEmail+lineSeparator);
+		// Adding companyPhone
+		bw.append(ValueProperties.getValue("PHONE_NUMBER")+commaDelimiter+companyPhone+lineSeparator);
+		// Adding 2 new line
+		bw.append(lineSeparator);
+		bw.append(lineSeparator);
+		// Adding the header of table
+		bw.append(header);
+		// New Line after the header
+		bw.append(lineSeparator);
+		return bw;
+	}
+
+	/**
+	 * Create File Output Stream
+	 * 
+	 * @param exportFile
+	 * @return
+	 * @throws IOException
+	 */
+	private FileOutputStream createFileOutputStreamWithBom(File exportFile) throws IOException {
+		byte[] bom = new byte[] { (byte) 0xEF, (byte) 0xBB, (byte) 0xBF };
+		FileOutputStream fos = new FileOutputStream(exportFile, false);
+		fos.write(bom);
+		return fos;
+	}
+
+	/**
+	 * 
+	 * @param fileOutputStream
+	 * @return OutputStreamWriter
+	 * @throws UnsupportedEncodingException
+	 */
+	private OutputStreamWriter createOutputStreamWriter(FileOutputStream fileOutputStream)
+			throws UnsupportedEncodingException {
+		return new OutputStreamWriter(fileOutputStream, "UTF-8");
+	}
+
+	/**
+	 * Write content
+	 * 
+	 * @param bw bufferedWriter
+	 * @param searchingInfo info search
+	 * @param lineSeparator '\n'
+	 * @param commaDelimiter ','
+	 * @return bw
+	 * @throws IOException
+	 */
+	private BufferedWriter writeContentFile(BufferedWriter bw, SearchingInfo searchingInfo, String lineSeparator,
+			String commaDelimiter) throws IOException {
+		int currentPagetoRecord = 1;
+		int maxResultToRecord = 5;
+		ArrayList<DisplayUser> allUsers = (ArrayList<DisplayUser>) getListUserForExport(searchingInfo,
+				currentPagetoRecord, maxResultToRecord);
+		while (allUsers.size() <= maxResultToRecord) {
+			Iterator<DisplayUser> it = allUsers.iterator();
+			while (it.hasNext()) {
+				DisplayUser displayUser = (DisplayUser) it.next();
+				bw.append(displayUser.getUsername());
+				bw.append(commaDelimiter);
+				bw.append(displayUser.getGender());
+				bw.append(commaDelimiter);
+				bw.append(displayUser.getBirthdate());
+				bw.append(commaDelimiter);
+				bw.append(displayUser.getInsuranceNumber());
+				bw.append(commaDelimiter);
+				bw.append(displayUser.getStartDate());
+				bw.append(commaDelimiter);
+				bw.append(displayUser.getEndDate());
+				bw.append(commaDelimiter);
+				bw.append(displayUser.getPlaceOfRegister());
+				bw.append(lineSeparator);
+			}
+			if (allUsers.size() == maxResultToRecord) {
+				currentPagetoRecord++;
+				allUsers = (ArrayList<DisplayUser>) getListUserForExport(searchingInfo, currentPagetoRecord,
+						maxResultToRecord);
+			} else if (allUsers.size() < maxResultToRecord) {
+				break;
+			}
+		}
+		return bw;
 	}
 }

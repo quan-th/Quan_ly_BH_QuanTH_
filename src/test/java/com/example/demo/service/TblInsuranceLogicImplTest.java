@@ -6,6 +6,7 @@ import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.booleanThat;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 import org.junit.Test;
@@ -55,8 +56,10 @@ public class TblInsuranceLogicImplTest {
 	}
 
 	/**
-	 * Test insert Insurance Success [In] tblInsurance: default
-	 * tblCompanyDao:default tblUser:fefault [Out] insuranceActual:tblInsurance
+	 * Test insert Insurance Success 
+	 * [In] tblInsurance: default
+	 * tblCompanyDao:default tblUser:fefault 
+	 * [Out] insuranceActual:tblInsurance
 	 * companyActual:tblCompanyDao userActual:tblUserDao
 	 */
 	@Test
@@ -78,13 +81,15 @@ public class TblInsuranceLogicImplTest {
 	}
 
 	/**
-	 * Test save Insurance throws DataIntegrityViolationException [In]
-	 * tblInsurance: default tblCompanyDao:default tblUser:fefault [Out]
+	 * Test save Insurance throws DataIntegrityViolationException 
+	 * [In]
+	 * tblInsurance: default tblCompanyDao:default tblUser:fefault 
+	 * [Out]
 	 * insuranceActual:tblInsurance companyActual:tblCompanyDao
 	 * userActual:tblUserDao
 	 */
 	@Test(expected = DataIntegrityViolationException.class)
-	public void insertOrUpdateInsuranceThrowRTE() {
+	public void insertOrUpdateInsuranceThrowDIVE() {
 		// setup
 		TblInsurance insurance = new TblInsurance();
 		when(tblInsuranceDao.save(insurance)).thenThrow(DataIntegrityViolationException.class);
@@ -100,7 +105,8 @@ public class TblInsuranceLogicImplTest {
 	}
 
 	/**
-	 * [In] UserId:1; [Out] DetailUser ( Id :0, UserName :Tran HongQuan,
+	 * [In] UserId:1; 
+	 * [Out] DetailUser ( Id :0, UserName :Tran HongQuan,
 	 * Birthday:17/06/1995. Gender: Nam, InsuranceNumber:0123456789, StartDate
 	 * :17/06/2017, Enddate: 17/06/2018, PlaceOfRegister:HaDong, Company: Ha
 	 * Dong )
@@ -129,7 +135,8 @@ public class TblInsuranceLogicImplTest {
 	}
 
 	/**
-	 * [In] UserId:1 [Out] NullpointerException
+	 * [In] UserId:1 
+	 * [Out] NullpointerException
 	 */
 	@Test(expected = NullPointerException.class)
 	public void findByUserInternalIdThrowNPE() {
@@ -138,11 +145,10 @@ public class TblInsuranceLogicImplTest {
 		// exercise
 		DetailUser detailUserActual = tblUserLogicImpl.getDetailUser(1);
 	}
+
 	/**
-	 * [In]
-	 * UserId :1
-	 * [Out]
-	 * actual :true
+	 * [In] UserId :1 
+	 * [Out] actual :true
 	 */
 	@Test
 	public void deleteInsuranceTest() {
@@ -156,6 +162,33 @@ public class TblInsuranceLogicImplTest {
 		// verify
 		assertTrue(result);
 
+	}
+
+	/**
+	 * Test delete Insurance throw RuntimeException 
+	 * [In] UserID :1
+	 */
+	@Test(expected = RuntimeException.class)
+	public void deleteInsuranceThrowRTE() {
+		// setup
+		TblUser tblUser = DataFixture.getTblUser();
+		when(tblUserDao.findByUserInternalId(anyObject())).thenReturn(tblUser);
+		doNothing().when(tblUserDao).delete(any(TblUser.class));
+		doThrow(RuntimeException.class).when(tblInsuranceDao).delete(any(TblInsurance.class));
+		// exercise
+		boolean result = sut.deleteInsurance(1);
+	}
+
+	/**
+	 * Test findByUserInteralId return null 
+	 * [In] UserID :1
+	 */
+	@Test(expected = NullPointerException.class)
+	public void deleteInsuranceThrowNPE() {
+		// setup
+		when(tblUserDao.findByUserInternalId(anyObject())).thenReturn(null);
+		// exercise
+		boolean result = sut.deleteInsurance(1);
 	}
 
 }

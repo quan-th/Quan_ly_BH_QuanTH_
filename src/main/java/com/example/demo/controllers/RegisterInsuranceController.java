@@ -44,14 +44,6 @@ public class RegisterInsuranceController {
 	private TblInsuranceLogic tblInsuranceLogic;
 	@Autowired
 	private ValidateInsurance insurance;
-
-	/**
-	 * Gọi khi ấn đăng kí từ MH002
-	 * @param model model
-	 * @param insuranceInfo thông tin bảo hiểm
-	 * @return màn hình 004
-	 */
-
 	@RequestMapping(value = "/Register.do", method = RequestMethod.GET)
 	public String insertInsurance(ModelMap model, HttpServletRequest request) {
 		String sessionId = request.getParameter("SessionId");
@@ -67,13 +59,6 @@ public class RegisterInsuranceController {
 		return Constant.MH004;
 
 	}
-
-	/**
-	 * Gọi khi ấn đăng kí từ MH004
-	 * @param model model
-	 * @param insuranceInfo thông tin bảo hiểm
-	 * @return màn hình 004
-	 */
 	@RequestMapping(value = "/Register.do", method = RequestMethod.POST)
 	public String insertInsurance(ModelMap model, @ModelAttribute InsuranceInfo insuranceInfo, BindingResult infoResult,
 			HttpServletRequest httpServletRequest) {
@@ -101,19 +86,19 @@ public class RegisterInsuranceController {
 	}
 
 	/**
-	 * Được gọi khi người dùng chọn công ty
+	 * Called when user changes Company 
 	 * @param model model
-	 * @param companyId Id của công ty chọn
-	 * @return detail công ty Json
+	 * @param companyId company's internalID
+	 * @return detail json detail Company
 	 */
 	@RequestMapping(value = "/Register.do/loadCompany", method = RequestMethod.POST)
 	@ResponseBody
 	public String detailsCompany(ModelMap model, @RequestParam Integer companyId) {
-		return tblCompanyLogic.getCompanyById(companyId);
+		return tblCompanyLogic.getJsonCompanyById(companyId);
 	}
 
 	/**
-	 * load thông tin mặc định
+	 * load default details
 	 * @param model model
 	 */
 	@ModelAttribute("companies")

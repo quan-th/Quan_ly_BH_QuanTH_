@@ -127,13 +127,10 @@ public class TblUserDaoImpl implements TblUserDaoCustom {
 	}
 
 	/**
-	 * Lấy vị trí record đầu tiên
-	 * 
-	 * @param currentPage
-	 *            trang hiện tại
-	 * @param maxResult
-	 *            kết quả / trang
-	 * @return
+	 * get index of the first record of currentPage
+	 * @param currentPage current Page
+	 * @param maxResult records per page
+	 * @return index
 	 */
 	private int getStartPosition(int currentPage, int maxResult) {
 		return (currentPage - 1) * maxResult;
@@ -218,76 +215,4 @@ public class TblUserDaoImpl implements TblUserDaoCustom {
 		}
 		return count;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.luvina.daos.TblUserDao#getDetailUser(int)
-	 */
-	@Override
-	public DetailUser getDetailUser(int id) {
-		DetailUser detailUser = new DetailUser();
-
-		try {
-
-			StringBuilder command = new StringBuilder();
-			command.append(" select new ");
-			command.append(DetailUser.class.getName());
-			command.append("(u.userInternalId,");
-			command.append(" u.userFullName,");
-			command.append(" u.userSexDivision,");
-			command.append(" u.birthday,");
-			command.append(" u.tblInsurance.insuranceNumber,");
-			command.append(" u.tblInsurance.insuranceStartDate,");
-			command.append(" u.tblInsurance.insuranceEndDate,");
-			command.append(" u.tblInsurance.placeOfRegister,");
-			command.append(" u.tblCompany.companyName)");
-			command.append(" from ");
-			command.append(TblUser.class.getName());
-			command.append(" u inner join u.tblInsurance inner join u.tblCompany where");
-			command.append(" u.userInternalId=:userId");
-			Query query = entityManager.createQuery(command.toString(), DetailUser.class);
-			query.setParameter("userId", id);
-			detailUser = (DetailUser) query.getSingleResult();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return detailUser;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.luvina.daos.TblUserDao#checkUserExist(int)
-	 */
-	@Override
-	public boolean checkUserExist(int id) {
-
-		long countUser = 0;
-		try {
-
-			String command = "select count(*) from " + TblUser.class.getName() + " u where u.userInternalId=:userId";
-			Query query = entityManager.createQuery(command.toString());
-			query.setParameter("userId", id);
-			countUser = (long) query.getSingleResult();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return countUser != 0;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.luvina.daos.TblUserDao#getUserById(int)
-	 */
-	@Override
-	public TblUser getUserById(int id) {
-
-		TblUser tblUser = (TblUser) entityManager
-				.createQuery("Select u from " + TblUser.class.getName() + " u where u.userInternalId =:userInternalId")
-				.setParameter("userInternalId", id).getSingleResult();
-		return tblUser;
-	}
-
 }

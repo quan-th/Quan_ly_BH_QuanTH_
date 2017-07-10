@@ -26,7 +26,6 @@ public class DeleteUserController {
 	private TblUserLogic tblUserLogic;
 	@Autowired
 	private TblInsuranceLogic tblInsuranceLogic;
-
 	@RequestMapping(value = "/Delete.do", method = RequestMethod.GET)
 	public String detailsUser(ModelMap model, HttpServletRequest request) {
 		try {

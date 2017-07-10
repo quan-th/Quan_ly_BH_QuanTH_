@@ -37,14 +37,6 @@ public class SearchController {
 	private TblUserLogic tblUserLogic;
 	@Autowired
 	private TblCompanyLogic tblCompanyLogic;
-
-	/**
-	 * Được gọi đến khi chọn tìm kiếm
-	 * 
-	 * @param model model
-	 * @param searchingInfo thông tin tìm kiếm
-	 * @return màn hình 002
-	 */
 	@RequestMapping(value = "/Search.do", method = RequestMethod.GET)
 	private String searchUsers(ModelMap model, @ModelAttribute SearchingInfo searchingInfo,
 			HttpServletRequest request) {
@@ -96,12 +88,6 @@ public class SearchController {
 		model.addAttribute("totalPages", Common.getTotalOfPages(maxResult, totalRecords));
 		return Constant.MH002;
 	}
-
-	/**
-	 * được gọi đến sau khi login thành công
-	 * @param model model
-	 * @return màn hình 002
-	 */
 	@RequestMapping(value = "/AllUsers.do", method = RequestMethod.GET)
 	private String listUsers(ModelMap model, HttpServletRequest request) {
 		SearchingInfo searchingInfo = new SearchingInfo();
@@ -126,7 +112,7 @@ public class SearchController {
 	}
 
 	/**
-	 * load thông tin mặc định
+	 * load default details
 	 * @param model model
 	 */
 	@ModelAttribute("companies")
@@ -134,7 +120,12 @@ public class SearchController {
 		return tblCompanyLogic.getAllCompany();
 	}
 
-	
+	/**
+	 * Export CSV
+	 * @param model model
+	 * @param searchingInfo searchingInfo
+	 * @return File jsp
+	 */
 	@RequestMapping(value = "/Search.do/CSV", method = RequestMethod.POST)
 	private String exportCSV(ModelMap model, @ModelAttribute SearchingInfo searchingInfo) {
 		int currentPage = 1;
@@ -153,7 +144,7 @@ public class SearchController {
 			model.addAttribute("searchingInfo", searchingInfo);
 			model.addAttribute("pages", pages);
 			model.addAttribute("currentPage", currentPage);
-			String jsonCompany = tblCompanyLogic.getCompanyById(Integer.parseInt(searchingInfo.getCompanyId()));
+			String jsonCompany = tblCompanyLogic.getJsonCompanyById(Integer.parseInt(searchingInfo.getCompanyId()));
 			if (tblUserLogic.exportUser(searchingInfo, jsonCompany)) {
 				return Constant.MH002;
 			} else {
