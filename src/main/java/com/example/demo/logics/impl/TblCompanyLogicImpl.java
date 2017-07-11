@@ -31,13 +31,14 @@ public class TblCompanyLogicImpl implements TblCompanyLogic {
 	 */
 	@Override
 	public List<Company> getAllCompany() {
-		// TODO Auto-generated method stub
+		
 		List<TblCompany> allCompany= tblCompanyDao.findAll();
+		
 		List<Company> retCompanys = new ArrayList<>();
-		for (TblCompany tblCompany : allCompany) {
+		allCompany.forEach(tblCompany->{
 			Company company= new Company(tblCompany.getCompanyInternalId(), tblCompany.getCompanyName());
 			retCompanys.add(company);
-		}
+		});
 		return retCompanys;
 	}
 	/*

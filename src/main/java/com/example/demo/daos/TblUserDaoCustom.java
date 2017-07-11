@@ -19,10 +19,9 @@ public interface TblUserDaoCustom {
 	 * get List user by searching Info
 	 * @param info searching Info
 	 * @param currentPage current Page
-	 * @param maxResult records per Page
 	 * @return list User
 	 */
-	public List<DisplayUser> getListUsers(SearchingInfo info, int currentPage, int maxResult);
+	public List<DisplayUser> getListUsers(SearchingInfo info, int currentPage);
 
 	/**
 	 * get totalUser

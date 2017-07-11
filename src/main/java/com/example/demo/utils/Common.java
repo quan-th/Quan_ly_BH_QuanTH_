@@ -224,18 +224,17 @@ public class Common {
 	/**
 	 * formed currentPage
 	 * @param currentPage currentPage
-	 * @param recordsOfPage records/ page
 	 * @param totalRecords total records
 	 * @return current page
 	 */
-	public static int formedCurrentPage(String strCurrentPage, int recordsOfPage, int totalRecords) {
+	public static int formedCurrentPage(String strCurrentPage, int totalRecords) {
 		int currentPage = 0;
 		try {
 			currentPage = Integer.parseInt(strCurrentPage);
 		} catch (NumberFormatException e) {
 			currentPage = 1;
 		}
-		int numberOfPages = getTotalOfPages(recordsOfPage, totalRecords);
+		int numberOfPages = getTotalOfPages(totalRecords);
 		if (currentPage < 1) {
 			return 1;
 		} else if (currentPage > numberOfPages) {
@@ -252,8 +251,8 @@ public class Common {
 	 * @param totalRecords total records
 	 * @return list paging
 	 */
-	public static ArrayList<Integer> paging(int currentPage, int recordsOfPage, int totalRecords) {
-		int numberOfPages = getTotalOfPages(recordsOfPage, totalRecords);
+	public static ArrayList<Integer> paging(int currentPage, int totalRecords) {
+		int numberOfPages = getTotalOfPages(totalRecords);
 		int pageRange = Integer.parseInt(ValueProperties.getValue("PAGE_RANGE"));
 		int numberOfPageToAdd = pageRange - 1;
 		int startPage = 0;
@@ -280,7 +279,8 @@ public class Common {
 	 * @param recordsOfPage records/page
 	 * @return total page
 	 */
-	public static int getTotalOfPages(int recordsOfPage, int totalRecords) {
+	public static int getTotalOfPages(int totalRecords) {
+		int recordsOfPage = Integer.parseInt(ValueProperties.getValue(Constant.MAX_RESULT));
 		return (totalRecords % recordsOfPage == 0) ? totalRecords / recordsOfPage : totalRecords / recordsOfPage + 1;
 	}
 	/**

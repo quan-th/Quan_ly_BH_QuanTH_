@@ -4,6 +4,7 @@
  */
 package com.example.demo.logics;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.example.demo.entities.DetailUser;
@@ -31,13 +32,13 @@ public interface TblUserLogic {
 	 * @param maxResult  records/Page
 	 * @return list User
 	 */
-	public List<DisplayUser> getListUsers(SearchingInfo info,int currentPage,int maxResult);
+	public List<DisplayUser> getListUsers(SearchingInfo info,int currentPage);
 	/**
 	 * get User's details
 	 * @param id user internal Id
 	 * @return DetailUser
 	 */
-	public DetailUser getDetailUser(int id);
+	public DetailUser getDetailUser(int id) throws NullPointerException;
 	/**
 	 * check exist User
 	 * @param id user internal Id
@@ -55,8 +56,9 @@ public interface TblUserLogic {
 	 * @param searchingInfo searching infomation
 	 * @param jsonCompany json Company
 	 * @return success-> true, unsuccess-> false
+	 * @throws IOException 
 	 */
-	public boolean exportUser(SearchingInfo searchingInfo, String jsonCompany);
+	public boolean exportUsers(SearchingInfo searchingInfo, String jsonCompany) throws IOException;
 	/**
 	 * get List UserForExport 
 	 * @param info searching infomation

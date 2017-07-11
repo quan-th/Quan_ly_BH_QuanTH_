@@ -36,7 +36,6 @@ public class LoginController {
 	public String validateLogin(ModelMap model, @ModelAttribute UserLogin userLogin, BindingResult bindingResult,
 			HttpServletRequest request) {
 		try {
-
 			validateLogin.validate(userLogin, bindingResult);
 			HttpSession session = request.getSession();
 			if (!bindingResult.hasErrors()) {

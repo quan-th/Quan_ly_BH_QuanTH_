@@ -4,6 +4,7 @@
  */
 package com.example.demo.controllers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -45,8 +46,7 @@ public class SearchController {
 		HttpSession session = request.getSession();
 		int currentPage = 1;
 		int totalRecords = 0;
-		int maxResult = Integer.parseInt(ValueProperties.getValue(Constant.MAX_RESULT));
-		// back
+		
 		if (action.equals(Constant.ACTION_BACK_MH002)) {
 			sessionId = request.getParameter("sessionId");
 			searchingInfo = (session.getAttribute(sessionId) != null) ? (SearchingInfo) session.getAttribute(sessionId)
@@ -76,41 +76,35 @@ public class SearchController {
 			searchingInfo.setCompanyId(companies.get(0).getCompanyID() + "");
 		}
 		totalRecords = (int) tblUserLogic.getNumberOfUsers(searchingInfo);
-		currentPage = Common.formedCurrentPage(searchingInfo.getCurrentPage(), maxResult, totalRecords);
+		currentPage = Common.formedCurrentPage(searchingInfo.getCurrentPage(), totalRecords);
 		searchingInfo.setCurrentPage(currentPage+"");
-		ArrayList<Integer> pages = Common.paging(currentPage, maxResult, totalRecords);
-		ArrayList<DisplayUser> allUsers = (ArrayList<DisplayUser>) tblUserLogic.getListUsers(searchingInfo, currentPage,
-				maxResult);
+		ArrayList<Integer> pages = Common.paging(currentPage, totalRecords);
+		ArrayList<DisplayUser> allUsers = (ArrayList<DisplayUser>) tblUserLogic.getListUsers(searchingInfo, currentPage);
 		model.addAttribute("searchingInfo", searchingInfo);
 		model.addAttribute("allUsers", allUsers);
 		model.addAttribute("pages", pages);
 		model.addAttribute("currentPage", currentPage);
-		model.addAttribute("totalPages", Common.getTotalOfPages(maxResult, totalRecords));
+		model.addAttribute("totalPages", Common.getTotalOfPages(totalRecords));
 		return Constant.MH002;
 	}
+	
 	@RequestMapping(value = "/AllUsers.do", method = RequestMethod.GET)
 	private String listUsers(ModelMap model, HttpServletRequest request) {
 		SearchingInfo searchingInfo = new SearchingInfo();
 		List<Company> companies = tblCompanyLogic.getAllCompany();
 		searchingInfo.setCompanyId(companies.get(0).getCompanyID() + "");
 		int currentPage = 1;
-		int maxResult = Integer.parseInt(ValueProperties.getValue(Constant.MAX_RESULT));
 		int totalRecords = (int) tblUserLogic.getNumberOfUsers(searchingInfo);
-		ArrayList<Integer> pages = Common.paging(currentPage, maxResult, totalRecords);
-		ArrayList<DisplayUser> allUsers = (ArrayList<DisplayUser>) tblUserLogic.getListUsers(searchingInfo, currentPage,
-				maxResult);
+		ArrayList<Integer> pages = Common.paging(currentPage, totalRecords);
+		ArrayList<DisplayUser> allUsers = (ArrayList<DisplayUser>) tblUserLogic.getListUsers(searchingInfo, currentPage);
 		model.addAttribute("searchingInfo", searchingInfo);
 		model.addAttribute("allUsers", allUsers);
-
 		model.addAttribute("pages", pages);
-
 		model.addAttribute("currentPage", currentPage);
-
-		model.addAttribute("totalPages", Common.getTotalOfPages(maxResult, totalRecords));
-
+		model.addAttribute("totalPages", Common.getTotalOfPages(totalRecords));
 		return Constant.MH002;
 	}
-
+	
 	/**
 	 * load default details
 	 * @param model model
@@ -130,27 +124,21 @@ public class SearchController {
 	private String exportCSV(ModelMap model, @ModelAttribute SearchingInfo searchingInfo) {
 		int currentPage = 1;
 		int totalRecords = 0;
-		int maxResult = Integer.parseInt(ValueProperties.getValue(Constant.MAX_RESULT));
 		try {
 			totalRecords = (int) tblUserLogic.getNumberOfUsers(searchingInfo);
-			currentPage = Integer.parseInt(searchingInfo.getCurrentPage());
-			currentPage = currentPage < 1 ? 1 : currentPage;
-			ArrayList<Integer> pages = Common.paging(currentPage, maxResult, totalRecords);
-			model.addAttribute("totalPages", Common.getTotalOfPages(maxResult, totalRecords));
-
+			currentPage = Common.formedCurrentPage(searchingInfo.getCurrentPage(), totalRecords);
+			ArrayList<Integer> pages = Common.paging(currentPage, totalRecords);		
 			ArrayList<DisplayUser> displayUsers = (ArrayList<DisplayUser>) tblUserLogic.getListUsers(searchingInfo,
-					currentPage, maxResult);
+					currentPage);
+			model.addAttribute("totalPages", Common.getTotalOfPages(totalRecords));
 			model.addAttribute("allUsers", displayUsers);
 			model.addAttribute("searchingInfo", searchingInfo);
 			model.addAttribute("pages", pages);
 			model.addAttribute("currentPage", currentPage);
 			String jsonCompany = tblCompanyLogic.getJsonCompanyById(Integer.parseInt(searchingInfo.getCompanyId()));
-			if (tblUserLogic.exportUser(searchingInfo, jsonCompany)) {
-				return Constant.MH002;
-			} else {
-				return Constant.ERROR;
-			}
-		} catch (Exception e) {
+			tblUserLogic.exportUsers(searchingInfo, jsonCompany);
+			return Constant.MH002;			
+		} catch (IOException e) {
 			return Constant.ERROR;
 		}
 	}

@@ -6,7 +6,6 @@ package com.example.demo.logics.impl;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -37,6 +36,8 @@ import com.example.demo.utils.ValueProperties;
 public class TblUserLogicImpl implements TblUserLogic {
 	@Autowired
 	private TblUserDao tblUserDao;
+	private final String COMMA_DELIMITER = ",";
+	private final String LINE_SEPARATOR = "\n";
 
 	/*
 	 * (non-Javadoc)
@@ -56,11 +57,10 @@ public class TblUserLogicImpl implements TblUserLogic {
 	 * SearchingInfo)
 	 */
 	@Override
-	public ArrayList<DisplayUser> getListUsers(SearchingInfo info, int currentPage, int maxResult) {
-		ArrayList<DisplayUser> displayUsers = (ArrayList<DisplayUser>) tblUserDao.getListUsers(info, currentPage,
-				maxResult);
+	public ArrayList<DisplayUser> getListUsers(SearchingInfo info, int currentPage) {
+		ArrayList<DisplayUser> displayUsers = (ArrayList<DisplayUser>) tblUserDao.getListUsers(info, currentPage);
 		if (displayUsers.size() != 0) {
-			for (DisplayUser displayUser : displayUsers) {
+			displayUsers.forEach(displayUser -> {
 				displayUser.setUsername(StringEscapeUtils.escapeHtml4(displayUser.getUsername()));
 				displayUser.setGender(Common.convertGender(displayUser.getGender()));
 				displayUser.setBirthdate(Common.convertDate(displayUser.getBirthdate()));
@@ -68,7 +68,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 				displayUser.setStartDate(Common.convertDate(displayUser.getStartDate()));
 				displayUser.setEndDate(Common.convertDate(displayUser.getEndDate()));
 				displayUser.setPlaceOfRegister(StringEscapeUtils.escapeHtml4(displayUser.getPlaceOfRegister()));
-			}
+			});
 		}
 		return displayUsers;
 	}
@@ -79,23 +79,19 @@ public class TblUserLogicImpl implements TblUserLogic {
 	 * @see com.luvina.logics.TblUserLogic#getDetailUser(int)
 	 */
 	@Override
-	public DetailUser getDetailUser(int id) {
+	public DetailUser getDetailUser(int id) throws NullPointerException{
 		TblUser tblUser = tblUserDao.findByUserInternalId(id);
 		DetailUser detailUser = new DetailUser();
-		try {
-			detailUser.setId(id);
-			detailUser.setUsername(StringEscapeUtils.escapeHtml4(tblUser.getUserFullName()));
-			detailUser.setGender(Common.convertGender(tblUser.getUserSexDivision()));
-			detailUser.setBirthdate(Common.convertDate(tblUser.getBirthday()));
-			detailUser.setInsuranceNumber(tblUser.getTblInsurance().getInsuranceNumber());
-			detailUser.setStartDate(Common.convertDate(tblUser.getTblInsurance().getInsuranceStartDate()));
-			detailUser.setEndDate(Common.convertDate(tblUser.getTblInsurance().getInsuranceEndDate()));
-			detailUser
+		detailUser.setId(id);
+		detailUser.setUsername(StringEscapeUtils.escapeHtml4(tblUser.getUserFullName()));
+		detailUser.setGender(Common.convertGender(tblUser.getUserSexDivision()));
+		detailUser.setBirthdate(Common.convertDate(tblUser.getBirthday()));
+		detailUser.setInsuranceNumber(tblUser.getTblInsurance().getInsuranceNumber());
+		detailUser.setStartDate(Common.convertDate(tblUser.getTblInsurance().getInsuranceStartDate()));
+		detailUser.setEndDate(Common.convertDate(tblUser.getTblInsurance().getInsuranceEndDate()));
+		detailUser
 					.setPlaceOfRegister(StringEscapeUtils.escapeHtml4(tblUser.getTblInsurance().getPlaceOfRegister()));
-			detailUser.setCompany(StringEscapeUtils.escapeHtml4(tblUser.getTblCompany().getCompanyName()));
-		} catch (NullPointerException e) {
-			throw new NullPointerException();
-		}
+		detailUser.setCompany(StringEscapeUtils.escapeHtml4(tblUser.getTblCompany().getCompanyName()));
 		return detailUser;
 	}
 
@@ -128,37 +124,21 @@ public class TblUserLogicImpl implements TblUserLogic {
 	 * .SearchingInfo, java.lang.String)
 	 */
 	@Override
-	public boolean exportUser(SearchingInfo searchingInfo, String jsonCompany) {
-		BufferedWriter bw = null;
-		String COMMA_DELIMITER = ",";
-		String LINE_SEPARATOR = "\n";
-		try {
-			JSONObject obj = new JSONObject(jsonCompany);
-			String companyName = obj.getString(Constant.COMPANY_NAME);
-			File exportFile = createExportFile(companyName);
-			String header = createColumnOfExportFile();
-			FileOutputStream fos = createFileOutputStreamWithBom(exportFile);
-			OutputStreamWriter osw = createOutputStreamWriter(fos);
-			bw = createBufferWriter(osw);
-			bw = writeHeaderOfExportFile(bw, jsonCompany, header, LINE_SEPARATOR, COMMA_DELIMITER);
-			bw = writeContentFile(bw, searchingInfo, LINE_SEPARATOR, COMMA_DELIMITER);
-			bw.flush();
-			return true;
-		} catch (IOException ee) {
-			ee.printStackTrace();
-			return false;
-		} finally {
-			try {
-				bw.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+	public boolean exportUsers(SearchingInfo searchingInfo, String jsonCompany) throws IOException {
+		BufferedWriter bw = null;		
+		JSONObject obj = new JSONObject(jsonCompany);
+		String companyName = obj.getString(Constant.COMPANY_NAME);
+		File exportFile = createExportFile(companyName);
+		FileOutputStream fos = createFileOutputStreamWithBom(exportFile);
+		OutputStreamWriter osw = createOutputStreamWriter(fos);
+		bw = createBufferWriter(osw);
+		bw = writeHeaderOfExportFile(bw, jsonCompany);
+		bw = writeContentFile(bw, searchingInfo);
+		bw.flush();
+		return true;
 	}
-
 	/**
 	 * Create BufferWriter
-	 * 
 	 * @param osw OutputStreamWriter
 	 * @return bufferWriter
 	 */
@@ -175,7 +155,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 	 */
 	@Override
 	public List<DisplayUser> getListUserForExport(SearchingInfo info, int currentPage, int maxResult) {
-		List<DisplayUser> displayUsers = tblUserDao.getListUsers(info, currentPage, maxResult);
+		List<DisplayUser> displayUsers = tblUserDao.getListUsers(info, currentPage);
 		if (displayUsers.size() != 0) {
 			for (DisplayUser displayUser : displayUsers) {
 				displayUser.setGender(Common.convertGender(displayUser.getGender()));
@@ -222,38 +202,29 @@ public class TblUserLogicImpl implements TblUserLogic {
 	 * Write header of Export File
 	 * @param bw bufferWriter
 	 * @param jsonCompany detail of the COmpany
-	 * @param header columns
-	 * @param lineSeparator '\n'
-	 * @param commaDelimiter ','
 	 * @return bw
 	 * @throws IOException
 	 */
-	private BufferedWriter writeHeaderOfExportFile(BufferedWriter bw, String jsonCompany, String header,
-			String lineSeparator, String commaDelimiter) throws IOException {
+	private BufferedWriter writeHeaderOfExportFile(BufferedWriter bw, String jsonCompany) throws IOException {
 		JSONObject obj = new JSONObject(jsonCompany);
 		String companyName = obj.getString(Constant.COMPANY_NAME);
 		String companyAddress = obj.getString(Constant.COMPANY_ADDRESS);
 		String companyPhone = obj.getString(Constant.COMPANY_PHONE);
 		String companyEmail = obj.getString(Constant.COMPANY_EMAIL);
-		bw.append(ValueProperties.getValue("LIST_INSURANCE"));
-		// 2 New Line after the header
-		bw.append(lineSeparator);
-		bw.append(lineSeparator);
-		// Adding CompanyName
-		bw.append(ValueProperties.getValue("COMPANY_NAME")+commaDelimiter+companyName+lineSeparator);
-		// Adding CompanyAddress
-		bw.append(ValueProperties.getValue("ADDRESS")+commaDelimiter+companyAddress+lineSeparator);
-		// Adding CompanyEmail
-		bw.append(ValueProperties.getValue("EMAIL")+commaDelimiter+companyEmail+lineSeparator);
-		// Adding companyPhone
-		bw.append(ValueProperties.getValue("PHONE_NUMBER")+commaDelimiter+companyPhone+lineSeparator);
-		// Adding 2 new line
-		bw.append(lineSeparator);
-		bw.append(lineSeparator);
-		// Adding the header of table
-		bw.append(header);
-		// New Line after the header
-		bw.append(lineSeparator);
+		String headerColumn = createColumnOfExportFile();
+		
+		bw.append(ValueProperties.getValue("LIST_INSURANCE"));		
+		bw.append(LINE_SEPARATOR);
+		bw.append(LINE_SEPARATOR);
+		bw.append(ValueProperties.getValue("COMPANY_NAME")+COMMA_DELIMITER+companyName+LINE_SEPARATOR);
+		bw.append(ValueProperties.getValue("ADDRESS")+COMMA_DELIMITER+companyAddress+LINE_SEPARATOR);
+		bw.append(ValueProperties.getValue("EMAIL")+COMMA_DELIMITER+companyEmail+LINE_SEPARATOR);
+		bw.append(ValueProperties.getValue("PHONE_NUMBER")+COMMA_DELIMITER+companyPhone+LINE_SEPARATOR);
+		bw.append(LINE_SEPARATOR);
+		bw.append(LINE_SEPARATOR);
+		bw.append(headerColumn);
+		bw.append(LINE_SEPARATOR);
+		
 		return bw;
 	}
 
@@ -287,13 +258,10 @@ public class TblUserLogicImpl implements TblUserLogic {
 	 * 
 	 * @param bw bufferedWriter
 	 * @param searchingInfo info search
-	 * @param lineSeparator '\n'
-	 * @param commaDelimiter ','
 	 * @return bw
 	 * @throws IOException
 	 */
-	private BufferedWriter writeContentFile(BufferedWriter bw, SearchingInfo searchingInfo, String lineSeparator,
-			String commaDelimiter) throws IOException {
+	private BufferedWriter writeContentFile(BufferedWriter bw, SearchingInfo searchingInfo) throws IOException {
 		int currentPagetoRecord = 1;
 		int maxResultToRecord = 5;
 		ArrayList<DisplayUser> allUsers = (ArrayList<DisplayUser>) getListUserForExport(searchingInfo,
@@ -303,19 +271,19 @@ public class TblUserLogicImpl implements TblUserLogic {
 			while (it.hasNext()) {
 				DisplayUser displayUser = (DisplayUser) it.next();
 				bw.append(displayUser.getUsername());
-				bw.append(commaDelimiter);
+				bw.append(COMMA_DELIMITER);
 				bw.append(displayUser.getGender());
-				bw.append(commaDelimiter);
+				bw.append(COMMA_DELIMITER);
 				bw.append(displayUser.getBirthdate());
-				bw.append(commaDelimiter);
+				bw.append(COMMA_DELIMITER);
 				bw.append(displayUser.getInsuranceNumber());
-				bw.append(commaDelimiter);
+				bw.append(COMMA_DELIMITER);
 				bw.append(displayUser.getStartDate());
-				bw.append(commaDelimiter);
+				bw.append(COMMA_DELIMITER);
 				bw.append(displayUser.getEndDate());
-				bw.append(commaDelimiter);
+				bw.append(COMMA_DELIMITER);
 				bw.append(displayUser.getPlaceOfRegister());
-				bw.append(lineSeparator);
+				bw.append(LINE_SEPARATOR);
 			}
 			if (allUsers.size() == maxResultToRecord) {
 				currentPagetoRecord++;

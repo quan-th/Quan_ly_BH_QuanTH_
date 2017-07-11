@@ -73,11 +73,10 @@ public class TblInsuranceLogicImpl implements TblInsuranceLogic {
 	 * @return tblUser
 	 */
 	private TblUser setDetailForTblUser(TblUser tblUser, InsuranceInfo insuranceInfo) {
-		if (insuranceInfo.getUserId() == 0) {
+		if (insuranceInfo.getUserId() == 0) {// add new TblUser			
 			tblUser.setUserName("admin");
 			tblUser.setUserPassword("admin");
-		} else {
-			// trường hợp thêm mới add userId và userPassword như cũ
+		} else {// update tblUser			
 			tblUser.setUserName(insuranceInfo.getUsername());
 			tblUser.setUserPassword(insuranceInfo.getUserPassword());
 		}

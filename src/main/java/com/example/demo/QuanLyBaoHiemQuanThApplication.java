@@ -8,5 +8,4 @@ public class QuanLyBaoHiemQuanThApplication{
 	public static void main(String[] args) {
 		SpringApplication.run(QuanLyBaoHiemQuanThApplication.class, args);
 	}
-
 }
