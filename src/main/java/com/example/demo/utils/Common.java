@@ -5,11 +5,9 @@ package com.example.demo.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.util.ArrayList;
-
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
 
 import javax.servlet.http.HttpSession;
 
@@ -289,22 +287,21 @@ public class Common {
 	 * @param endDate end Date
 	 * @return true if endDate > start date, false if startDate< endDate
 	 */
-	public static boolean compareStartDateAndEndDate(String startDate, String endDate) {
+	public static boolean compareValidStartDateAndEndDate(String startDate, String endDate) {
 		try {
 			String[] arrEndDate = endDate.split("/");
 			String[] arrStartDate = startDate.split("/");
-			Calendar calEndDate = new GregorianCalendar(Integer.parseInt(arrEndDate[2]),
-					Integer.parseInt(arrEndDate[1]), Integer.parseInt(arrEndDate[0]));
-			Calendar calStartDate = new GregorianCalendar(Integer.parseInt(arrStartDate[2]),
-					Integer.parseInt(arrStartDate[1]), Integer.parseInt(arrStartDate[0]));
+			LocalDate calEndDate = LocalDate.of(Integer.parseInt(arrEndDate[2]), Integer.parseInt(arrEndDate[1]), Integer.parseInt(arrEndDate[0]));
+		    LocalDate calStartDate = LocalDate.of(Integer.parseInt(arrStartDate[2]),Integer.parseInt(arrStartDate[1]), Integer.parseInt(arrStartDate[0]));
 			int compareDate = calEndDate.compareTo(calStartDate);
 			if (compareDate <= 0) {
 				return false;
 			} 
-		} catch (NullPointerException | NumberFormatException | ArrayIndexOutOfBoundsException e) {
+			return true;
+		} catch (NullPointerException | NumberFormatException | ArrayIndexOutOfBoundsException | DateTimeException e) {
 			return false;
 		}
-		return true;
+	
 		
 	}
 }

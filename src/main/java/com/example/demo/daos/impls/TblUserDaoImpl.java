@@ -6,6 +6,7 @@ package com.example.demo.daos.impls;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -21,7 +22,6 @@ import com.example.demo.entities.TblUser;
 import com.example.demo.utils.Common;
 import com.example.demo.utils.Constant;
 import com.example.demo.utils.ValueProperties;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author HP TblUserDaoImpl

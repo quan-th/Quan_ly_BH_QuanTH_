@@ -5,10 +5,8 @@ package com.example.demo.daos;
 
 import java.util.List;
 
-import com.example.demo.entities.DetailUser;
 import com.example.demo.entities.DisplayUser;
 import com.example.demo.entities.SearchingInfo;
-import com.example.demo.entities.TblUser;
 
 /**
  * @author tranhongquan

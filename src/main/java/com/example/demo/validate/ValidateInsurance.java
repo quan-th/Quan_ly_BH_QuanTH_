@@ -4,9 +4,6 @@
  */
 package com.example.demo.validate;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -26,13 +23,11 @@ public class ValidateInsurance implements Validator {
 
 	@Override
 	public boolean supports(Class<?> clazz) {
-		// TODO Auto-generated method stub
 		return InsuranceInfo.class.isAssignableFrom(clazz);
 	}
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		// TODO Auto-generated method stub
 		InsuranceInfo insuranceInfo = (InsuranceInfo) target;
 		if ("".equals(insuranceInfo.getBirthdate())) {
 			errors.rejectValue("birthdate", "NotEmpty.insuranceInfo.birthdate");
@@ -48,6 +43,10 @@ public class ValidateInsurance implements Validator {
 			errors.rejectValue("endDate", "NotEmpty.insuranceInfo.endDate");
 		} else if (!Common.checkValidDate(insuranceInfo.getEndDate())) {
 			errors.rejectValue("endDate", "NotExist.insuranceInfo.endDate");
+		} else {
+			if (Common.compareValidStartDateAndEndDate(insuranceInfo.getStartDate(), insuranceInfo.getEndDate()) == false) {
+				errors.rejectValue("endDate", "Invalid.insuranceInfo.endDate");
+			}
 		}
 		if (errors.hasErrors() == false) {
 			if (insuranceInfo.getUserId() == 0) {
@@ -59,9 +58,7 @@ public class ValidateInsurance implements Validator {
 					errors.rejectValue("insuranceNumber", "Existed.insuranceInfo.insuranceNumber");
 				}
 			}
-			if (Common.compareStartDateAndEndDate(insuranceInfo.getStartDate(), insuranceInfo.getEndDate()) == false) {
-				errors.rejectValue("endDate", "Invalid.insuranceInfo.endDate");
-			}
+
 		}
 	}
 

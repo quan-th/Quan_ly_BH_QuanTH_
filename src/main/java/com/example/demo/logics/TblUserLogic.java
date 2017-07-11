@@ -5,7 +5,10 @@
 package com.example.demo.logics;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import com.example.demo.entities.DetailUser;
 import com.example.demo.entities.DisplayUser;
@@ -58,7 +61,7 @@ public interface TblUserLogic {
 	 * @return success-> true, unsuccess-> false
 	 * @throws IOException 
 	 */
-	public boolean exportUsers(SearchingInfo searchingInfo, String jsonCompany) throws IOException;
+	public boolean exportUsers(OutputStream outputStream,SearchingInfo searchingInfo, String jsonCompany) throws IOException;
 	/**
 	 * get List UserForExport 
 	 * @param info searching infomation
@@ -66,5 +69,5 @@ public interface TblUserLogic {
 	 * @param maxResult records/page
 	 * @return List<DisplayUser>
 	 */
-	public List<DisplayUser> getListUserForExport(SearchingInfo info, int currentPage, int maxResult);
+	public List<DisplayUser> getListUserForExport(SearchingInfo info, int currentPage);
 }

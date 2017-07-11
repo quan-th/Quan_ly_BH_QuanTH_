@@ -4,6 +4,7 @@ function getInputForm() {
 }
 function sorting() {
 	var frm = getInputForm();
+	frm.action = "/Search.do";
 	frm.userAction.value = "search";
 	if (frm.orderByName.value == "ASC") {
 		frm.orderByName.value = "DESC";
@@ -14,18 +15,21 @@ function sorting() {
 }
 function paging(number) {
 	var frm = getInputForm();
+	frm.action = "/Search.do";
 	frm.userAction.value = "search";
 	frm.currentPage.value = number;	
 	frm.submit();
 }
 function previous(number) {
 	var frm = getInputForm();
+	frm.action = "/Search.do";
 	frm.userAction.value = "search";
 	frm.currentPage.value = number - 1;
 	frm.submit();
 }
 function next(number) {
 	var frm = getInputForm();
+	frm.action = "/Search.do";
 	frm.userAction.value = "search";
 	frm.currentPage.value = number + 1;
 	frm.submit();
@@ -42,6 +46,7 @@ function submitButton() {
 
 function searchUser() {
 	var frm = getInputForm();
+	frm.action = "/Search.do";
 	frm.userAction.value = "search";
 	frm.submit();
 }
@@ -63,7 +68,6 @@ function deleteUser(deleteMessage, id) {
 function exportCSV() {
 	var frm = getInputForm();
 	frm.action = "/Search.do/CSV";
-	frm.method = "POST"
 	frm.submit();
 }
 function changeCompany() {

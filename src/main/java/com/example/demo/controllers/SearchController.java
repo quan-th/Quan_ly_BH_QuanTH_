@@ -5,13 +5,16 @@
 package com.example.demo.controllers;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -26,7 +29,6 @@ import com.example.demo.logics.TblCompanyLogic;
 import com.example.demo.logics.TblUserLogic;
 import com.example.demo.utils.Common;
 import com.example.demo.utils.Constant;
-import com.example.demo.utils.ValueProperties;
 
 /**
  * @author HP
@@ -119,27 +121,41 @@ public class SearchController {
 	 * @param model model
 	 * @param searchingInfo searchingInfo
 	 * @return File jsp
+	 * @throws IOException 
 	 */
-	@RequestMapping(value = "/Search.do/CSV", method = RequestMethod.POST)
-	private String exportCSV(ModelMap model, @ModelAttribute SearchingInfo searchingInfo) {
-		int currentPage = 1;
-		int totalRecords = 0;
-		try {
-			totalRecords = (int) tblUserLogic.getNumberOfUsers(searchingInfo);
-			currentPage = Common.formedCurrentPage(searchingInfo.getCurrentPage(), totalRecords);
-			ArrayList<Integer> pages = Common.paging(currentPage, totalRecords);		
-			ArrayList<DisplayUser> displayUsers = (ArrayList<DisplayUser>) tblUserLogic.getListUsers(searchingInfo,
-					currentPage);
-			model.addAttribute("totalPages", Common.getTotalOfPages(totalRecords));
-			model.addAttribute("allUsers", displayUsers);
-			model.addAttribute("searchingInfo", searchingInfo);
-			model.addAttribute("pages", pages);
-			model.addAttribute("currentPage", currentPage);
+	@RequestMapping(value = "/Search.do/CSV", method = RequestMethod.GET)
+	private void exportCSV(@ModelAttribute SearchingInfo searchingInfo, HttpServletResponse response){
+//		int currentPage = 1;
+//		int totalRecords = 0;
+	
+//		try {
+//			totalRecords = (int) tblUserLogic.getNumberOfUsers(searchingInfo);
+//			currentPage = Common.formedCurrentPage(searchingInfo.getCurrentPage(), totalRecords);
+//			ArrayList<Integer> pages = Common.paging(currentPage, totalRecords);		
+//			ArrayList<DisplayUser> displayUsers = (ArrayList<DisplayUser>) tblUserLogic.getListUsers(searchingInfo,
+//					currentPage);
+//			model.addAttribute("totalPages", Common.getTotalOfPages(totalRecords));
+//			model.addAttribute("allUsers", displayUsers);
+//			model.addAttribute("searchingInfo", searchingInfo);
+//			model.addAttribute("pages", pages);
+//			model.addAttribute("currentPage", currentPage);
 			String jsonCompany = tblCompanyLogic.getJsonCompanyById(Integer.parseInt(searchingInfo.getCompanyId()));
-			tblUserLogic.exportUsers(searchingInfo, jsonCompany);
-			return Constant.MH002;			
-		} catch (IOException e) {
-			return Constant.ERROR;
-		}
+			JSONObject obj = new JSONObject(jsonCompany);
+			String companyName = obj.getString(Constant.COMPANY_NAME);
+			response.setContentType("text/csv");
+		    response.setHeader("Content-Disposition", "attachment; filename=\""+companyName+".csv\"");	 
+			try {
+				OutputStream outputStream = response.getOutputStream();
+				tblUserLogic.exportUsers(outputStream,searchingInfo, jsonCompany);
+				outputStream.flush();
+			    outputStream.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+				
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//			return Constant.ERROR;
+//		}
 	}
 }

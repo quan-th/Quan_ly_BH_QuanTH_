@@ -4,9 +4,10 @@
  */
 package com.example.demo.entities;
 
-import java.io.StringBufferInputStream;
-
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
+
+import com.example.demo.utils.Common;
 
 /**
  * @author HP
@@ -160,5 +161,21 @@ public class DisplayUser {
 	 */
 	public void setPlaceOfRegister(String placeOfRegister) {
 		this.placeOfRegister = placeOfRegister;
+	}
+	public static void formmatDetailUserForDisplay(DisplayUser displayUser){
+		displayUser.setUsername(StringEscapeUtils.escapeHtml4(displayUser.getUsername()));
+		displayUser.setGender(Common.convertGender(displayUser.getGender()));
+		displayUser.setBirthdate(Common.convertDate(displayUser.getBirthdate()));
+		displayUser.setInsuranceNumber(displayUser.getInsuranceNumber());
+		displayUser.setStartDate(Common.convertDate(displayUser.getStartDate()));
+		displayUser.setEndDate(Common.convertDate(displayUser.getEndDate()));
+		displayUser.setPlaceOfRegister(StringEscapeUtils.escapeHtml4(displayUser.getPlaceOfRegister()));
+	}
+	public static void formmatDetailUserForExport(DisplayUser displayUser){
+		displayUser.setGender(Common.convertGender(displayUser.getGender()));
+		displayUser.setBirthdate(Common.convertDate(displayUser.getBirthdate()));
+		displayUser.setInsuranceNumber(displayUser.getInsuranceNumber());
+		displayUser.setStartDate(Common.convertDate(displayUser.getStartDate()));
+		displayUser.setEndDate(Common.convertDate(displayUser.getEndDate()));
 	}
 }

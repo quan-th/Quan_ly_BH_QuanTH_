@@ -3,6 +3,7 @@ package com.example.demo.service;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyInt;
@@ -162,4 +163,61 @@ public class TblUserLogicImplTest {
 		int totalPage = Common.getTotalOfPages(0);
 		assertTrue(0 == totalPage);
 	}
+	/**
+	 * Test getTotalPageTest 
+	 * [In] 
+	 * StartDate:12/12/2017
+	 * [Out] 
+	 * EndDate:12/12/2018
+	 */
+	@Test
+	public void compareValidStartDateAndEndDateTest(){
+		assertTrue(Common.compareValidStartDateAndEndDate("12/12/2017", "12/12/2018"));
+	}
+	/**
+	 * Test getTotalPageTest 
+	 * [In] 
+	 * StartDate:null
+	 * [Out] 
+	 * EndDate:12/12/2018
+	 */
+	@Test
+	public void compareValidStartDateAndEndDateNPETest(){
+		assertFalse(Common.compareValidStartDateAndEndDate(null, "12/12/2018"));
+	}
+	/**
+	 * Test getTotalPageTest 
+	 * [In] 
+	 * StartDate:a
+	 * [Out] 
+	 * EndDate:12/12/2018
+	 */
+	@Test
+	public void compareValidStartDateAndEndDateNFETest(){
+		assertFalse(Common.compareValidStartDateAndEndDate("a", "12/12/2018"));
+	}
+	/**
+	 * Test getTotalPageTest 
+	 * [In] 
+	 * StartDate:12/12
+	 * [Out] 
+	 * EndDate:12/12/2018
+	 */
+	@Test
+	public void compareValidStartDateAndEndDateAIOBETest(){
+		assertFalse(Common.compareValidStartDateAndEndDate("12/12", "12/12/2018"));
+	}
+	/**
+	 * Test getTotalPageTest 
+	 * [In] 
+	 * StartDate:2017/2017/2017
+	 * [Out] 
+	 * EndDate:12/12/2018
+	 */
+	@Test
+	public void compareValidStartDateAndEndDateDTETest(){
+		assertFalse(Common.compareValidStartDateAndEndDate("2017/2017/2017", "12/12/2018"));
+	}
+	
 }
+
