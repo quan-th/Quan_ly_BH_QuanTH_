@@ -125,20 +125,6 @@ public class SearchController {
 	 */
 	@RequestMapping(value = "/Search.do/CSV", method = RequestMethod.GET)
 	private void exportCSV(@ModelAttribute SearchingInfo searchingInfo, HttpServletResponse response){
-//		int currentPage = 1;
-//		int totalRecords = 0;
-	
-//		try {
-//			totalRecords = (int) tblUserLogic.getNumberOfUsers(searchingInfo);
-//			currentPage = Common.formedCurrentPage(searchingInfo.getCurrentPage(), totalRecords);
-//			ArrayList<Integer> pages = Common.paging(currentPage, totalRecords);		
-//			ArrayList<DisplayUser> displayUsers = (ArrayList<DisplayUser>) tblUserLogic.getListUsers(searchingInfo,
-//					currentPage);
-//			model.addAttribute("totalPages", Common.getTotalOfPages(totalRecords));
-//			model.addAttribute("allUsers", displayUsers);
-//			model.addAttribute("searchingInfo", searchingInfo);
-//			model.addAttribute("pages", pages);
-//			model.addAttribute("currentPage", currentPage);
 			String jsonCompany = tblCompanyLogic.getJsonCompanyById(Integer.parseInt(searchingInfo.getCompanyId()));
 			JSONObject obj = new JSONObject(jsonCompany);
 			String companyName = obj.getString(Constant.COMPANY_NAME);
@@ -152,10 +138,5 @@ public class SearchController {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-				
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//			return Constant.ERROR;
-//		}
 	}
 }

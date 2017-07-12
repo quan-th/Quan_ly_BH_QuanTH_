@@ -122,10 +122,8 @@ public class TblUserDaoImpl implements TblUserDaoCustom {
 	/**
 	 * get index of the first record of currentPage
 	 * 
-	 * @param currentPage
-	 *            current Page
-	 * @param maxResult
-	 *            records per page
+	 * @param currentPage current Page
+	 * @param maxResult records per page
 	 * @return index
 	 */
 	private int getStartPosition(int currentPage, int maxResult) {

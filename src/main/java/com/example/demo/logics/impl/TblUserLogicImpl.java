@@ -134,9 +134,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 
 	/**
 	 * Create BufferWriter
-	 * 
-	 * @param osw
-	 *            OutputStreamWriter
+	 * @param osw OutputStreamWriter
 	 * @return bufferWriter
 	 * @throws IOException
 	 */
@@ -178,11 +176,8 @@ public class TblUserLogicImpl implements TblUserLogic {
 	}
 	/**
 	 * Write header of Export File
-	 * 
-	 * @param bw
-	 *            bufferWriter
-	 * @param jsonCompany
-	 *            detail of the COmpany
+	 * @param bw bufferWriter
+	 * @param jsonCompany detail of the COmpany
 	 * @return bw
 	 * @throws IOException
 	 */
@@ -206,7 +201,6 @@ public class TblUserLogicImpl implements TblUserLogic {
 
 	/**
 	 * Create File Output Stream
-	 * 
 	 * @param exportFile
 	 * @return
 	 * @throws IOException
@@ -230,11 +224,8 @@ public class TblUserLogicImpl implements TblUserLogic {
 
 	/**
 	 * Write content
-	 * 
-	 * @param bw
-	 *            bufferedWriter
-	 * @param searchingInfo
-	 *            info search
+	 * @param bw bufferedWriter
+	 * @param searchingInfo info search
 	 * @return bw
 	 * @throws IOException
 	 */
