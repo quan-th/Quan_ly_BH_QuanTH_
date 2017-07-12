@@ -5,17 +5,12 @@
 package com.example.demo.logics.impl;
 
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONObject;
@@ -30,6 +25,7 @@ import com.example.demo.entities.DetailUser;
 import com.example.demo.entities.DisplayUser;
 import com.example.demo.entities.SearchingInfo;
 import com.example.demo.entities.TblUser;
+import com.example.demo.functionals.ThrowingConsumer;
 import com.example.demo.logics.TblUserLogic;
 import com.example.demo.utils.Common;
 import com.example.demo.utils.Constant;
@@ -66,7 +62,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 	public ArrayList<DisplayUser> getListUsers(SearchingInfo info, int currentPage) {
 		ArrayList<DisplayUser> displayUsers = (ArrayList<DisplayUser>) tblUserDao.getListUsers(info, currentPage);
 		if (displayUsers.size() != 0) {
-			displayUsers.forEach(DisplayUser::formmatDetailUserForDisplay);
+			displayUsers.forEach(displayUser -> formmatDetailUserForDisplay(displayUser));
 		}
 		return displayUsers;
 	}
@@ -121,11 +117,12 @@ public class TblUserLogicImpl implements TblUserLogic {
 	 * .SearchingInfo, java.lang.String)
 	 */
 	@Override
-	public boolean exportUsers(OutputStream outputStream,SearchingInfo searchingInfo, String jsonCompany) throws IOException {
+	public boolean exportUsers(OutputStream outputStream, SearchingInfo searchingInfo, String jsonCompany)
+			throws IOException {
 		ICsvBeanWriter beanWriter = null;
 		OutputStream ops = createFileOutputStreamWithBom(outputStream);
 		OutputStreamWriter osw = createOutputStreamWriter(ops);
-		BufferedWriter bufferedWriter= new BufferedWriter(osw);
+		BufferedWriter bufferedWriter = new BufferedWriter(osw);
 		beanWriter = createBeanWriter(bufferedWriter);
 		beanWriter = writeHeaderOfExportFile(beanWriter, jsonCompany);
 		beanWriter = writeListUsers(beanWriter, searchingInfo);
@@ -134,6 +131,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 
 	/**
 	 * Create BufferWriter
+	 * 
 	 * @param osw OutputStreamWriter
 	 * @return bufferWriter
 	 * @throws IOException
@@ -153,7 +151,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 	public List<DisplayUser> getListUserForExport(SearchingInfo info, int currentPage) {
 		List<DisplayUser> displayUsers = tblUserDao.getListUsers(info, currentPage);
 		if (displayUsers.size() != 0) {
-			displayUsers.forEach(DisplayUser::formmatDetailUserForExport);
+			displayUsers.forEach(displayUser -> formmatDetailUserForExport(displayUser));
 		}
 		return displayUsers;
 	}
@@ -174,8 +172,10 @@ public class TblUserLogicImpl implements TblUserLogic {
 		header.append(ValueProperties.getValue("PLACE_OF_REGISTER"));
 		return header.toString();
 	}
+
 	/**
 	 * Write header of Export File
+	 * 
 	 * @param bw bufferWriter
 	 * @param jsonCompany detail of the COmpany
 	 * @return bw
@@ -188,25 +188,26 @@ public class TblUserLogicImpl implements TblUserLogic {
 		String companyPhone = obj.getString(Constant.COMPANY_PHONE);
 		String companyEmail = obj.getString(Constant.COMPANY_EMAIL);
 		String headerColumn = createColumnOfExportFile();
-		
+
 		bw.writeComment(ValueProperties.getValue("LIST_INSURANCE"));
 		bw.writeComment(LINE_SEPARATOR);
-		bw.writeComment(ValueProperties.getValue("COMPANY_NAME") + COMMA_DELIMITER + companyName+LINE_SEPARATOR);
-		bw.writeComment(ValueProperties.getValue("ADDRESS") + COMMA_DELIMITER + companyAddress+LINE_SEPARATOR);
-		bw.writeComment(ValueProperties.getValue("EMAIL") + COMMA_DELIMITER + companyEmail+LINE_SEPARATOR);
-		bw.writeComment(ValueProperties.getValue("PHONE_NUMBER") + COMMA_DELIMITER + companyPhone+LINE_SEPARATOR);
+		bw.writeComment(ValueProperties.getValue("COMPANY_NAME") + COMMA_DELIMITER + companyName + LINE_SEPARATOR);
+		bw.writeComment(ValueProperties.getValue("ADDRESS") + COMMA_DELIMITER + companyAddress + LINE_SEPARATOR);
+		bw.writeComment(ValueProperties.getValue("EMAIL") + COMMA_DELIMITER + companyEmail + LINE_SEPARATOR);
+		bw.writeComment(ValueProperties.getValue("PHONE_NUMBER") + COMMA_DELIMITER + companyPhone + LINE_SEPARATOR);
 		bw.writeHeader(headerColumn.split(","));
 		return bw;
 	}
 
 	/**
 	 * Create File Output Stream
+	 * 
 	 * @param exportFile
 	 * @return
 	 * @throws IOException
 	 */
 	private OutputStream createFileOutputStreamWithBom(OutputStream fos) throws IOException {
-		byte[] bom = new byte[] { (byte) 0xEF, (byte) 0xBB, (byte) 0xBF };	
+		byte[] bom = new byte[] { (byte) 0xEF, (byte) 0xBB, (byte) 0xBF };
 		fos.write(bom);
 		return fos;
 	}
@@ -224,12 +225,13 @@ public class TblUserLogicImpl implements TblUserLogic {
 
 	/**
 	 * Write content
+	 * 
 	 * @param bw bufferedWriter
 	 * @param searchingInfo info search
 	 * @return bw
 	 * @throws IOException
 	 */
-	private ICsvBeanWriter writeListUsers(ICsvBeanWriter bw, SearchingInfo searchingInfo) throws IOException {
+	private ICsvBeanWriter writeListUsers(ICsvBeanWriter bw, SearchingInfo searchingInfo) throws IOException{
 		int currentPagetoRecord = 1;
 		int maxResultToRecord = Integer.parseInt(ValueProperties.getValue(Constant.MAX_RESULT));
 
@@ -238,9 +240,10 @@ public class TblUserLogicImpl implements TblUserLogic {
 		String[] header = new String[] { "username", "gender", "birthdate", "insuranceNumber", "startDate", "endDate",
 				"placeOfRegister" };
 		while (allUsers.size() <= maxResultToRecord) {
-			for (DisplayUser displayUser : allUsers) {
-				bw.write(displayUser, header);
-			}
+			allUsers.forEach((displayUser)->{
+				ThrowingConsumer<DisplayUser, String[]> comsumer = (user,arrayHeader) ->bw.write(user, arrayHeader);
+				comsumer.accept(displayUser, header);
+			});
 			if (allUsers.size() == maxResultToRecord) {
 				currentPagetoRecord++;
 				allUsers = (ArrayList<DisplayUser>) getListUserForExport(searchingInfo, currentPagetoRecord);
@@ -252,4 +255,22 @@ public class TblUserLogicImpl implements TblUserLogic {
 		bw.close();
 		return bw;
 	}
+	private void formmatDetailUserForDisplay(DisplayUser displayUser) {
+		displayUser.setUsername(StringEscapeUtils.escapeHtml4(displayUser.getUsername()));
+		displayUser.setGender(Common.convertGender(displayUser.getGender()));
+		displayUser.setBirthdate(Common.convertDate(displayUser.getBirthdate()));
+		displayUser.setInsuranceNumber(displayUser.getInsuranceNumber());
+		displayUser.setStartDate(Common.convertDate(displayUser.getStartDate()));
+		displayUser.setEndDate(Common.convertDate(displayUser.getEndDate()));
+		displayUser.setPlaceOfRegister(StringEscapeUtils.escapeHtml4(displayUser.getPlaceOfRegister()));
+	}
+
+	private void formmatDetailUserForExport(DisplayUser displayUser) {
+		displayUser.setGender(Common.convertGender(displayUser.getGender()));
+		displayUser.setBirthdate(Common.convertDate(displayUser.getBirthdate()));
+		displayUser.setInsuranceNumber(displayUser.getInsuranceNumber());
+		displayUser.setStartDate(Common.convertDate(displayUser.getStartDate()));
+		displayUser.setEndDate(Common.convertDate(displayUser.getEndDate()));
+	}	
 }
+
