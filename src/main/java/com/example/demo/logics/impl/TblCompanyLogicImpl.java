@@ -48,7 +48,7 @@ public class TblCompanyLogicImpl implements TblCompanyLogic {
 	@Override
 	public String getJsonCompanyById(int id) {
 		// TODO Auto-generated method stub
-		System.out.println("hello");
+		System.out.println("hello5");
 		System.out.println();
 		TblCompany tblCompany = tblCompanyDao.findByCompanyInternalId(id);
 		String result = "{\"" + Constant.COMPANY_NAME + "\":\"" + tblCompany.getCompanyName() + "\",\""
