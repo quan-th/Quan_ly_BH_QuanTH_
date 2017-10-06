@@ -33,7 +33,7 @@ public class TblCompanyLogicImpl implements TblCompanyLogic {
 	public List<Company> getAllCompany() {
 		
 		List<TblCompany> allCompany= tblCompanyDao.findAll();
-		
+		System.out.println();
 		List<Company> retCompanys = new ArrayList<>();
 		allCompany.forEach(tblCompany->{
 			Company company= new Company(tblCompany.getCompanyInternalId(), tblCompany.getCompanyName());
