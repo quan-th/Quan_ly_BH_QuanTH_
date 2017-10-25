@@ -31,13 +31,14 @@ public class TblCompanyLogicImpl implements TblCompanyLogic {
 	 */
 	@Override
 	public List<Company> getAllCompany() {
-		// TODO Auto-generated method stub
+		
 		List<TblCompany> allCompany= tblCompanyDao.findAll();
+		System.out.println();
 		List<Company> retCompanys = new ArrayList<>();
-		for (TblCompany tblCompany : allCompany) {
+		allCompany.forEach(tblCompany->{
 			Company company= new Company(tblCompany.getCompanyInternalId(), tblCompany.getCompanyName());
 			retCompanys.add(company);
-		}
+		});
 		return retCompanys;
 	}
 	/*
@@ -45,8 +46,10 @@ public class TblCompanyLogicImpl implements TblCompanyLogic {
 	 * @see com.luvina.logics.TblCompanyLogic#getCompanyById(int)
 	 */
 	@Override
-	public String getCompanyById(int id) {
+	public String getJsonCompanyById(int id) {
 		// TODO Auto-generated method stub
+		System.out.println("hello5");
+		System.out.println();
 		TblCompany tblCompany = tblCompanyDao.findByCompanyInternalId(id);
 		String result = "{\"" + Constant.COMPANY_NAME + "\":\"" + tblCompany.getCompanyName() + "\",\""
 				+ Constant.COMPANY_ADDRESS + "\":\"" + tblCompany.getAddress() + "\",\"" + Constant.COMPANY_EMAIL

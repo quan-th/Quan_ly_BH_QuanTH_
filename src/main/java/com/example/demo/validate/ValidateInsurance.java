@@ -4,9 +4,6 @@
  */
 package com.example.demo.validate;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -17,8 +14,7 @@ import com.example.demo.logics.TblInsuranceLogic;
 import com.example.demo.utils.Common;
 
 /**
- * @author HP
- * ValidateInsurance
+ * @author HP ValidateInsurance
  */
 @Component
 public class ValidateInsurance implements Validator {
@@ -27,13 +23,11 @@ public class ValidateInsurance implements Validator {
 
 	@Override
 	public boolean supports(Class<?> clazz) {
-		// TODO Auto-generated method stub
 		return InsuranceInfo.class.isAssignableFrom(clazz);
 	}
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		// TODO Auto-generated method stub
 		InsuranceInfo insuranceInfo = (InsuranceInfo) target;
 		if ("".equals(insuranceInfo.getBirthdate())) {
 			errors.rejectValue("birthdate", "NotEmpty.insuranceInfo.birthdate");
@@ -49,14 +43,22 @@ public class ValidateInsurance implements Validator {
 			errors.rejectValue("endDate", "NotEmpty.insuranceInfo.endDate");
 		} else if (!Common.checkValidDate(insuranceInfo.getEndDate())) {
 			errors.rejectValue("endDate", "NotExist.insuranceInfo.endDate");
-		}
-		if (errors.hasErrors() == false) {
-			if (tblInsuranceLogic.checkExist(insuranceInfo.getInsuranceNumber())) {
-				errors.rejectValue("insuranceNumber", "Existed.insuranceInfo.insuranceNumber");
-			}
-			if (Common.compareStartDateAndEndDate(insuranceInfo.getStartDate(), insuranceInfo.getEndDate()) == false) {
+		} else {
+			if (Common.compareValidStartDateAndEndDate(insuranceInfo.getStartDate(), insuranceInfo.getEndDate()) == false) {
 				errors.rejectValue("endDate", "Invalid.insuranceInfo.endDate");
 			}
+		}
+		if (errors.hasErrors() == false) {
+			if (insuranceInfo.getUserId() == 0) {
+				if (tblInsuranceLogic.checkExist(insuranceInfo.getInsuranceNumber())) {
+					errors.rejectValue("insuranceNumber", "Existed.insuranceInfo.insuranceNumber");
+				}
+			} else {
+				if (tblInsuranceLogic.checkValidInsuranceForUpdate(insuranceInfo) == false) {
+					errors.rejectValue("insuranceNumber", "Existed.insuranceInfo.insuranceNumber");
+				}
+			}
+
 		}
 	}
 

@@ -12,12 +12,19 @@ import com.example.demo.entities.TblInsurance;
  * @author HP
  * TblInsuranceDao
  */
-public interface TblInsuranceDao extends JpaRepository<TblInsurance, Integer>, TblInsuranceDaoCustom {
+public interface TblInsuranceDao extends JpaRepository<TblInsurance, Integer>{
 	/**
-	 * Tìm kiếm theo số thẻ bảo hiểm
-	 * @param insuranceNumber
-	 * @return TblInsurance thẻ bảo hiểm cần tìm
+	 * find TblInsurance by insuranceNumber
+	 * @param insuranceNumber insuranceNumber
+	 * @return TblInsurance tblInsurance
 	 */
 	public TblInsurance findByInsuranceNumber(String insuranceNumber);
+	/**
+	 * save TblIsurance
+	 */
 	public TblInsurance save(TblInsurance tblCompany);
+	/**
+	 * Delete tblInsurance
+	 */
+	public void delete(TblInsurance tblCompany);
 }

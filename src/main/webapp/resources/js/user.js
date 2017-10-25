@@ -4,6 +4,7 @@ function getInputForm() {
 }
 function sorting() {
 	var frm = getInputForm();
+	frm.action = "/Search.do";
 	frm.userAction.value = "search";
 	if (frm.orderByName.value == "ASC") {
 		frm.orderByName.value = "DESC";
@@ -14,18 +15,21 @@ function sorting() {
 }
 function paging(number) {
 	var frm = getInputForm();
+	frm.action = "/Search.do";
 	frm.userAction.value = "search";
 	frm.currentPage.value = number;	
 	frm.submit();
 }
 function previous(number) {
 	var frm = getInputForm();
+	frm.action = "/Search.do";
 	frm.userAction.value = "search";
 	frm.currentPage.value = number - 1;
 	frm.submit();
 }
 function next(number) {
 	var frm = getInputForm();
+	frm.action = "/Search.do";
 	frm.userAction.value = "search";
 	frm.currentPage.value = number + 1;
 	frm.submit();
@@ -42,12 +46,13 @@ function submitButton() {
 
 function searchUser() {
 	var frm = getInputForm();
+	frm.action = "/Search.do";
 	frm.userAction.value = "search";
 	frm.submit();
 }
 function updateUser() {
 	var frm = getInputForm();
-	frm.action = "/insurence_quanth/Update.do";
+	frm.action = "/Update.do";
 	frm.submit();
 }
 function deleteUser(deleteMessage, id) {
@@ -55,15 +60,14 @@ function deleteUser(deleteMessage, id) {
 	var r = confirm(deleteMessage);
 	if (r == true) {
 		window.location.href = window.location.origin
-		+ "/insurence_quanth/Delete.do?userId=" + id;
+		+ "/Delete.do?userId=" + id;
 	} else {
 		return;
 	}
 }
 function exportCSV() {
 	var frm = getInputForm();
-	frm.action = "/insurence_quanth/Search.do/CSV";
-	frm.method = "POST"
+	frm.action = "/Search.do/CSV";
 	frm.submit();
 }
 function changeCompany() {

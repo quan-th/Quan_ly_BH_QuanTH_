@@ -32,13 +32,10 @@ public class LoginController {
 	@Autowired
 	@Qualifier("validateLogin")
 	private Validator validateLogin;
-
 	@RequestMapping(value = "/Login", method = RequestMethod.POST)
 	public String validateLogin(ModelMap model, @ModelAttribute UserLogin userLogin, BindingResult bindingResult,
 			HttpServletRequest request) {
-
 		try {
-
 			validateLogin.validate(userLogin, bindingResult);
 			HttpSession session = request.getSession();
 			if (!bindingResult.hasErrors()) {
@@ -53,7 +50,6 @@ public class LoginController {
 			return Constant.ERROR_CONNECT;
 		}
 	}
-
 	@RequestMapping(value = { "/Login", "" }, method = RequestMethod.GET)
 	public String displayLogin(Model model) {
 		model.addAttribute("userLogin", new UserLogin());

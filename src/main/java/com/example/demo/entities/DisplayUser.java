@@ -4,9 +4,10 @@
  */
 package com.example.demo.entities;
 
-import java.io.StringBufferInputStream;
-
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
+
+import com.example.demo.utils.Common;
 
 /**
  * @author HP
@@ -50,8 +51,7 @@ public class DisplayUser {
 	}
 
 	/**
-	 * @param id
-	 *            the id to set
+	 * @param id the id to set
 	 */
 	public void setId(int id) {
 		this.id = id;
@@ -65,8 +65,7 @@ public class DisplayUser {
 	}
 
 	/**
-	 * @param username
-	 *            the username to set
+	 * @param username the username to set
 	 */
 	public void setUsername(String username) {
 		this.username = username;
@@ -80,8 +79,7 @@ public class DisplayUser {
 	}
 
 	/**
-	 * @param gender
-	 *            the gender to set
+	 * @param gender the gender to set
 	 */
 	public void setGender(String gender) {
 		this.gender = gender;
@@ -95,8 +93,7 @@ public class DisplayUser {
 	}
 
 	/**
-	 * @param birthdate
-	 *            the birthdate to set
+	 * @param birthdate the birthdate to set
 	 */
 	public void setBirthdate(String birthdate) {
 		this.birthdate = birthdate;
@@ -110,8 +107,7 @@ public class DisplayUser {
 	}
 
 	/**
-	 * @param insuranceNumber
-	 *            the insuranceNumber to set
+	 * @param insuranceNumber the insuranceNumber to set
 	 */
 	public void setInsuranceNumber(String insuranceNumber) {
 		this.insuranceNumber = insuranceNumber;
@@ -125,8 +121,7 @@ public class DisplayUser {
 	}
 
 	/**
-	 * @param startDate
-	 *            the startDate to set
+	 * @param startDate the startDate to set
 	 */
 	public void setStartDate(String startDate) {
 		this.startDate = startDate;
@@ -140,8 +135,7 @@ public class DisplayUser {
 	}
 
 	/**
-	 * @param endDate
-	 *            the endDate to set
+	 * @param endDate the endDate to set
 	 */
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
@@ -155,10 +149,10 @@ public class DisplayUser {
 	}
 
 	/**
-	 * @param placeOfRegister
-	 *            the placeOfRegister to set
+	 * @param placeOfRegister the placeOfRegister to set
 	 */
 	public void setPlaceOfRegister(String placeOfRegister) {
 		this.placeOfRegister = placeOfRegister;
 	}
+	
 }

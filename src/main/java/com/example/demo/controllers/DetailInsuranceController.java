@@ -17,14 +17,12 @@ import com.example.demo.logics.TblUserLogic;
 import com.example.demo.utils.Constant;
 
 /**
- * @author HP 
- * DetailInsuranceController
+ * @author HP DetailInsuranceController
  */
 @Controller
 public class DetailInsuranceController {
 	@Autowired
 	private TblUserLogic tblUserLogic;
-
 	@RequestMapping(value = "/Details.do", method = RequestMethod.GET)
 	public String detailsUser(HttpServletRequest request, ModelMap model) {
 		String sessionId = request.getParameter("SessionId");
@@ -35,7 +33,7 @@ public class DetailInsuranceController {
 			if (tblUserLogic.checkUserExist(userId) == false) {
 				return Constant.ERROR;
 			}
-			DetailUser detailUser = tblUserLogic.getDetailUser(userId);
+			DetailUser detailUser = tblUserLogic.getDetailUser(userId);		
 			model.addAttribute("detailUser", detailUser);
 			return Constant.MH003;
 		} catch (NumberFormatException | NullPointerException e) {

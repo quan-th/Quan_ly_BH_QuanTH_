@@ -1,12 +1,11 @@
 package com.example.demo.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
@@ -15,7 +14,6 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hamcrest.core.IsEqual;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -25,7 +23,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.example.demo.controllers.SearchController;
 import com.example.demo.daos.TblUserDao;
 import com.example.demo.entities.DisplayUser;
 import com.example.demo.entities.SearchingInfo;
@@ -54,7 +51,7 @@ public class TblUserLogicImplTest {
 				"2017-01-31", "Ha Noi"));
 		when(tblUserDao.findByUserNameAndUserPassword(anyString(), anyString())).thenReturn(tblUsers);
 		when(tblUserDao.getNumberOfUsers(anyObject())).thenReturn((long) 24);
-		when(tblUserDao.getListUsers(anyObject(), anyInt(), anyInt())).thenReturn(displayUsers);
+		when(tblUserDao.getListUsers(anyObject(), anyInt())).thenReturn(displayUsers);
 	}
 
 	/**
@@ -73,7 +70,7 @@ public class TblUserLogicImplTest {
 	 */
 	@Test
 	public void pagingTest() {
-		ArrayList<Integer> pagingActual = Common.paging(1, 1, 4);
+		ArrayList<Integer> pagingActual = Common.paging(1, 1);
 		ArrayList<Integer> pagingExpect = new ArrayList<>();
 		pagingExpect.add(1);
 		pagingExpect.add(2);
@@ -107,8 +104,7 @@ public class TblUserLogicImplTest {
 	public void getListUsersTest() {
 		SearchingInfo searchingInfo = new SearchingInfo();
 		int currentPage = 1;
-		int recordsOfPage = 2;
-		ArrayList<DisplayUser> displayUsersActual = sut.getListUsers(searchingInfo, currentPage, recordsOfPage);
+		ArrayList<DisplayUser> displayUsersActual = sut.getListUsers(searchingInfo, currentPage);
 		ArrayList<DisplayUser> displayUsers = new ArrayList<>();
 
 		DisplayUser displayUser = new DisplayUser();
@@ -139,14 +135,89 @@ public class TblUserLogicImplTest {
 	}
 
 	/**
-	 * Test formedCurrentPage [In] currentPage:100 recordsOgPage:1
-	 * totalRecord:88 [Out] currentPage:88 currentPage is letter => return 1,
-	 * currentPage < 1 => return 1, currentPage > totalPages => return totalPage
+	 * Test formedCurrentPage 
+	 * [In] 
+	 * currentPage:100 
+	 * totalRecord:1
+	 * [Out] 
+	 * currentPage:88 
+	 * if currentPage is letter => return 1,
+	 * if currentPage < 1 => return 1, 
+	 * if currentPage > totalPages => return totalPage
+	 * if 1 < currentPage && currentPage < totalPage => return currentPage 
 	 */
 	@Test
 	public void formedCurrentPageTest() {
-		int currentPageActual = Common.formedCurrentPage("100", 1, 88);
-		assertFalse(87 == currentPageActual);
+		int currentPageActual = Common.formedCurrentPage("100", 0);
+		assertTrue(0 == currentPageActual);
 	}
-
+	/**
+	 * Test getTotalPageTest 
+	 * [In] 
+	 * totalRecord:1
+	 * [Out] 
+	 * totalPage:1 
+	 */
+	@Test
+	public void getTotalPageTest(){
+		int totalPage = Common.getTotalOfPages(0);
+		assertTrue(0 == totalPage);
+	}
+	/**
+	 * Test getTotalPageTest 
+	 * [In] 
+	 * StartDate:12/12/2017
+	 * [Out] 
+	 * EndDate:12/12/2018
+	 */
+	@Test
+	public void compareValidStartDateAndEndDateTest(){
+		assertTrue(Common.compareValidStartDateAndEndDate("12/12/2017", "12/12/2018"));
+	}
+	/**
+	 * Test getTotalPageTest 
+	 * [In] 
+	 * StartDate:null
+	 * [Out] 
+	 * EndDate:12/12/2018
+	 */
+	@Test
+	public void compareValidStartDateAndEndDateNPETest(){
+		assertFalse(Common.compareValidStartDateAndEndDate(null, "12/12/2018"));
+	}
+	/**
+	 * Test getTotalPageTest 
+	 * [In] 
+	 * StartDate:a
+	 * [Out] 
+	 * EndDate:12/12/2018
+	 */
+	@Test
+	public void compareValidStartDateAndEndDateNFETest(){
+		assertFalse(Common.compareValidStartDateAndEndDate("a", "12/12/2018"));
+	}
+	/**
+	 * Test getTotalPageTest 
+	 * [In] 
+	 * StartDate:12/12
+	 * [Out] 
+	 * EndDate:12/12/2018
+	 */
+	@Test
+	public void compareValidStartDateAndEndDateAIOBETest(){
+		assertFalse(Common.compareValidStartDateAndEndDate("12/12", "12/12/2018"));
+	}
+	/**
+	 * Test getTotalPageTest 
+	 * [In] 
+	 * StartDate:2017/2017/2017
+	 * [Out] 
+	 * EndDate:12/12/2018
+	 */
+	@Test
+	public void compareValidStartDateAndEndDateDTETest(){
+		assertFalse(Common.compareValidStartDateAndEndDate("2017/2017/2017", "12/12/2018"));
+	}
+	
 }
+

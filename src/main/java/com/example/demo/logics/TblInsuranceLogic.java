@@ -13,29 +13,33 @@ import com.example.demo.entities.InsuranceInfo;
  */
 public interface TblInsuranceLogic {
 	/**
-	 * Kiểm tra mã thẻ bảo hiểm tồn tại
-	 * 
-	 * @param number
-	 *            số thẻ bảo hiểm
+	 * check exist Insurance
+	 * @param number Insurance number
 	 * @return true nếu tồn tại false nếu không
 	 */
 	public boolean checkExist(String number);
 	/**
-	 * Thêm thông tin thẻ bảo hiểm
+	 * insert Or Update Insurance
 	 * @param insuranceInfo 
-	 * @return true nếu thành công false nếu không thành công.
+	 * @return true if success
 	 */
 	public boolean insertOrUpdateInsurance(InsuranceInfo insuranceInfo);
 	/**
-	 * Lấy thông tin thẻ bảo hiểm
-	 * @param userId id người dùng
-	 * @return thông tin thẻ bảo hiểm
+	 * get Insurance Detail
+	 * @param userId user internal Id
+	 * @return insurance detail
 	 */
 	public InsuranceInfo getInsuranceInfo(int userId);
 	/**
-	 * Xoá thông tin bảo hiểm
-	 * @param id userid
-	 * @return true nếu xoá thành công, false nếu xoá không thành công
+	 * delete Insurance
+	 * @param userId user internal Id
+	 * @return true if success
 	 */
-	public boolean deleteInsurance(int id);
+	public boolean deleteInsurance(int userId);
+	/**
+	 * Check Valid Insurance Number
+	 * @param insuranceInfo
+	 * @return true if valid, false if invalid
+	 */
+	public boolean checkValidInsuranceForUpdate(InsuranceInfo insuranceInfo);
 }
